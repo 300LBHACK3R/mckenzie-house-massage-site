@@ -5,7 +5,7 @@ export function Header() {
     <header className="site-header">
       <a className="brand" href="#home" aria-label="Go to homepage">
         <span className="brand-mark">HK</span>
-        <span className="brand-text">
+        <span>
           <strong>{siteConfig.businessName}</strong>
           <small>Massage & Wellness</small>
         </span>

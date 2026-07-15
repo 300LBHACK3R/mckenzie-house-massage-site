@@ -1,14 +1,11 @@
 ﻿import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import {
-  clientReflections,
   experiencePillars,
-  faqs,
   pricingPreview,
   services,
   serviceTags,
   siteConfig,
-  whatToExpect,
 } from "@/lib/site";
 
 export default function Home() {
@@ -82,11 +79,8 @@ export default function Home() {
             </div>
           </div>
 
-          <aside
-            className="hero-side-card reveal-soft"
-            aria-label="Okotoks move note"
-          >
-            <strong>Preparing for Okotoks</strong>
+          <aside className="hero-side-card reveal-soft" aria-label="Okotoks move note">
+            <strong>Moving to Okotoks</strong>
             <span>
               Built now with room to update the final treatment-space photos
               once the new location is ready.
@@ -129,58 +123,13 @@ export default function Home() {
                 <div className="service-image">
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </div>
-
                 <div className="service-content">
                   <h3>{service.name}</h3>
                   <p>{service.description}</p>
-
-                  <div className="chip-row" aria-label={`Best for ${service.name}`}>
-                    {service.bestFor.map((item) => (
-                      <span key={item}>{item}</span>
-                    ))}
-                  </div>
-
-                  <small>{service.pressure}</small>
+                  <small>{service.bestFor}</small>
                 </div>
               </article>
             ))}
-          </div>
-        </section>
-
-        <section id="expect" className="section expect-section">
-          <div className="section-heading centered">
-            <p className="eyebrow">What to Expect</p>
-            <h2>A clear, comfortable experience from start to finish.</h2>
-            <p>
-              This section helps new and returning clients understand the
-              treatment experience before they book.
-            </p>
-          </div>
-
-          <div className="expect-grid">
-            {whatToExpect.map((item, index) => (
-              <article className="expect-card" key={item.title}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="comfort" className="section comfort-section">
-          <div className="comfort-inner">
-            <p className="eyebrow">A Comfortable Space for Every Body</p>
-            <h2>Welcoming care without pressure, judgment, or intimidation.</h2>
-            <p>
-              Massage should feel approachable. Whether someone books regularly
-              or is returning to bodywork after a long time away, the experience
-              should feel respectful, clear, and comfortable.
-            </p>
-            <p>
-              The photography and service copy will be created with that same
-              intention: real, calming, inclusive, and professional.
-            </p>
           </div>
         </section>
 
@@ -225,29 +174,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="reviews" className="section reviews-section">
-          <div className="section-heading centered">
-            <p className="eyebrow">Client Reflections</p>
-            <h2>Word-of-mouth trust, carried into the website.</h2>
-            <p>
-              Approved review highlights can be added here later to support the
-              trust Heather has already built with clients.
-            </p>
-          </div>
-
-          <div className="review-grid">
-            {clientReflections.map((review) => (
-              <article className="review-card" key={review.label}>
-                <div className="stars" aria-label="Review highlight">
-                  ★★★★★
-                </div>
-                <p>“{review.quote}”</p>
-                <small>{review.label}</small>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section id="booking" className="section booking-section">
           <div className="booking-card">
             <p className="eyebrow">Online Booking</p>
@@ -260,26 +186,6 @@ export default function Home() {
             <a className="button primary" href={siteConfig.bookingUrl}>
               Open Booking
             </a>
-          </div>
-        </section>
-
-        <section id="faq" className="section faq-section">
-          <div className="section-heading">
-            <p className="eyebrow">Questions</p>
-            <h2>Helpful answers before clients book.</h2>
-            <p>
-              These FAQs will be refined once Heather confirms policies,
-              booking details, location wording, and service information.
-            </p>
-          </div>
-
-          <div className="faq-list">
-            {faqs.map((item) => (
-              <details key={item.question}>
-                <summary>{item.question}</summary>
-                <p>{item.answer}</p>
-              </details>
-            ))}
           </div>
         </section>
 
@@ -302,10 +208,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-      <a className="mobile-sticky-book" href={siteConfig.bookingUrl}>
-        Book Now
-      </a>
 
       <Footer />
     </>
