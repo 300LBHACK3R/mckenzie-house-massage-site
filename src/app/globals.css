@@ -2197,3 +2197,96 @@ h3 {
   opacity: 1;
   transform: none;
 }
+
+/* FINAL_SAFE_POLISH_START */
+
+/* Anchor offset for fixed desktop header */
+html {
+  scroll-padding-top: 7rem;
+}
+
+/* Clear current-page state for service-page navigation */
+.nav a[aria-current="page"] {
+  color: var(--sage-dark);
+}
+
+.nav a[aria-current="page"]::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Stronger keyboard focus for primary interactive elements */
+.button:focus-visible,
+.nav-cta:focus-visible,
+.footer-primary-action:focus-visible,
+.footer-booking-link:focus-visible,
+.mobile-sticky-book:focus-visible,
+.brand-logo-link:focus-visible {
+  outline: 3px solid rgba(82, 101, 79, 0.38);
+  outline-offset: 5px;
+}
+
+/* Correct hero image layering so uploaded site photos actually show */
+.hero-media-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+  filter: saturate(0.94) contrast(0.96) brightness(1.02);
+  transform: scale(1.04);
+}
+
+/* Keep the animated placeholder as a soft overlay, not a photo blocker */
+.hero-media-placeholder {
+  z-index: 0;
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Better service card media layering */
+.service-card-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure service card numbering and copy stay above media */
+.service-image span,
+.service-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Keep image cards clean when using next/image */
+.inline-image-card img {
+  aspect-ratio: 16 / 11;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Prevent default browser italic styling on semantic address footer block */
+.footer-contact {
+  font-style: normal;
+}
+
+/* Slightly softer mobile hero photo treatment */
+@media (max-width: 980px) {
+  html {
+    scroll-padding-top: 1rem;
+  }
+
+  .hero-media-image {
+    opacity: 0.34;
+    transform: scale(1.06);
+  }
+}
+
+/* FINAL_SAFE_POLISH_END */
+
