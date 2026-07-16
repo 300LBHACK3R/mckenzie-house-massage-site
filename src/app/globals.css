@@ -4553,3 +4553,128 @@ body {
 
 /* HERO_VIDEO_VISIBILITY_FIX_END */
 
+/* HERO_VIDEO_FINAL_RESET_START */
+
+/* Final hero video reset: keep luxury feel, but let the video actually show */
+.organic-hero {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  background: #0d150d !important;
+  color: var(--ivory) !important;
+}
+
+/* This was the problem: older CSS had the media layer buried behind the section */
+.organic-hero .hero-media {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  overflow: hidden !important;
+  background: #0d150d !important;
+}
+
+/* The actual video layer */
+.organic-hero .hero-media video {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  opacity: 0.86 !important;
+  filter:
+    saturate(0.95)
+    contrast(1.04)
+    brightness(0.82) !important;
+  transform: scale(1.035) !important;
+}
+
+/* Fallback image only matters when video is not active */
+.organic-hero .hero-media-image {
+  z-index: 1 !important;
+  opacity: 0.72 !important;
+}
+
+/* Light readability overlay only — no heavy green blanket */
+.organic-hero .hero-wash {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  background:
+    radial-gradient(circle at center, rgba(13, 21, 13, 0.04), rgba(13, 21, 13, 0.18) 56%, rgba(13, 21, 13, 0.52) 100%),
+    linear-gradient(180deg, rgba(13, 21, 13, 0.48) 0%, rgba(13, 21, 13, 0.12) 44%, rgba(13, 21, 13, 0.5) 100%) !important;
+  pointer-events: none !important;
+}
+
+/* Decorative layers should be subtle over video */
+.organic-hero .botanical-pattern {
+  z-index: 3 !important;
+  opacity: 0.06 !important;
+  pointer-events: none !important;
+}
+
+.organic-hero .ambient-orb {
+  z-index: 4 !important;
+  opacity: 0.08 !important;
+  pointer-events: none !important;
+}
+
+/* Content always above the video */
+.organic-hero .hero-inner {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+/* Keep text readable without hiding the video */
+.organic-hero h1 {
+  color: var(--ivory) !important;
+  text-shadow:
+    0 4px 22px rgba(0, 0, 0, 0.42),
+    0 28px 90px rgba(0, 0, 0, 0.48) !important;
+}
+
+.organic-hero .hero-copy {
+  color: rgba(255, 250, 240, 0.9) !important;
+  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.38) !important;
+}
+
+.organic-hero .hero-pill,
+.organic-hero .hero-tags span,
+.organic-hero .hero-stat-row div {
+  background: rgba(13, 21, 13, 0.34) !important;
+  border-color: rgba(240, 223, 155, 0.18) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* Mobile: slightly darker for readability */
+@media (max-width: 980px) {
+  .organic-hero .hero-media video {
+    opacity: 0.78 !important;
+    filter:
+      saturate(0.92)
+      contrast(1.04)
+      brightness(0.76) !important;
+    transform: scale(1.08) !important;
+  }
+
+  .organic-hero .hero-wash {
+    background:
+      linear-gradient(180deg, rgba(13, 21, 13, 0.56), rgba(13, 21, 13, 0.18) 44%, rgba(13, 21, 13, 0.58)) !important;
+  }
+}
+
+/* HERO_VIDEO_FINAL_RESET_END */
+
+/* REMOVE_RANDOM_DECORATIVE_CIRCLES_START */
+
+/* Remove leftover decorative outline circles from older design pass */
+.services-section::before,
+.service-card::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* REMOVE_RANDOM_DECORATIVE_CIRCLES_END */
+
