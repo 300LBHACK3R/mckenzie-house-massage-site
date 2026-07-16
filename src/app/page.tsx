@@ -160,41 +160,6 @@ export default function Home() {
         </section>
 
         <section
-          id="about"
-          className="section split section-lift scroll-reveal"
-          aria-labelledby="about-heading"
-        >
-          <div>
-            <p className="eyebrow">Meet Heather</p>
-            <h2 id="about-heading">
-              Experienced care with a calm, personalized approach.
-            </h2>
-          </div>
-
-          <div className="copy-stack premium-copy-card">
-            <div className="inline-image-card" aria-hidden="true">
-              <Image
-                src={siteImages.detail}
-                alt=""
-                width={900}
-                height={650}
-                sizes="(max-width: 980px) 100vw, 48vw"
-              />
-            </div>
-
-            <p>
-              Heather’s treatments are designed to feel clear, comfortable, and
-              never rushed. Each session is adapted to the client’s needs,
-              pressure preference, and treatment goals.
-            </p>
-            <p>
-              The final copy here will be shaped from Heather’s own background,
-              training, treatment style, and client philosophy.
-            </p>
-          </div>
-        </section>
-
-        <section
           id="services"
           className="section services-section scroll-reveal"
           aria-labelledby="services-heading"
@@ -252,6 +217,42 @@ export default function Home() {
                 </div>
               </a>
             ))}
+          </div>
+        </section>
+
+        
+<section
+          id="about"
+          className="section split section-lift scroll-reveal"
+          aria-labelledby="about-heading"
+        >
+          <div>
+            <p className="eyebrow">Meet Heather</p>
+            <h2 id="about-heading">
+              Experienced care with a calm, personalized approach.
+            </h2>
+          </div>
+
+          <div className="copy-stack premium-copy-card">
+            <div className="inline-image-card" aria-hidden="true">
+              <Image
+                src={siteImages.detail}
+                alt=""
+                width={900}
+                height={650}
+                sizes="(max-width: 980px) 100vw, 48vw"
+              />
+            </div>
+
+            <p>
+              Heather’s treatments are designed to feel clear, comfortable, and
+              never rushed. Each session is adapted to the client’s needs,
+              pressure preference, and treatment goals.
+            </p>
+            <p>
+              The final copy here will be shaped from Heather’s own background,
+              training, treatment style, and client philosophy.
+            </p>
           </div>
         </section>
 
@@ -421,4 +422,5 @@ export default function Home() {
     </>
   );
 }
+
 
