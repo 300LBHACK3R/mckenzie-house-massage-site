@@ -3941,3 +3941,109 @@ body {
 
 /* CLEAN_FOOTER_REBUILD_END */
 
+/* FOOTER_PATTERN_OVERLAY_START */
+
+/* Same MHM luxury pattern overlay used on the Experience cards */
+.clean-footer {
+  position: relative;
+  isolation: isolate;
+}
+
+.clean-footer::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+
+  background-image:
+    url("/brand/mckenzie-house-mark.png"),
+    linear-gradient(90deg, rgba(240, 223, 155, 0.025) 1px, transparent 1px),
+    linear-gradient(rgba(240, 223, 155, 0.02) 1px, transparent 1px);
+  background-repeat: repeat;
+  background-size:
+    132px 132px,
+    64px 64px,
+    64px 64px;
+  background-position:
+    center,
+    center,
+    center;
+
+  opacity: 0.085;
+  filter: saturate(0.85) brightness(1.12);
+}
+
+.clean-footer::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  content: "";
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 18% 18%, rgba(240, 223, 155, 0.1), transparent 28rem),
+    radial-gradient(circle at 82% 24%, rgba(127, 146, 125, 0.12), transparent 30rem),
+    linear-gradient(180deg, rgba(13, 21, 13, 0.12), rgba(13, 21, 13, 0.36));
+}
+
+.clean-footer-shell,
+.clean-footer .footer-orb,
+.clean-footer .footer-texture {
+  position: relative;
+}
+
+.clean-footer-shell {
+  z-index: 4;
+}
+
+/* Booking card gets a slightly stronger version */
+.clean-footer-booking {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.clean-footer-booking::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+
+  background-image:
+    url("/brand/mckenzie-house-mark.png"),
+    linear-gradient(90deg, rgba(240, 223, 155, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(240, 223, 155, 0.028) 1px, transparent 1px);
+  background-repeat: repeat;
+  background-size:
+    96px 96px,
+    42px 42px,
+    42px 42px;
+  background-position:
+    center,
+    center,
+    center;
+
+  opacity: 0.12;
+}
+
+.clean-footer-booking::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at top left, rgba(240, 223, 155, 0.13), transparent 30%),
+    linear-gradient(180deg, rgba(255, 250, 240, 0.045), rgba(0, 0, 0, 0.08));
+}
+
+.clean-footer-booking > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* FOOTER_PATTERN_OVERLAY_END */
+
