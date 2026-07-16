@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { MotionProvider } from "@/components/MotionProvider";
 import {
   clientReflections,
+  experiencePillars,
   faqs,
   pricingPreview,
   services,
@@ -159,6 +160,41 @@ export default function Home() {
         </section>
 
         <section
+          id="about"
+          className="section split section-lift scroll-reveal"
+          aria-labelledby="about-heading"
+        >
+          <div>
+            <p className="eyebrow">Meet Heather</p>
+            <h2 id="about-heading">
+              Experienced care with a calm, personalized approach.
+            </h2>
+          </div>
+
+          <div className="copy-stack premium-copy-card">
+            <div className="inline-image-card" aria-hidden="true">
+              <Image
+                src={siteImages.detail}
+                alt=""
+                width={900}
+                height={650}
+                sizes="(max-width: 980px) 100vw, 48vw"
+              />
+            </div>
+
+            <p>
+              Heather’s treatments are designed to feel clear, comfortable, and
+              never rushed. Each session is adapted to the client’s needs,
+              pressure preference, and treatment goals.
+            </p>
+            <p>
+              The final copy here will be shaped from Heather’s own background,
+              training, treatment style, and client philosophy.
+            </p>
+          </div>
+        </section>
+
+        <section
           id="services"
           className="section services-section scroll-reveal"
           aria-labelledby="services-heading"
@@ -219,54 +255,19 @@ export default function Home() {
           </div>
         </section>
 
-        
-<section
-          id="about"
-          className="section split section-lift scroll-reveal"
-          aria-labelledby="about-heading"
-        >
-          <div>
-            <p className="eyebrow">Meet Heather</p>
-            <h2 id="about-heading">
-              Experienced care with a calm, personalized approach.
-            </h2>
-          </div>
-
-          <div className="copy-stack premium-copy-card">
-            <div className="inline-image-card" aria-hidden="true">
-              <Image
-                src={siteImages.detail}
-                alt=""
-                width={900}
-                height={650}
-                sizes="(max-width: 980px) 100vw, 48vw"
-              />
-            </div>
-
-            <p>
-              Heather’s treatments are designed to feel clear, comfortable, and
-              never rushed. Each session is adapted to the client’s needs,
-              pressure preference, and treatment goals.
-            </p>
-            <p>
-              The final copy here will be shaped from Heather’s own background,
-              training, treatment style, and client philosophy.
-            </p>
-          </div>
-        </section>
-
         <section
-          id="experience"
+          id="expect"
           className="section expect-section scroll-reveal"
-          aria-labelledby="experience-heading"
+          aria-labelledby="expect-heading"
         >
           <div className="section-heading centered">
-            <p className="eyebrow">The Experience</p>
-            <h2 id="experience-heading">
+            <p className="eyebrow">What to Expect</p>
+            <h2 id="expect-heading">
               A clear, comfortable experience from start to finish.
             </h2>
             <p>
-              A simple look at how the appointment flows, how pressure is guided, and how comfort is handled from start to finish.
+              This section helps new and returning clients understand the
+              treatment experience before they book.
             </p>
           </div>
 
@@ -288,6 +289,55 @@ export default function Home() {
                   <p>{item.text}</p>
                 </div>
               </article>
+            ))}
+          </div>
+        </section>
+
+        <section
+          id="comfort"
+          className="section comfort-section scroll-reveal"
+          aria-labelledby="comfort-heading"
+        >
+          <div className="comfort-inner">
+            <p className="eyebrow">A Comfortable Space for Every Body</p>
+            <h2 id="comfort-heading">
+              Welcoming care without pressure, judgment, or intimidation.
+            </h2>
+            <p>
+              Massage should feel approachable. Whether someone books regularly
+              or is returning to bodywork after a long time away, the experience
+              should feel respectful, clear, and comfortable.
+            </p>
+            <p>
+              The photography and service copy will be created with that same
+              intention: real, calming, inclusive, and professional.
+            </p>
+          </div>
+        </section>
+
+        <section
+          id="experience"
+          className="section experience-section scroll-reveal"
+          aria-labelledby="experience-heading"
+        >
+          <div className="experience-card">
+            <p className="eyebrow">The Experience</p>
+            <h2 id="experience-heading">
+              Comfort, clarity, and care from the moment you book.
+            </h2>
+            <p>
+              The website will help clients understand each treatment before
+              they book, see the treatment space, meet Heather, and feel
+              confident choosing the service that fits their body best.
+            </p>
+          </div>
+
+          <div className="experience-list">
+            {experiencePillars.map((item) => (
+              <div key={item.title}>
+                <strong>{item.title}</strong>
+                <span>{item.text}</span>
+              </div>
             ))}
           </div>
         </section>
@@ -358,6 +408,31 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        <section
+          id="contact"
+          className="section split section-lift scroll-reveal"
+          aria-labelledby="contact-heading"
+        >
+          <div>
+            <p className="eyebrow">Okotoks Launch</p>
+            <h2 id="contact-heading">
+              Built now. Ready to evolve with the new space.
+            </h2>
+          </div>
+
+          <div className="copy-stack premium-copy-card">
+            <p>
+              Current treatment footage can show Heather’s work, technique, and
+              care while the final Okotoks room imagery can be added once the
+              new space is ready.
+            </p>
+            <p>
+              The website and Google Business Profile will be kept consistent
+              through the transition.
+            </p>
+          </div>
+        </section>
       </main>
 
       <a className="mobile-sticky-book" href={siteConfig.bookingUrl}>
@@ -368,7 +443,3 @@ export default function Home() {
     </>
   );
 }
-
-
-
-
