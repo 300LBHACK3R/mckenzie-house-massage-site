@@ -83,8 +83,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
-        </section>
 
         <section id="about" className="section split section-lift scroll-reveal">
           <div>
