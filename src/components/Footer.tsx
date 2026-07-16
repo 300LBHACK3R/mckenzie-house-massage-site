@@ -10,70 +10,57 @@ export function Footer() {
   const hasEmail = Boolean(siteConfig.email);
 
   return (
-    <footer className="footer premium-footer" aria-labelledby="footer-heading">
+    <footer className="footer premium-footer clean-footer" aria-labelledby="footer-heading">
       <div className="footer-orb footer-orb-one" aria-hidden="true" />
       <div className="footer-orb footer-orb-two" aria-hidden="true" />
       <div className="footer-texture" aria-hidden="true" />
 
-      <div className="footer-shell">
-        <div className="footer-cta-panel">
-          <div className="footer-cta-copy">
-            <p className="footer-kicker">Massage Therapy • Calgary • Okotoks</p>
-            <h2 id="footer-heading">Ready when the new space comes together.</h2>
-            <p>
-              A calm, professional website built to support existing clients,
-              the upcoming Okotoks location, and a smooth ClinicSense booking
-              experience.
-            </p>
-          </div>
-
-          <a
-            className="footer-primary-action"
-            href={siteConfig.bookingUrl}
-            aria-label="Book a massage session through ClinicSense"
-          >
-            Book a Session
-          </a>
-        </div>
-
-        <div className="footer-main">
-          <div className="footer-brand-block">
+      <div className="footer-shell clean-footer-shell">
+        <div className="clean-footer-main">
+          <section className="clean-footer-brand" aria-labelledby="footer-heading">
             <BrandLogo variant="footer" />
 
-            <p className="footer-brand-description">
+            <div>
+              <p className="footer-kicker">Massage Therapy • Calgary • Okotoks</p>
+              <h2 id="footer-heading">McKenzie House Massage</h2>
+            </div>
+
+            <p className="clean-footer-description">
               Personalized massage therapy with clear communication,
               professional care, and convenient online booking.
             </p>
 
-            <div className="footer-status">
+            <div className="clean-footer-status">
               <span aria-hidden="true" />
               Preparing for the Okotoks launch
             </div>
+          </section>
+
+          <div className="clean-footer-navs">
+            <div className="footer-column">
+              <strong>Explore</strong>
+              <nav aria-label="Footer site navigation">
+                {footerNavItems.map((item) => (
+                  <a key={item.href} href={item.href}>
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            <div className="footer-column">
+              <strong>Services</strong>
+              <nav aria-label="Footer service navigation">
+                {services.map((service) => (
+                  <a key={service.slug} href={`/services/${service.slug}`}>
+                    {service.name}
+                  </a>
+                ))}
+              </nav>
+            </div>
           </div>
 
-          <div className="footer-column">
-            <strong>Explore</strong>
-            <nav aria-label="Footer site navigation">
-              {footerNavItems.map((item) => (
-                <a key={item.href} href={item.href}>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          <div className="footer-column">
-            <strong>Services</strong>
-            <nav aria-label="Footer service navigation">
-              {services.map((service) => (
-                <a key={service.slug} href={`/services/${service.slug}`}>
-                  {service.name}
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          <address className="footer-column footer-contact">
+          <address className="clean-footer-booking">
             <strong>Booking</strong>
 
             <p>{siteConfig.location}</p>
@@ -99,7 +86,7 @@ export function Footer() {
           </address>
         </div>
 
-        <div className="footer-bottom">
+        <div className="footer-bottom clean-footer-bottom">
           <p>
             © {currentYear} {siteConfig.businessName}. All rights reserved.
           </p>
