@@ -216,41 +216,66 @@ export default function Home() {
               </a>
             ))}
           </div>
-        </section>
-
-        
-<section
+        </section>        <section
           id="about"
-          className="section split section-lift scroll-reveal"
+          className="section meet-heather-luxury scroll-reveal"
           aria-labelledby="about-heading"
         >
-          <div>
-            <p className="eyebrow">Meet Heather</p>
-            <h2 id="about-heading">
-              Experienced care with a calm, personalized approach.
-            </h2>
-          </div>
-
-          <div className="copy-stack premium-copy-card">
-            <div className="inline-image-card" aria-hidden="true">
+          <div className="meet-heather-luxury__media">
+            <div className="meet-heather-luxury__image-frame">
               <Image
                 src={siteImages.detail}
-                alt=""
-                width={900}
-                height={650}
+                alt="Heather from McKenzie House Massage"
+                width={980}
+                height={720}
                 sizes="(max-width: 980px) 100vw, 48vw"
               />
             </div>
 
-            <p>
+            <div className="meet-heather-luxury__badge">
+              <span>Personalized</span>
+              <strong>Client-led care</strong>
+            </div>
+          </div>
+
+          <div className="meet-heather-luxury__copy">
+            <p className="eyebrow">Meet Heather</p>
+
+            <h2 id="about-heading">
+              Calm, thoughtful massage therapy shaped around each client.
+            </h2>
+
+            <p className="meet-heather-luxury__lead">
               Heather’s treatments are designed to feel clear, comfortable, and
               never rushed. Each session is adapted to the client’s needs,
-              pressure preference, and treatment goals.
+              pressure preference, comfort level, and treatment goals.
             </p>
-            <p>
-              The final copy here will be shaped from Heather’s own background,
-              training, treatment style, and client philosophy.
-            </p>
+
+            <div className="meet-heather-luxury__quote">
+              <p>
+                “The goal is a treatment experience that feels professional,
+                grounded, and easy to understand from the moment a client books.”
+              </p>
+            </div>
+
+            <div className="meet-heather-luxury__details">
+              <div>
+                <span>Approach</span>
+                <strong>Calm, personalized care</strong>
+              </div>
+              <div>
+                <span>Focus</span>
+                <strong>Comfort, pressure, communication</strong>
+              </div>
+              <div>
+                <span>Booking</span>
+                <strong>Connected through ClinicSense</strong>
+              </div>
+              <div>
+                <span>Location</span>
+                <strong>Calgary / Okotoks</strong>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -289,29 +314,46 @@ export default function Home() {
               </article>
             ))}
           </div>
-        </section>
-
-        <section
+        </section>        <section
           id="pricing"
-          className="section soft scroll-reveal"
+          className="section pricing-luxury scroll-reveal"
           aria-labelledby="pricing-heading"
         >
-          <div className="section-heading">
+          <div className="pricing-luxury__intro">
             <p className="eyebrow">Pricing</p>
-            <h2 id="pricing-heading">Simple, transparent pricing.</h2>
+
+            <h2 id="pricing-heading">
+              Simple, transparent pricing before clients book.
+            </h2>
+
             <p>
-              Pricing will be added once Heather confirms final services,
-              durations, and rates.
+              Final rates will be added once Heather confirms her service menu,
+              treatment durations, and ClinicSense booking setup.
             </p>
           </div>
 
-          <div className="pricing-grid">
-            {pricingPreview.map((item) => (
-              <div key={item.duration}>
-                <strong>{item.duration}</strong>
-                <span>{item.price}</span>
-              </div>
-            ))}
+          <div className="pricing-luxury__panel">
+            <div className="pricing-luxury__note">
+              <span>Clear booking experience</span>
+              <p>
+                Clients should be able to understand session length, service
+                options, and pricing before they continue into online booking.
+              </p>
+            </div>
+
+            <div className="pricing-luxury__grid">
+              {pricingPreview.map((item) => (
+                <article className="pricing-luxury__card" key={item.duration}>
+                  <span>{item.duration}</span>
+                  <strong>{item.price}</strong>
+                  <p>
+                    {item.price === "Price to confirm"
+                      ? "Final rate to be confirmed before launch."
+                      : "Available through online booking once connected."}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -367,6 +409,8 @@ export default function Home() {
     </>
   );
 }
+
+
 
 
 
