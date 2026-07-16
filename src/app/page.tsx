@@ -294,28 +294,6 @@ export default function Home() {
         </section>
 
         <section
-          id="comfort"
-          className="section comfort-section scroll-reveal"
-          aria-labelledby="comfort-heading"
-        >
-          <div className="comfort-inner">
-            <p className="eyebrow">A Comfortable Space for Every Body</p>
-            <h2 id="comfort-heading">
-              Welcoming care without pressure, judgment, or intimidation.
-            </h2>
-            <p>
-              Massage should feel approachable. Whether someone books regularly
-              or is returning to bodywork after a long time away, the experience
-              should feel respectful, clear, and comfortable.
-            </p>
-            <p>
-              The photography and service copy will be created with that same
-              intention: real, calming, inclusive, and professional.
-            </p>
-          </div>
-        </section>
-
-        <section
           id="experience"
           className="section experience-section scroll-reveal"
           aria-labelledby="experience-heading"
@@ -443,3 +421,4 @@ export default function Home() {
     </>
   );
 }
+
