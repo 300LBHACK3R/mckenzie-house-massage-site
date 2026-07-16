@@ -10,34 +10,33 @@ export function Footer() {
   const hasEmail = Boolean(siteConfig.email);
 
   return (
-    <footer className="footer premium-footer clean-footer" aria-labelledby="footer-heading">
-      <div className="footer-orb footer-orb-one" aria-hidden="true" />
-      <div className="footer-orb footer-orb-two" aria-hidden="true" />
-      <div className="footer-texture" aria-hidden="true" />
-
-      <div className="footer-shell clean-footer-shell">
-        <div className="clean-footer-main">
-          <section className="clean-footer-brand" aria-labelledby="footer-heading">
+    <footer
+      className="site-footer-final"
+      aria-labelledby="site-footer-heading"
+    >
+      <div className="site-footer-final__inner">
+        <div className="site-footer-final__main">
+          <section
+            className="site-footer-final__brand"
+            aria-labelledby="site-footer-heading"
+          >
             <BrandLogo variant="footer" />
 
             <div>
-              <p className="footer-kicker">Massage Therapy • Calgary • Okotoks</p>
-              <h2 id="footer-heading">McKenzie House Massage</h2>
+              <p className="site-footer-final__kicker">
+                Massage Therapy • Calgary • Okotoks
+              </p>
+              <h2 id="site-footer-heading">McKenzie House Massage</h2>
             </div>
 
-            <p className="clean-footer-description">
+            <p>
               Personalized massage therapy with clear communication,
               professional care, and convenient online booking.
             </p>
-
-            <div className="clean-footer-status">
-              <span aria-hidden="true" />
-              Preparing for the Okotoks launch
-            </div>
           </section>
 
-          <div className="clean-footer-navs">
-            <div className="footer-column">
+          <div className="site-footer-final__navs">
+            <div>
               <strong>Explore</strong>
               <nav aria-label="Footer site navigation">
                 {footerNavItems.map((item) => (
@@ -48,7 +47,7 @@ export function Footer() {
               </nav>
             </div>
 
-            <div className="footer-column">
+            <div>
               <strong>Services</strong>
               <nav aria-label="Footer service navigation">
                 {services.map((service) => (
@@ -60,7 +59,7 @@ export function Footer() {
             </div>
           </div>
 
-          <address className="clean-footer-booking">
+          <address className="site-footer-final__booking">
             <strong>Booking</strong>
 
             <p>{siteConfig.location}</p>
@@ -77,7 +76,7 @@ export function Footer() {
             ) : null}
 
             <a
-              className="footer-booking-link"
+              className="site-footer-final__button"
               href={siteConfig.bookingUrl}
               aria-label="Open McKenzie House Massage booking"
             >
@@ -86,12 +85,12 @@ export function Footer() {
           </address>
         </div>
 
-        <div className="footer-bottom clean-footer-bottom">
+        <div className="site-footer-final__bottom">
           <p>
             © {currentYear} {siteConfig.businessName}. All rights reserved.
           </p>
 
-          <p className="developer-signature">
+          <p>
             {developerCredit.label}{" "}
             {developerCredit.url ? (
               <a
