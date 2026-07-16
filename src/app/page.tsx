@@ -85,9 +85,9 @@ export default function Home() {
           aria-labelledby="home-heading"
         >
           <div className="hero-media" aria-hidden="true">
-            {siteConfig.heroVideo ? (
+            {siteConfig.assets.heroVideo ? (
               <video autoPlay muted loop playsInline preload="metadata">
-                <source src={siteConfig.heroVideo} type="video/mp4" />
+                <source src={siteConfig.assets.heroVideo} type="video/mp4" />
               </video>
             ) : (
               <>
