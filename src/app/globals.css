@@ -4401,3 +4401,46 @@ body {
 
 /* FINAL_ISOLATED_FOOTER_END */
 
+/* HERO_VIDEO_POLISH_START */
+
+/* Cinematic temporary hero video treatment */
+.hero-media video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.36;
+  filter:
+    saturate(0.82)
+    contrast(1.08)
+    brightness(0.72);
+  transform: scale(1.035);
+}
+
+.hero-media video + .hero-wash,
+.hero-wash {
+  z-index: 2;
+}
+
+.botanical-pattern,
+.ambient-orb {
+  z-index: 3;
+}
+
+/* Keep hero text readable over moving video */
+.organic-hero .hero-inner {
+  position: relative;
+  z-index: 6;
+}
+
+@media (max-width: 980px) {
+  .hero-media video {
+    opacity: 0.28;
+    transform: scale(1.08);
+  }
+}
+
+/* HERO_VIDEO_POLISH_END */
+

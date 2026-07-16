@@ -102,7 +102,7 @@ export const siteConfig: SiteConfig = {
     openGraphImage: "/og/mckenzie-house-og.jpg",
     heroImage: "/images/heather-room-01.jpg",
     detailImage: "/images/heather-detail-01.jpg",
-    heroVideo: "",
+    heroVideo: "/videos/heather-hero.mp4",
   },
   social: {
     facebook: "",
@@ -324,3 +324,4 @@ export const seoKeywords = [
 export function getServiceBySlug(slug: string) {
   return services.find((service) => service.slug === slug);
 }
+
