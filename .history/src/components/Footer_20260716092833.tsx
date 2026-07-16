@@ -1,5 +1,4 @@
-﻿import { BrandLogo } from "@/components/BrandLogo";
-import { developerCredit, navItems, services, siteConfig } from "@/lib/site";
+﻿import { developerCredit, navItems, services, siteConfig } from "@/lib/site";
 
 const currentYear = new Date().getFullYear();
 
@@ -12,12 +11,12 @@ export function Footer() {
 
       <div className="footer-shell">
         <div className="footer-cta-panel">
-          <div className="footer-cta-copy">
-            <p className="footer-kicker">Massage Therapy • Calgary • Okotoks</p>
+          <div>
+            <p className="footer-kicker">Massage therapy · Calgary · Okotoks</p>
             <h2>Ready when the new space comes together.</h2>
             <p>
-              A soft, professional web presence built to support current clients,
-              the upcoming Okotoks location, and a smooth online booking experience.
+              A soft, professional web presence built to support Heather’s
+              current clients, future Okotoks launch, and online booking flow.
             </p>
           </div>
 
@@ -28,12 +27,19 @@ export function Footer() {
 
         <div className="footer-main">
           <div className="footer-brand-block">
-            <BrandLogo showTagline={false} />
+            <a
+              className="footer-brand"
+              href="/#home"
+              aria-label="Go to homepage"
+            >
+              <span className="footer-brand-mark">HK</span>
+              <span>
+                <strong>{siteConfig.businessName}</strong>
+                <small>{siteConfig.currentName}</small>
+              </span>
+            </a>
 
-            <p className="footer-brand-description">
-              Personalized massage therapy with clear communication,
-              professional care, and convenient online booking.
-            </p>
+            <p>{siteConfig.description}</p>
 
             <div className="footer-status">
               <span />
@@ -54,7 +60,7 @@ export function Footer() {
 
           <div className="footer-column">
             <strong>Services</strong>
-            <nav aria-label="Footer services">
+            <nav aria-label="Footer services navigation">
               {services.map((service) => (
                 <a key={service.slug} href={`/services/${service.slug}`}>
                   {service.name}
@@ -76,17 +82,17 @@ export function Footer() {
 
         <div className="footer-bottom">
           <p>
-            © {currentYear} McKenzie House Massage. All rights reserved.
+            © {currentYear} {siteConfig.businessName}. All rights reserved.
           </p>
 
           <p className="developer-signature">
-            Designed, developed & maintained by{" "}
+            {developerCredit.label}{" "}
             {developerCredit.url ? (
               <a
                 href={developerCredit.url}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={developerCredit.name}
+                aria-label={`${developerCredit.label} ${developerCredit.name}`}
               >
                 {developerCredit.name}
               </a>

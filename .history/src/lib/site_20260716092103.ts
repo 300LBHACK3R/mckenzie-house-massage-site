@@ -1,5 +1,5 @@
 ﻿export const siteConfig = {
-  businessName: "McKenzie House Massage",
+  businessName: "Heather Knorr Massage",
   legalName: "Heather Knorr",
   currentName: "McKenzie House Massage",
   description:
