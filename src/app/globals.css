@@ -4047,3 +4047,120 @@ body {
 
 /* FOOTER_PATTERN_OVERLAY_END */
 
+/* COMPACT_FOOTER_SPACING_START */
+
+/* Tighten the luxury footer so the pattern does not create a huge empty wall */
+.clean-footer {
+  min-height: auto !important;
+  padding:
+    clamp(2.1rem, 4vw, 3.4rem)
+    clamp(1rem, 4vw, 4.5rem)
+    1rem !important;
+}
+
+.clean-footer-shell {
+  width: min(1320px, 100%) !important;
+}
+
+.clean-footer-main {
+  grid-template-columns:
+    minmax(300px, 1.1fr)
+    minmax(340px, 0.8fr)
+    minmax(250px, 0.52fr) !important;
+  gap: clamp(1.75rem, 4vw, 4rem) !important;
+  align-items: start !important;
+}
+
+.clean-footer-brand {
+  gap: 0.85rem !important;
+}
+
+.clean-footer .brand-logo-link--footer .brand-logo-image {
+  width: clamp(240px, 25vw, 400px) !important;
+  max-height: 112px !important;
+}
+
+.clean-footer .footer-kicker {
+  margin-bottom: 0.4rem !important;
+}
+
+.clean-footer h2 {
+  font-size: clamp(1.8rem, 3.4vw, 3rem) !important;
+}
+
+.clean-footer-description {
+  max-width: 500px !important;
+  line-height: 1.65 !important;
+}
+
+.clean-footer-status {
+  margin-top: 0.15rem !important;
+}
+
+.clean-footer-navs {
+  padding-top: 0.65rem !important;
+  gap: clamp(1.35rem, 3vw, 3rem) !important;
+}
+
+.clean-footer-booking {
+  padding: 1rem !important;
+}
+
+.clean-footer-bottom {
+  margin-top: clamp(1.6rem, 3vw, 2.4rem) !important;
+  padding-top: 1rem !important;
+}
+
+/* Make the background pattern feel present but less dominant */
+.clean-footer::before {
+  background-size:
+    150px 150px,
+    72px 72px,
+    72px 72px !important;
+  opacity: 0.06 !important;
+}
+
+.clean-footer::after {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(240, 223, 155, 0.07), transparent 24rem),
+    radial-gradient(circle at 82% 24%, rgba(127, 146, 125, 0.09), transparent 26rem),
+    linear-gradient(180deg, rgba(13, 21, 13, 0.08), rgba(13, 21, 13, 0.22)) !important;
+}
+
+@media (max-width: 980px) {
+  .clean-footer {
+    padding: 2.4rem 1rem 1rem !important;
+  }
+
+  .clean-footer-main {
+    grid-template-columns: 1fr !important;
+    gap: 1.8rem !important;
+  }
+
+  .clean-footer-navs {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .clean-footer-bottom {
+    margin-top: 1.5rem !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .clean-footer {
+    padding: 2rem 1rem 1rem !important;
+  }
+
+  .clean-footer-navs {
+    grid-template-columns: 1fr !important;
+  }
+
+  .clean-footer .brand-logo-link--footer .brand-logo-image {
+    width: min(100%, 270px) !important;
+    max-height: 96px !important;
+  }
+}
+
+/* COMPACT_FOOTER_SPACING_END */
+
