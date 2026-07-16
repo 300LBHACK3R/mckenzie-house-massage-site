@@ -387,31 +387,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-
-        <section
-          id="contact"
-          className="section split section-lift scroll-reveal"
-          aria-labelledby="contact-heading"
-        >
-          <div>
-            <p className="eyebrow">Okotoks Launch</p>
-            <h2 id="contact-heading">
-              Built now. Ready to evolve with the new space.
-            </h2>
-          </div>
-
-          <div className="copy-stack premium-copy-card">
-            <p>
-              Current treatment footage can show Heather’s work, technique, and
-              care while the final Okotoks room imagery can be added once the
-              new space is ready.
-            </p>
-            <p>
-              The website and Google Business Profile will be kept consistent
-              through the transition.
-            </p>
-          </div>
-        </section>
       </main>
 
       <a className="mobile-sticky-book" href={siteConfig.bookingUrl}>
@@ -422,5 +397,6 @@ export default function Home() {
     </>
   );
 }
+
 
 
