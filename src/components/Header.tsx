@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
 import { navItems, siteConfig } from "@/lib/site";
@@ -29,11 +30,17 @@ function isCurrentPage(href: string, pathname: string) {
 
 export function Header() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const isHomePage = pathname === "/";
 
   const visibleNavItems = isHomePage
     ? navItems.filter((item) => item.label !== "Home")
     : navItems;
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -44,17 +51,32 @@ export function Header() {
       <header className="site-header">
         <BrandLogo variant="header" />
 
-        <nav className="nav" aria-label="Main navigation">
+        <nav className="nav desktop-nav" aria-label="Main navigation">
           {visibleNavItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              aria-current={isCurrentPage(item.href, pathname) ? "page" : undefined}
+              aria-current={
+                isCurrentPage(item.href, pathname) ? "page" : undefined
+              }
             >
               {item.label}
             </a>
           ))}
         </nav>
+
+        <button
+          className="mobile-menu-toggle"
+          type="button"
+          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setIsMenuOpen((current) => !current)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
 
         <a
           className="nav-cta"
@@ -64,6 +86,42 @@ export function Header() {
           Book Now
         </a>
       </header>
+
+      <button
+        className="mobile-nav-backdrop"
+        type="button"
+        aria-label="Close navigation menu"
+        data-open={isMenuOpen ? "true" : "false"}
+        onClick={() => setIsMenuOpen(false)}
+      />
+
+      <nav
+        id="mobile-navigation"
+        className="mobile-nav-panel"
+        aria-label="Mobile navigation"
+        data-open={isMenuOpen ? "true" : "false"}
+      >
+        {visibleNavItems.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            aria-current={
+              isCurrentPage(item.href, pathname) ? "page" : undefined
+            }
+            onClick={() => setIsMenuOpen(false)}
+          >
+            {item.label}
+          </a>
+        ))}
+
+        <a
+          className="mobile-nav-book"
+          href={siteConfig.bookingUrl}
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Book a Session
+        </a>
+      </nav>
     </>
   );
 }

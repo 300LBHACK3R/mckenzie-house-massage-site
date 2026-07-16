@@ -2827,3 +2827,209 @@ html {
 
 /* MOBILE_REPAIR_END */
 
+/* MOBILE_NAV_FIX_START */
+
+/* Hide mobile navigation controls on desktop */
+.mobile-menu-toggle,
+.mobile-nav-backdrop,
+.mobile-nav-panel {
+  display: none;
+}
+
+/* Mobile header with real menu */
+@media (max-width: 980px) {
+  .site-header {
+    position: fixed !important;
+    inset: 0 0 auto !important;
+    z-index: 120 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    min-height: 76px !important;
+    align-items: center !important;
+    gap: 0.55rem !important;
+    padding: 0.62rem 0.85rem !important;
+    background:
+      linear-gradient(180deg, rgba(255, 253, 247, 0.96), rgba(255, 253, 247, 0.86)),
+      rgba(255, 253, 247, 0.92) !important;
+    box-shadow: 0 14px 40px rgba(51, 39, 31, 0.08) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+  }
+
+  .brand-logo-link--header {
+    min-width: 0 !important;
+    justify-self: start !important;
+  }
+
+  .brand-logo-link--header .brand-logo-image {
+    width: clamp(150px, 42vw, 220px) !important;
+    max-height: 54px !important;
+    object-fit: contain !important;
+  }
+
+  .desktop-nav,
+  .nav {
+    display: none !important;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex !important;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid rgba(82, 101, 79, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 253, 247, 0.72);
+    color: var(--sage-dark);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.72),
+      0 12px 28px rgba(51, 39, 31, 0.06);
+  }
+
+  .mobile-menu-toggle span {
+    display: block;
+    width: 17px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--sage-dark);
+  }
+
+  .nav-cta {
+    min-height: 46px !important;
+    padding: 0.72rem 0.95rem !important;
+    font-size: 0.78rem !important;
+    white-space: nowrap !important;
+  }
+
+  .mobile-nav-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 105;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: rgba(51, 39, 31, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .mobile-nav-backdrop[data-open="true"] {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-nav-panel {
+    position: fixed;
+    top: 84px;
+    right: 0.85rem;
+    left: 0.85rem;
+    z-index: 115;
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.75rem;
+    border: 1px solid rgba(82, 101, 79, 0.14);
+    border-radius: 1.35rem;
+    background:
+      linear-gradient(180deg, rgba(255, 253, 247, 0.98), rgba(251, 247, 239, 0.94)),
+      var(--ivory);
+    box-shadow: 0 28px 90px rgba(51, 39, 31, 0.18);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.55rem) scale(0.98);
+    transform-origin: top center;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+  }
+
+  .mobile-nav-panel[data-open="true"] {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  .mobile-nav-panel a {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    border-radius: 1rem;
+    color: var(--brown-soft);
+    font-size: 0.96rem;
+    font-weight: 850;
+    letter-spacing: 0.02em;
+  }
+
+  .mobile-nav-panel a:hover,
+  .mobile-nav-panel a:focus-visible,
+  .mobile-nav-panel a[aria-current="page"] {
+    background: rgba(82, 101, 79, 0.09);
+    color: var(--sage-dark);
+  }
+
+  .mobile-nav-book {
+    justify-content: center !important;
+    margin-top: 0.25rem;
+    background: linear-gradient(135deg, var(--sage-dark), var(--olive));
+    color: var(--ivory) !important;
+    font-weight: 950 !important;
+  }
+
+  /* Header is fixed, so sections need breathing room */
+  .organic-hero,
+  .reviews-page-hero,
+  .service-detail-hero {
+    padding-top: 8.25rem !important;
+  }
+
+  /* Remove bottom sticky CTA for now because it blocks mobile content */
+  .mobile-sticky-book {
+    display: none !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .site-header {
+    min-height: 72px !important;
+    gap: 0.42rem !important;
+    padding-inline: 0.65rem !important;
+  }
+
+  .brand-logo-link--header .brand-logo-image {
+    width: clamp(138px, 40vw, 170px) !important;
+    max-height: 48px !important;
+  }
+
+  .mobile-menu-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .nav-cta {
+    min-height: 42px !important;
+    padding: 0.66rem 0.78rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  .mobile-nav-panel {
+    top: 78px;
+    right: 0.65rem;
+    left: 0.65rem;
+  }
+
+  .organic-hero h1,
+  .reviews-page-hero h1,
+  .service-detail-copy h1 {
+    font-size: clamp(2.2rem, 12.4vw, 3.05rem) !important;
+    line-height: 0.98 !important;
+  }
+}
+
+/* MOBILE_NAV_FIX_END */
+
