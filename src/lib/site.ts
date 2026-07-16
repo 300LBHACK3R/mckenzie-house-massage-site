@@ -145,7 +145,7 @@ export const services: Service[] = [
     bestFor: ["Tension", "Stiffness", "Deep pressure", "Focused treatment"],
     pressure: "Medium to firm, adjusted to comfort",
     mediaLabel: "Therapeutic massage media",
-    image: "/services/therapeutic-massage.png",
+    image: "/services/therapeutic-massage.jpg",
     video: "",
     longDescription:
       "Therapeutic massage is designed for clients who want a more focused session. The treatment can be shaped around areas that feel tight, restricted, overworked, or in need of deeper attention.",
@@ -171,7 +171,7 @@ export const services: Service[] = [
     bestFor: ["Stress", "Relaxation", "Gentle pressure", "Full-body reset"],
     pressure: "Light to medium, slow and calming",
     mediaLabel: "Relaxation massage media",
-    image: "/services/relaxation-massage.jpeg",
+    image: "/services/relaxation-massage.jpg",
     video: "",
     longDescription:
       "Relaxation massage is built around slowing down, softening tension, and creating a calm treatment experience. It can support clients who want a gentler session without needing deep or intense pressure.",
@@ -197,7 +197,7 @@ export const services: Service[] = [
     bestFor: ["Neck tension", "Headaches", "Shoulder tightness", "Stress"],
     pressure: "Customized pressure with focused upper-body care",
     mediaLabel: "Scalp, neck, and shoulder media",
-    image: "/services/scalp-neck-shoulder-focus.png",
+    image: "/services/scalp-neck-shoulder-focus.jpg",
     video: "",
     longDescription:
       "This focused session is designed for clients who feel tension through the scalp, jaw, neck, shoulders, and upper back. It gives extra attention to areas that often hold stress and daily strain.",
@@ -324,6 +324,7 @@ export const seoKeywords = [
 export function getServiceBySlug(slug: string) {
   return services.find((service) => service.slug === slug);
 }
+
 
 
 
