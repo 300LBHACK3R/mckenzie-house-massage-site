@@ -3,7 +3,6 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionProvider } from "@/components/MotionProvider";
 import {
-  clientReflections,
   faqs,
   pricingPreview,
   services,
@@ -13,8 +12,8 @@ import {
 } from "@/lib/site";
 
 const siteImages = {
-  hero: "/images/heather-room-01.jpg",
-  detail: "/images/heather-detail-01.jpg",
+  hero: siteConfig.assets.heroImage,
+  detail: siteConfig.assets.detailImage,
 };
 
 const homePageStructuredData = {
@@ -368,6 +367,7 @@ export default function Home() {
     </>
   );
 }
+
 
 
 
