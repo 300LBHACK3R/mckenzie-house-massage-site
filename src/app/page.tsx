@@ -392,46 +392,133 @@ export default function Home() {
           </div>
         </section>
 
-
         <section
           id="booking"
-          className="section booking-section scroll-reveal"
+          className="section booking-luxury scroll-reveal"
           aria-labelledby="booking-heading"
         >
-          <div className="booking-card">
-            <p className="eyebrow">Online Booking</p>
-            <h2 id="booking-heading">Book through ClinicSense.</h2>
-            <p>
-              Clients will be directed into Heather’s ClinicSense booking system once the final booking link is connected. For questions about flexible availability, service fit, or times outside the listed hours, clients can text Heather directly.
-            </p>
-            <a className="button primary" href={siteConfig.bookingUrl}>
-              Open Booking
-            </a>
+          <div className="booking-luxury__card">
+            <div className="booking-luxury__copy">
+              <p className="eyebrow">Online Booking</p>
+
+              <h2 id="booking-heading">Book through ClinicSense.</h2>
+
+              <p>
+                Clients will be directed into Heather’s ClinicSense booking
+                system once the final booking link is connected. For service
+                fit, flexible availability, or questions before booking, clients
+                can text Heather directly.
+              </p>
+
+              <div className="booking-luxury__actions">
+                <a className="button primary" href={siteConfig.bookingUrl}>
+                  Open Booking
+                </a>
+
+                <a
+                  className="button secondary"
+                  href={"sms:" + siteConfig.phone.replace(/[^\d+]/g, "")}
+                >
+                  Text Heather
+                </a>
+              </div>
+            </div>
+
+            <div
+              className="booking-luxury__details"
+              aria-label="Booking details"
+            >
+              <article>
+                <span>Location</span>
+                <strong>{siteConfig.location}</strong>
+                <p>{siteConfig.addressNote}</p>
+              </article>
+
+              <article>
+                <span>Regular Hours</span>
+                <strong>Tuesday–Friday</strong>
+                <p>10:00 AM – 4:30 PM</p>
+              </article>
+
+              <article>
+                <span>Flexible Requests</span>
+                <strong>Text to ask</strong>
+                <p>Saturday, Sunday, or Monday may be possible by request.</p>
+              </article>
+
+              <article>
+                <span>Booking System</span>
+                <strong>ClinicSense</strong>
+                <p>Availability, intake, and scheduling stay managed securely.</p>
+              </article>
+            </div>
           </div>
         </section>
 
         <section
           id="faq"
-          className="section faq-section scroll-reveal"
+          className="section faq-luxury scroll-reveal"
           aria-labelledby="faq-heading"
         >
-          <div className="section-heading">
-            <p className="eyebrow">Questions</p>
-            <h2 id="faq-heading">Helpful answers before clients book.</h2>
-            <p>
-              These answers help clients understand location, booking, treatment style, pressure, youth appointments, and Heather’s client-led approach before they book.
-            </p>
-          </div>
+          <div className="faq-luxury__shell">
+            <aside className="faq-luxury__intro">
+              <p className="eyebrow">Questions</p>
 
-          <div className="faq-list">
-            {faqs.map((item) => (
-              <details key={item.question}>
-                <summary>{item.question}</summary>
-                <p>{item.answer}</p>
-              </details>
-            ))}
+              <h2 id="faq-heading">Helpful answers before clients book.</h2>
+
+              <p>
+                Clear answers help clients feel more comfortable before choosing
+                a treatment, asking about pressure, booking around their life,
+                or reaching out with a question.
+              </p>
+
+              <div className="faq-luxury__support">
+                <span>Still unsure?</span>
+
+                <p>
+                  Clients can text Heather directly for service fit, flexible
+                  times, pregnancy or postpartum questions, youth appointments,
+                  or anything they want clarified before booking.
+                </p>
+
+                <div className="faq-luxury__support-actions">
+                  <a
+                    className="button primary"
+                    href={"sms:" + siteConfig.phone.replace(/[^\d+]/g, "")}
+                  >
+                    Text Heather
+                  </a>
+
+                  <a
+                    className="button secondary faq-luxury__google-link"
+                    href={siteConfig.social.google}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit Google
+                  </a>
+                </div>
+              </div>
+            </aside>
+
+            <div className="faq-luxury__list" aria-label="Frequently asked questions">
+              {faqs.map((item) => (
+                <details className="faq-luxury__item" key={item.question}>
+                  <summary>
+                    <span>{item.question}</span>
+                    <strong aria-hidden="true">+</strong>
+                  </summary>
+
+                  <div>
+                    <p>{item.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
+
+
       </main>
 
       <a className="mobile-sticky-book" href={siteConfig.bookingUrl}>

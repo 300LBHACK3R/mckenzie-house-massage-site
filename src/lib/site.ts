@@ -10,6 +10,7 @@ export type NavItem = {
 export type SocialLinks = {
   facebook: string;
   instagram: string;
+  google: string;
 };
 
 export type SiteAssetConfig = {
@@ -114,6 +115,7 @@ export const siteConfig: SiteConfig = {
   social: {
     facebook: "",
     instagram: "",
+    google: "https://www.google.com/search?q=McKenzie+House+Massage",
   },
 };
 
@@ -451,4 +453,3 @@ export const seoKeywords = [
 export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((service) => service.slug === slug);
 }
-
