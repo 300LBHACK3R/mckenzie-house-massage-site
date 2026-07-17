@@ -335,7 +335,7 @@ export const whatToExpect: SimpleContentItem[] = [
   {
     title: "You are listened to first",
     text:
-      "Heather uses the conversation before treatment to understand your body, comfort level, pressure preference, previous massage experiences, and what you are hoping to feel by the end of the appointment.",
+      "Heather listens before treatment so your comfort, pressure preference, previous massage experiences, and goals are clear before hands-on care begins.",
   },
   {
     title: "Your hands-on time is protected",
@@ -451,3 +451,4 @@ export const seoKeywords = [
 export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((service) => service.slug === slug);
 }
+

@@ -1,10 +1,10 @@
 ﻿import Image from "next/image";
-import { Footer } from "@/components/Footer";
+import {
+  Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionProvider } from "@/components/MotionProvider";
 import {
   faqs,
-  pricingPreview,
   pricingGroups,
   services,
   serviceTags,
@@ -315,48 +315,83 @@ export default function Home() {
               </article>
             ))}
           </div>
-        </section>        <section
+        </section>
+
+        <section
           id="pricing"
-          className="section pricing-luxury scroll-reveal"
+          className="section pricing-menu-luxury scroll-reveal"
           aria-labelledby="pricing-heading"
         >
-          <div className="pricing-luxury__intro">
+          <div className="pricing-menu-luxury__intro">
             <p className="eyebrow">Pricing</p>
 
             <h2 id="pricing-heading">
-              Simple, transparent pricing before clients book.
+              Clear pricing, simple durations, no guessing.
             </h2>
 
             <p>
-              Final rates will be added once Heather confirms her service menu,
-              treatment durations, and ClinicSense booking setup.
+              Clients can choose the treatment style and appointment length that
+              fits best before continuing into Heather’s ClinicSense booking
+              system.
             </p>
           </div>
 
-          <div className="pricing-luxury__panel">
-            <div className="pricing-luxury__note">
-              <span>Clear booking experience</span>
-              <p>
-                Clients should be able to understand session length, service
-                options, and pricing before they continue into online booking.
-              </p>
-            </div>
+          <div className="pricing-menu-luxury__shell">
+            <aside className="pricing-menu-luxury__feature">
+              <span>Booking clarity</span>
 
-            <div className="pricing-luxury__grid">
-              {pricingPreview.map((item) => (
-                <article className="pricing-luxury__card" key={item.duration}>
-                  <span>{item.duration}</span>
-                  <strong>{item.price}</strong>
-                  <p>
-                    {item.price === "Price to confirm"
-                      ? "Final rate to be confirmed before launch."
-                      : "Available through online booking once connected."}
-                  </p>
+              <h3>Rates are listed by service and duration.</h3>
+
+              <p>
+                Massage is kept simple and client-led. The client chooses the
+                service and length, then Heather customizes the treatment around
+                pressure, comfort, positioning, and goals.
+              </p>
+
+              <div className="pricing-menu-luxury__meta">
+                <div>
+                  <small>Location</small>
+                  <strong>{siteConfig.location}</strong>
+                </div>
+
+                <div>
+                  <small>Hours</small>
+                  <strong>Tuesday-Friday · 10:00 AM-4:30 PM</strong>
+                </div>
+
+                <div>
+                  <small>Flexible</small>
+                  <strong>Text for possible Saturday, Sunday, or Monday times</strong>
+                </div>
+              </div>
+            </aside>
+
+            <div className="pricing-menu-luxury__cards">
+              {pricingGroups.map((group) => (
+                <article className="pricing-menu-card" key={group.name}>
+                  <header>
+                    <span>Service</span>
+                    <h3>{group.name}</h3>
+                    {group.note ? <p>{group.note}</p> : null}
+                  </header>
+
+                  <div className="pricing-menu-card__rows">
+                    {group.prices.map((item) => (
+                      <div
+                        className="pricing-menu-card__row"
+                        key={group.name + item.duration}
+                      >
+                        <strong>{item.duration}</strong>
+                        <span>{item.price}</span>
+                      </div>
+                    ))}
+                  </div>
                 </article>
               ))}
             </div>
           </div>
         </section>
+
 
         <section
           id="booking"
