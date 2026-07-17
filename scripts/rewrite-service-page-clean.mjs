@@ -1,3 +1,58 @@
+import fs from "node:fs";
+import path from "node:path";
+
+function replaceExportedFunction(source, functionName, replacement) {
+  const start = source.indexOf(`export function ${functionName}`);
+
+  if (start === -1) {
+    return `${source.trimEnd()}\n\n${replacement}\n`;
+  }
+
+  const openBrace = source.indexOf("{", start);
+
+  if (openBrace === -1) {
+    throw new Error(`Could not find opening brace for ${functionName}`);
+  }
+
+  let depth = 0;
+  let end = -1;
+
+  for (let index = openBrace; index < source.length; index += 1) {
+    const char = source[index];
+
+    if (char === "{") {
+      depth += 1;
+    }
+
+    if (char === "}") {
+      depth -= 1;
+
+      if (depth === 0) {
+        end = index + 1;
+        break;
+      }
+    }
+  }
+
+  if (end === -1) {
+    throw new Error(`Could not find closing brace for ${functionName}`);
+  }
+
+  return `${source.slice(0, start)}${replacement}${source.slice(end)}`;
+}
+
+const sitePath = path.join("src", "lib", "site.ts");
+const servicePagePath = path.join("src", "app", "services", "[slug]", "page.tsx");
+
+const cleanGetServiceBySlug = `export function getServiceBySlug(slug: string): Service | undefined {
+  return services.find((service) => service.slug === slug);
+}`;
+
+let site = fs.readFileSync(sitePath, "utf8");
+site = replaceExportedFunction(site, "getServiceBySlug", cleanGetServiceBySlug);
+fs.writeFileSync(sitePath, site.trimEnd() + "\n", "utf8");
+
+const servicePage = String.raw`
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -329,3 +384,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
     </>
   );
 }
+`;
+
+fs.writeFileSync(servicePagePath, servicePage.trimStart(), "utf8");
+
+console.log("Cleaned getServiceBySlug in src/lib/site.ts");
+console.log("Rebuilt src/app/services/[slug]/page.tsx");
+console.log("Done.");

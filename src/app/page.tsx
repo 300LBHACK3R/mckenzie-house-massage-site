@@ -5,6 +5,7 @@ import { MotionProvider } from "@/components/MotionProvider";
 import {
   faqs,
   pricingPreview,
+  pricingGroups,
   services,
   serviceTags,
   siteConfig,
@@ -110,16 +111,15 @@ export default function Home() {
           <div className="hero-inner">
             <p className="hero-pill reveal-up">
               <span />
-              Massage therapy · Calgary · Okotoks
+              Massage therapy · Prestwick Calgary · Okotoks-ready
             </p>
 
             <h1 id="home-heading" className="reveal-up delay-1">
-              Calm, skilled massage therapy designed around your body.
+              Massage that adapts to you — not the other way around.
             </h1>
 
             <p className="hero-copy reveal-up delay-2">
-              A warm, professional treatment experience focused on comfort,
-              communication, and personalized care.
+              A calm, client-led massage experience built around pressure preference, comfort, communication, and what your body needs that day.
             </p>
 
             <div className="hero-actions reveal-up delay-3">
@@ -143,15 +143,15 @@ export default function Home() {
             <div className="hero-stat-row reveal-up delay-5">
               <div>
                 <strong>Personalized</strong>
-                <span>Every session is adjusted to the client.</span>
+                <span>Every appointment is shaped around the person booking.</span>
               </div>
               <div>
                 <strong>Professional</strong>
-                <span>Clear booking, calm presentation, thoughtful care.</span>
+                <span>A professional space where pressure, comfort, and goals are discussed clearly.</span>
               </div>
               <div>
                 <strong>Okotoks-ready</strong>
-                <span>Built now and ready to evolve with the new space.</span>
+                <span>Located in Prestwick now, with future Okotoks details to be confirmed.</span>
               </div>
             </div>
           </div>
@@ -163,14 +163,15 @@ export default function Home() {
           aria-labelledby="services-heading"
         >
           <div className="section-heading">
-            <p className="eyebrow">Signature Services</p>
+            <p className="eyebrow">Services</p>
             <h2 id="services-heading">
-              Clear treatment options clients can understand.
+              Choose a treatment style, then Heather customizes the session.
             </h2>
             <p>
-              Each service opens into a dedicated page with room for treatment
-              photos, short video, service background, technique notes, and
-              booking guidance.
+              Massage is kept simple and client-led. Instead of forcing every
+              person into a rigid category, Heather listens first, adjusts
+              pressure, adapts positioning, and builds the appointment around
+              what the client actually needs.
             </p>
           </div>
 
@@ -287,10 +288,10 @@ export default function Home() {
           <div className="section-heading centered">
             <p className="eyebrow">The Experience</p>
             <h2 id="experience-heading">
-              A clear, comfortable experience from start to finish.
+              A massage experience built around communication, consent, and comfort.
             </h2>
             <p>
-              A simple look at how the appointment flows, how pressure is guided, and how comfort is handled from start to finish.
+              A simple look at how Heather listens, protects hands-on time, adapts pressure, and shapes each appointment around the client.
             </p>
           </div>
 
@@ -366,9 +367,7 @@ export default function Home() {
             <p className="eyebrow">Online Booking</p>
             <h2 id="booking-heading">Book through ClinicSense.</h2>
             <p>
-              Clients will be directed into Heather’s existing ClinicSense
-              booking system, where availability, services, intake, and
-              scheduling remain securely managed.
+              Clients will be directed into Heather’s ClinicSense booking system once the final booking link is connected. For questions about flexible availability, service fit, or times outside the listed hours, clients can text Heather directly.
             </p>
             <a className="button primary" href={siteConfig.bookingUrl}>
               Open Booking
@@ -385,8 +384,7 @@ export default function Home() {
             <p className="eyebrow">Questions</p>
             <h2 id="faq-heading">Helpful answers before clients book.</h2>
             <p>
-              These FAQs will be refined once Heather confirms policies,
-              booking details, location wording, and service information.
+              These answers help clients understand location, booking, treatment style, pressure, youth appointments, and Heather’s client-led approach before they book.
             </p>
           </div>
 
