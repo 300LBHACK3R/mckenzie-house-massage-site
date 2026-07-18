@@ -4,7 +4,12 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionProvider } from "@/components/MotionProvider";
-import { getServiceBySlug, services, siteConfig } from "@/lib/site";
+import {
+  getServiceBySlug,
+  pricingGroups,
+  services,
+  siteConfig,
+} from "@/lib/site";
 
 type ServicePageProps = {
   params: Promise<{
@@ -83,6 +88,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const pricingGroup = pricingGroups.find((group) => group.name === service.name);
+
   const relatedServices = services
     .filter((item) => item.slug !== service.slug)
     .slice(0, 3);
@@ -150,9 +157,30 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 </div>
               </div>
 
-              <div className="hero-actions">
+              {pricingGroup ? (
+                <div
+                  className="service-detail-hero__rates"
+                  aria-label={service.name + " pricing"}
+                >
+                  {pricingGroup.prices.map((item) => (
+                    <div key={item.duration}>
+                      <span>{item.duration}</span>
+                      <strong>{item.price}</strong>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+
+              <div className="hero-actions service-detail-hero__actions">
                 <a className="button primary" href={siteConfig.bookingUrl}>
                   Book This Service
+                </a>
+
+                <a
+                  className="button secondary"
+                  href={"sms:" + siteConfig.phone.replace(/[^\d+]/g, "")}
+                >
+                  Text Heather
                 </a>
 
                 <a className="button secondary" href="/#services">
@@ -161,14 +189,21 @@ export default async function ServicePage({ params }: ServicePageProps) {
               </div>
             </div>
 
-            <div className="service-detail-hero__media">
-              <Image
-                src={service.image || siteConfig.assets.detailImage}
-                alt={service.name + " at " + siteConfig.businessName}
-                fill
-                priority
-                sizes="(max-width: 980px) 100vw, 44vw"
-              />
+            <div className="service-detail-hero__media-wrap">
+              <div className="service-detail-hero__media">
+                <Image
+                  src={service.image || siteConfig.assets.detailImage}
+                  alt={service.name + " at " + siteConfig.businessName}
+                  fill
+                  priority
+                  sizes="(max-width: 980px) 100vw, 42vw"
+                />
+              </div>
+
+              <div className="service-detail-hero__badge">
+                <span>Client-led care</span>
+                <strong>Pressure, pacing, and comfort are adjusted.</strong>
+              </div>
             </div>
           </div>
         </section>
@@ -199,6 +234,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
         >
           <div className="service-detail-panel">
             <p className="eyebrow">Treatment Details</p>
+
             <h2 id="service-includes-heading">
               What this service may include.
             </h2>
@@ -245,6 +281,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
           >
             <div className="section-heading centered">
               <p className="eyebrow">Before You Book</p>
+
               <h2 id="service-notes-heading">
                 Helpful notes for this treatment.
               </h2>
@@ -262,31 +299,74 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
         <section
           id="booking"
-          className="section booking-section scroll-reveal"
+          className="section booking-luxury service-detail-booking scroll-reveal"
           aria-labelledby="booking-heading"
         >
-          <div className="booking-card">
-            <p className="eyebrow">Online Booking</p>
-            <h2 id="booking-heading">Book through ClinicSense.</h2>
-            <p>
-              Booking will connect through Heather’s ClinicSense system once the
-              final booking link is added. For service fit, flexible
-              availability, or questions before booking, clients can text
-              Heather directly.
-            </p>
+          <div className="booking-luxury__card">
+            <div className="booking-luxury__copy">
+              <p className="eyebrow">Online Booking</p>
 
-            <a className="button primary" href={siteConfig.bookingUrl}>
-              Open Booking
-            </a>
+              <h2 id="booking-heading">Book through ClinicSense.</h2>
+
+              <p>
+                Booking will connect through Heather’s ClinicSense system once
+                the final booking link is added. For service fit, flexible
+                availability, or questions before booking, clients can text
+                Heather directly.
+              </p>
+
+              <div className="booking-luxury__actions">
+                <a className="button primary" href={siteConfig.bookingUrl}>
+                  Open Booking
+                </a>
+
+                <a
+                  className="button secondary"
+                  href={"sms:" + siteConfig.phone.replace(/[^\d+]/g, "")}
+                >
+                  Text Heather
+                </a>
+              </div>
+            </div>
+
+            <div
+              className="booking-luxury__details"
+              aria-label="Booking details"
+            >
+              <article>
+                <span>Location</span>
+                <strong>{siteConfig.location}</strong>
+                <p>{siteConfig.addressNote}</p>
+              </article>
+
+              <article>
+                <span>Hours</span>
+                <strong>Tuesday-Friday</strong>
+                <p>10:00 AM - 4:30 PM</p>
+              </article>
+
+              <article>
+                <span>Flexible Times</span>
+                <strong>Text to ask</strong>
+                <p>Saturday, Sunday, or Monday may be possible by request.</p>
+              </article>
+
+              <article>
+                <span>System</span>
+                <strong>ClinicSense</strong>
+                <p>Availability, intake, and scheduling stay managed securely.</p>
+              </article>
+            </div>
           </div>
         </section>
 
         <section
-          className="section related-services scroll-reveal"
+          className="section related-services related-services-luxury scroll-reveal"
           aria-labelledby="related-services-heading"
         >
-          <div className="section-heading">
+          <div className="section-heading centered">
             <p className="eyebrow">More Services</p>
+
             <h2 id="related-services-heading">Explore other treatments.</h2>
           </div>
 

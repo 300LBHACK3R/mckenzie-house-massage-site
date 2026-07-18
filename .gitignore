@@ -42,3 +42,8 @@ next-env.d.ts
 *.backup
 *.backup-before-*
 .history/
+# Local/generated cleanup
+node_modules/
+*.backup-*
+*.bak
+*backup-before*
