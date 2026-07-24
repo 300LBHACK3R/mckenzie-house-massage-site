@@ -1,16 +1,9 @@
 ﻿import Image from "next/image";
-import {
-  Footer } from "@/components/Footer";
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionProvider } from "@/components/MotionProvider";
 import {
-  faqs,
-  pricingGroups,
-  services,
-  serviceTags,
-  siteConfig,
-  whatToExpect,
-} from "@/lib/site";
+  faqs, pricingGroups, services, serviceTags, siteConfig, whatToExpect } from "@/lib/site";
 
 const siteImages = {
   hero: siteConfig.assets.heroImage,
@@ -115,11 +108,12 @@ export default function Home() {
             </p>
 
             <h1 id="home-heading" className="reveal-up delay-1">
-              Massage that adapts to you — not the other way around.
+              Listen, Restore
+Rebalance.
             </h1>
 
             <p className="hero-copy reveal-up delay-2">
-              A calm, client-led massage experience built around pressure preference, comfort, communication, and what your body needs that day.
+              A Calm, Client-led Massage Experience Built Around Pressure/Sensory Preference, Comfort, Communication & What Your Body Needs That Day.
             </p>
 
             <div className="hero-actions reveal-up delay-3">
@@ -127,7 +121,7 @@ export default function Home() {
                 Book a Session
               </a>
               <a className="button secondary" href="#services">
-                Explore Services
+                Explore Our Therapy
               </a>
             </div>
 
@@ -165,13 +159,12 @@ export default function Home() {
           <div className="section-heading">
             <p className="eyebrow">Services</p>
             <h2 id="services-heading">
-              Choose a treatment style, then Heather customizes the session.
+              Massage designed around your Body, Emotions, Comfort & the way you want to Feel.
             </h2>
             <p>
-              Massage is kept simple and client-led. Instead of forcing every
-              person into a rigid category, Heather listens first, adjusts
-              pressure, adapts positioning, and builds the appointment around
-              what the client actually needs.
+              <strong>Every appointment starts with listening. 
+              With years of professional experience and a thoughtful understanding of the body, Heather adjusts pressure, positioning, 
+              pace, and focus areas with ease, so each treatment feels personal, comfortable, and genuinely useful.</strong>
             </p>
           </div>
 
@@ -234,43 +227,45 @@ export default function Home() {
             </div>
 
             <div className="meet-heather-luxury__badge">
-              <span>Personalized</span>
-              <strong>Client-led care</strong>
+              <span>RMT</span>
+              <strong>Heather Knorr</strong>
             </div>
           </div>
 
           <div className="meet-heather-luxury__copy">
-            <p className="eyebrow">Meet Heather</p>
+            <p className="eyebrow"><strong>Meet Heather</strong></p>
 
             <h2 id="about-heading">
-              Calm, thoughtful massage therapy shaped around each client.
+              Rooted in experience, guided by listening, and shaped by real clients needs.
             </h2>
 
             <p className="meet-heather-luxury__lead">
-              Heather’s treatments are designed to feel clear, comfortable, and
-              never rushed. Each session is adapted to the client’s needs,
-              pressure preference, comfort level, and treatment goals.
+              Heather’s work is built around one simple thing:
+               helping people feel heard, cared for, and more at ease in their bodies. 
+              She takes time to understand what brings each client in, then uses her professional experience to adjust pressure, pace, positioning, 
+              and focus areas without making the appointment feel rushed. 
+              Her approach is calm, practical, and deeply client-led — the kind of care that comes from someone who truly enjoys helping people feel better.
             </p>
 
             <div className="meet-heather-luxury__quote">
               <p>
-                “The goal is a treatment experience that feels professional,
-                grounded, and easy to understand from the moment a client books.”
+                Heather’s goal is simple: 
+                to help every client feel heard, comfortable, and genuinely cared for from the first message to the end of the appointment.
               </p>
             </div>
 
             <div className="meet-heather-luxury__details">
               <div>
                 <span>Approach</span>
-                <strong>Calm, personalized care</strong>
+                <strong>Calm, Personalized Care</strong>
               </div>
               <div>
                 <span>Focus</span>
-                <strong>Comfort, pressure, communication</strong>
+                <strong>Comfort, Pressure, Communication</strong>
               </div>
               <div>
                 <span>Booking</span>
-                <strong>Connected through ClinicSense</strong>
+                <strong>Connected Through ClinicSense</strong>
               </div>
               <div>
                 <span>Location</span>
@@ -392,7 +387,79 @@ export default function Home() {
           </div>
         </section>
 
+        
         <section
+          id="contact"
+          className="section contact-luxury scroll-reveal"
+          aria-labelledby="contact-heading"
+        >
+          <div className="contact-luxury__shell">
+            <div className="contact-luxury__copy">
+              <p className="eyebrow">Contact Heather</p>
+
+              <h2 id="contact-heading">
+                Questions before booking? Text Heather directly.
+              </h2>
+
+              <p>
+                Whether you are wondering about direct billing, appointment fit,
+                pressure preference, pregnancy/postpartum care, youth
+                appointments, or which service to choose, Heather is happy to
+                help you feel comfortable before you book.
+              </p>
+
+              <div className="contact-luxury__actions">
+                <a
+                  className="button primary"
+                  href={"sms:" + siteConfig.phone.replace(/[^\d+]/g, "")}
+                >
+                  Text Heather
+                </a>
+
+                <a
+                  className="button secondary"
+                  href={"tel:" + siteConfig.phone.replace(/[^\d+]/g, "")}
+                >
+                  Call
+                </a>
+
+                <a className="button secondary" href={"mailto:" + siteConfig.email}>
+                  Email
+                </a>
+              </div>
+            </div>
+
+            <div className="contact-luxury__panel" aria-label="Contact details">
+              <article>
+                <span>Phone</span>
+                <a href={"tel:" + siteConfig.phone.replace(/[^\d+]/g, "")}>
+                  {siteConfig.phone}
+                </a>
+                <p>Texting is usually the easiest way to ask a quick question.</p>
+              </article>
+
+              <article>
+                <span>Email</span>
+                <a href={"mailto:" + siteConfig.email}>{siteConfig.email}</a>
+                <p>Best for longer questions, website inquiries, or details.</p>
+              </article>
+
+              <article>
+                <span>Location</span>
+                <strong>Prestwick, Calgary</strong>
+                <p>Located near Prestwick Pond. Exact appointment details are shared through booking.</p>
+              </article>
+
+              <article>
+                <span>Hours</span>
+                <strong>Tuesday to Friday</strong>
+                <p>10:00 AM – 4:30 PM. Flexible by text when available.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+<section
           id="booking"
           className="section booking-luxury scroll-reveal"
           aria-labelledby="booking-heading"

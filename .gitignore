@@ -47,3 +47,8 @@ node_modules/
 *.backup-*
 *.bak
 *backup-before*
+.vercel/
+.env.local
+.env.production
+scripts/
+Thumbs.db
