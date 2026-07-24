@@ -1,5 +1,6 @@
-﻿import type { Metadata, Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import { AmbientSpaAudio } from "@/components/AmbientSpaAudio";
+import { PersistentSiteNavigation } from "@/components/PersistentSiteNavigation";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
 
@@ -118,16 +119,19 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(structuredData).replace(
+              /</g,
+              "\\u003c",
+            ),
           }}
         />
       </head>
-      <body>{children}        <AmbientSpaAudio />
+
+      <body>
+        <PersistentSiteNavigation />
+        {children}
+        <AmbientSpaAudio />
       </body>
     </html>
   );
 }
-
-
-
-

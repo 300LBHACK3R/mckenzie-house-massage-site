@@ -1,47 +1,161 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const AUDIO_SRC = "/audio/spa-ambience.mp3";
-const STORAGE_KEY = "mhm-ambient-audio-v2-enabled";
-const DISMISSED_KEY = "mhm-ambient-audio-v2-dismissed";
+const STORAGE_KEY = "mhm-ambient-audio-v3-enabled";
+const DISMISSED_KEY = "mhm-ambient-audio-v3-dismissed";
+const POSITION_KEY = "mhm-ambient-audio-v3-position";
+const PLAYING_KEY = "mhm-ambient-audio-v3-was-playing";
+
+const DEFAULT_VOLUME = 0.16;
+const POSITION_SAVE_INTERVAL_MS = 1500;
+
+function readSavedPosition() {
+  const savedPosition = window.sessionStorage.getItem(POSITION_KEY);
+  const parsedPosition = Number(savedPosition);
+
+  if (!Number.isFinite(parsedPosition) || parsedPosition < 0) {
+    return 0;
+  }
+
+  return parsedPosition;
+}
+
+function savePlaybackPosition(audio: HTMLAudioElement) {
+  if (!Number.isFinite(audio.currentTime) || audio.currentTime < 0) {
+    return;
+  }
+
+  window.sessionStorage.setItem(
+    POSITION_KEY,
+    String(audio.currentTime),
+  );
+}
 
 export function AmbientSpaAudio() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const positionTimerRef = useRef<number | null>(null);
+
   const [ready, setReady] = useState(false);
   const [enabled, setEnabled] = useState(true);
   const [started, setStarted] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [audioMissing, setAudioMissing] = useState(false);
 
+  const stopPositionTimer = useCallback(() => {
+    if (positionTimerRef.current === null) {
+      return;
+    }
+
+    window.clearInterval(positionTimerRef.current);
+    positionTimerRef.current = null;
+  }, []);
+
+  const startPositionTimer = useCallback(() => {
+    stopPositionTimer();
+
+    positionTimerRef.current = window.setInterval(() => {
+      const audio = audioRef.current;
+
+      if (!audio || audio.paused) {
+        return;
+      }
+
+      savePlaybackPosition(audio);
+    }, POSITION_SAVE_INTERVAL_MS);
+  }, [stopPositionTimer]);
+
   useEffect(() => {
     const audio = new Audio(AUDIO_SRC);
+    const savedPreference = window.localStorage.getItem(STORAGE_KEY);
+    const savedDismissed = window.localStorage.getItem(DISMISSED_KEY);
+    const savedPosition = readSavedPosition();
 
     audio.loop = true;
     audio.preload = "auto";
-    audio.volume = 0.16;
+    audio.volume = DEFAULT_VOLUME;
 
-    audio.addEventListener("play", () => setStarted(true));
-    audio.addEventListener("pause", () => setStarted(false));
-    audio.addEventListener("error", () => setAudioMissing(true));
+    const restorePosition = () => {
+      if (
+        savedPosition > 0 &&
+        Number.isFinite(audio.duration) &&
+        audio.duration > 0
+      ) {
+        audio.currentTime = savedPosition % audio.duration;
+      }
+    };
+
+    const handlePlay = () => {
+      setStarted(true);
+      window.sessionStorage.setItem(PLAYING_KEY, "true");
+      startPositionTimer();
+    };
+
+    const handlePause = () => {
+      setStarted(false);
+      savePlaybackPosition(audio);
+      stopPositionTimer();
+    };
+
+    const handleError = () => {
+      setAudioMissing(true);
+      stopPositionTimer();
+    };
+
+    const handleBeforeUnload = () => {
+      savePlaybackPosition(audio);
+      window.sessionStorage.setItem(
+        PLAYING_KEY,
+        audio.paused ? "false" : "true",
+      );
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        savePlaybackPosition(audio);
+      }
+    };
+
+    audio.addEventListener("loadedmetadata", restorePosition);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("error", handleError);
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibilityChange,
+    );
 
     audioRef.current = audio;
-
-    const savedPreference = window.localStorage.getItem(STORAGE_KEY);
-    const savedDismissed = window.localStorage.getItem(DISMISSED_KEY);
 
     setEnabled(savedPreference !== "off");
     setDismissed(savedDismissed === "true");
     setReady(true);
 
     return () => {
+      savePlaybackPosition(audio);
+      stopPositionTimer();
+
+      audio.removeEventListener("loadedmetadata", restorePosition);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("error", handleError);
+
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange,
+      );
+
       audio.pause();
       audio.src = "";
       audioRef.current = null;
     };
-  }, []);
+  }, [startPositionTimer, stopPositionTimer]);
 
-  const startAudio = async () => {
+  const startAudio = useCallback(async () => {
     const audio = audioRef.current;
 
     if (!audio || !enabled || audioMissing) {
@@ -49,29 +163,44 @@ export function AmbientSpaAudio() {
     }
 
     try {
-      audio.volume = 0.16;
+      audio.volume = DEFAULT_VOLUME;
       await audio.play();
 
       setStarted(true);
       setDismissed(true);
+
       window.localStorage.setItem(STORAGE_KEY, "on");
       window.localStorage.setItem(DISMISSED_KEY, "true");
+      window.sessionStorage.setItem(PLAYING_KEY, "true");
     } catch {
       setStarted(false);
     }
-  };
+  }, [audioMissing, enabled]);
 
   useEffect(() => {
     if (!ready || !enabled || started || audioMissing) {
       return;
     }
 
+    const wasPlaying =
+      window.sessionStorage.getItem(PLAYING_KEY) === "true";
+
+    if (wasPlaying) {
+      void startAudio();
+    }
+
     const handleFirstInteraction = () => {
       void startAudio();
 
-      window.removeEventListener("pointerdown", handleFirstInteraction);
+      window.removeEventListener(
+        "pointerdown",
+        handleFirstInteraction,
+      );
       window.removeEventListener("keydown", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener(
+        "touchstart",
+        handleFirstInteraction,
+      );
     };
 
     window.addEventListener("pointerdown", handleFirstInteraction, {
@@ -83,15 +212,42 @@ export function AmbientSpaAudio() {
     });
 
     return () => {
-      window.removeEventListener("pointerdown", handleFirstInteraction);
+      window.removeEventListener(
+        "pointerdown",
+        handleFirstInteraction,
+      );
       window.removeEventListener("keydown", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener(
+        "touchstart",
+        handleFirstInteraction,
+      );
     };
-  }, [ready, enabled, started, audioMissing]);
+  }, [
+    ready,
+    enabled,
+    started,
+    audioMissing,
+    startAudio,
+  ]);
 
   const turnOn = async () => {
     setEnabled(true);
     window.localStorage.setItem(STORAGE_KEY, "on");
+
+    const audio = audioRef.current;
+
+    if (audio) {
+      const savedPosition = readSavedPosition();
+
+      if (
+        savedPosition > 0 &&
+        Number.isFinite(audio.duration) &&
+        audio.duration > 0
+      ) {
+        audio.currentTime = savedPosition % audio.duration;
+      }
+    }
+
     await startAudio();
   };
 
@@ -99,9 +255,11 @@ export function AmbientSpaAudio() {
     const audio = audioRef.current;
 
     if (audio) {
+      savePlaybackPosition(audio);
       audio.pause();
-      audio.currentTime = 0;
     }
+
+    stopPositionTimer();
 
     setEnabled(false);
     setStarted(false);
@@ -109,6 +267,7 @@ export function AmbientSpaAudio() {
 
     window.localStorage.setItem(STORAGE_KEY, "off");
     window.localStorage.setItem(DISMISSED_KEY, "true");
+    window.sessionStorage.setItem(PLAYING_KEY, "false");
   };
 
   const dismissPrompt = () => {
@@ -133,7 +292,7 @@ export function AmbientSpaAudio() {
             onClick={dismissPrompt}
             aria-label="Dismiss ambience prompt"
           >
-            ×
+            Ã—
           </button>
 
           <span className="ambient-audio-invite__eyebrow">
@@ -183,7 +342,7 @@ export function AmbientSpaAudio() {
             : "Turn ambient sound on"
         }
       >
-        <span aria-hidden="true">♪</span>
+        <span aria-hidden="true">â™ª</span>
         <strong>{enabled && started ? "Sound On" : "Enable Sound"}</strong>
       </button>
     </>
