@@ -1,10 +1,32 @@
 .section {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.15fr);
   gap: clamp(1rem, 3vw, 2rem);
   width: min(calc(100% - 2rem), 1240px);
   margin: 0 auto;
-  padding: clamp(4.5rem, 7vw, 7rem) 0;
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  scroll-margin-top: 7rem;
+}
+
+.ambientOrb {
+  position: absolute;
+  top: 5%;
+  right: -8%;
+  z-index: -1;
+  width: clamp(18rem, 38vw, 38rem);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(201, 167, 90, 0.18),
+    rgba(201, 167, 90, 0.04) 46%,
+    transparent 72%
+  );
+  filter: blur(20px);
+  animation: formAmbientFloat 12s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
 .intro,
@@ -12,7 +34,21 @@
   position: relative;
   overflow: hidden;
   border-radius: clamp(1.4rem, 2vw, 1.9rem);
-  box-shadow: 0 28px 90px rgba(35, 31, 24, 0.13);
+  box-shadow:
+    0 30px 100px rgba(35, 31, 24, 0.13),
+    0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  transition:
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 450ms ease;
+}
+
+.intro:hover,
+.form:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 42px 120px rgba(35, 31, 24, 0.17),
+    0 1px 0 rgba(255, 255, 255, 0.24) inset;
 }
 
 .intro {
@@ -23,7 +59,7 @@
   border: 1px solid rgba(236, 213, 151, 0.17);
   background:
     radial-gradient(circle at 15% 15%, rgba(220, 185, 100, 0.18), transparent 24rem),
-    linear-gradient(145deg, #0a170d, #18301b);
+    linear-gradient(145deg, #08130b, #16301a);
   color: #fffaf0;
 }
 
@@ -37,6 +73,73 @@
   opacity: 0.025;
 }
 
+.intro::after {
+  position: absolute;
+  inset: -60%;
+  content: "";
+  pointer-events: none;
+  background: conic-gradient(
+    from 180deg,
+    transparent,
+    rgba(230, 205, 136, 0.08),
+    transparent 28%
+  );
+  animation: introSweep 14s linear infinite;
+}
+
+.introGlow,
+.formGlow {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.introGlow {
+  top: -20%;
+  left: -16%;
+  width: 20rem;
+  aspect-ratio: 1;
+  background: rgba(221, 190, 109, 0.12);
+  filter: blur(65px);
+  animation: introGlowPulse 7s ease-in-out infinite alternate;
+}
+
+.introMark {
+  position: absolute;
+  right: -3rem;
+  bottom: -4rem;
+  width: 14rem;
+  aspect-ratio: 1;
+  background: url("/brand/mckenzie-house-mark.png") center / contain no-repeat;
+  opacity: 0.05;
+  transform: rotate(-12deg);
+  transition:
+    opacity 450ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.intro:hover .introMark {
+  opacity: 0.085;
+  transform: rotate(-4deg) scale(1.06);
+}
+
+.formGlow {
+  top: -8rem;
+  right: -7rem;
+  width: 22rem;
+  aspect-ratio: 1;
+  background: rgba(183, 142, 57, 0.11);
+  filter: blur(58px);
+  transition:
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 450ms ease;
+}
+
+.form:hover .formGlow {
+  transform: translate(-2rem, 2rem) scale(1.08);
+}
+
 .intro > *,
 .form > * {
   position: relative;
@@ -44,12 +147,21 @@
 }
 
 .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
   margin: 0;
   color: #dfc47d;
   font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+
+.eyebrow span {
+  width: 2.6rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(223, 196, 125, 0.2), #dfc47d);
 }
 
 .intro h2 {
@@ -84,6 +196,16 @@
   border: 1px solid rgba(239, 220, 168, 0.12);
   border-radius: 1rem;
   background: rgba(255, 255, 255, 0.035);
+  transition:
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 350ms ease,
+    background 350ms ease;
+}
+
+.trustList div:hover {
+  transform: translateX(6px);
+  border-color: rgba(239, 220, 168, 0.22);
+  background: rgba(255, 255, 255, 0.055);
 }
 
 .trustList span {
@@ -117,6 +239,7 @@
 }
 
 .field {
+  position: relative;
   display: grid;
   gap: 0.48rem;
 }
@@ -127,6 +250,11 @@
   font-weight: 850;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.field:focus-within span {
+  color: #8a6724;
 }
 
 .field input,
@@ -141,9 +269,10 @@
   color: #251b15;
   font: inherit;
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
 }
 
 .field input,
@@ -158,12 +287,22 @@
   line-height: 1.6;
 }
 
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: rgba(68, 92, 61, 0.32);
+  background: rgba(255, 254, 250, 0.94);
+}
+
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: rgba(55, 87, 50, 0.7);
+  transform: translateY(-1px);
+  border-color: rgba(147, 110, 35, 0.75);
   background: #fffdf8;
-  box-shadow: 0 0 0 4px rgba(74, 108, 67, 0.11);
+  box-shadow:
+    0 0 0 4px rgba(147, 110, 35, 0.1),
+    0 12px 30px rgba(65, 50, 29, 0.08);
 }
 
 .field input::placeholder,
@@ -187,9 +326,63 @@
   margin-top: 0.25rem;
 }
 
-.footer button:disabled {
+.submitButton {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.submitButton::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.24) 48%,
+    transparent 66%
+  );
+  transform: translateX(-120%);
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.submitButton:hover::before {
+  transform: translateX(120%);
+}
+
+.submitButton:disabled {
   cursor: wait;
   opacity: 0.68;
+}
+
+.sendIcon {
+  width: 1.05rem;
+  height: 1.05rem;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.submitButton:hover .sendIcon {
+  transform: translate(3px, -2px);
+}
+
+.form[data-state="submitting"] .sendIcon {
+  animation: sendIconFloat 1s ease-in-out infinite alternate;
+}
+
+.form[data-state="success"] {
+  border-color: rgba(53, 124, 61, 0.38);
+  box-shadow:
+    0 30px 100px rgba(35, 31, 24, 0.13),
+    0 0 0 4px rgba(53, 124, 61, 0.05);
+}
+
+.form[data-state="error"] {
+  border-color: rgba(151, 60, 60, 0.35);
 }
 
 .footer p {
@@ -207,14 +400,70 @@
   color: rgba(44, 51, 38, 0.72);
   font-size: 0.92rem;
   font-weight: 700;
+  transition:
+    color 180ms ease,
+    transform 180ms ease,
+    opacity 180ms ease;
 }
 
 .success {
   color: #245629;
+  animation: statusReveal 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .error {
   color: #8b2f2f;
+  animation: statusReveal 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes formAmbientFloat {
+  from {
+    transform: translate3d(0, -1rem, 0) scale(0.96);
+  }
+
+  to {
+    transform: translate3d(-3rem, 3rem, 0) scale(1.06);
+  }
+}
+
+@keyframes introSweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes introGlowPulse {
+  from {
+    transform: scale(0.9);
+    opacity: 0.65;
+  }
+
+  to {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes sendIconFloat {
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(4px, -3px);
+  }
+}
+
+@keyframes statusReveal {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 960px) {
@@ -244,5 +493,25 @@
 
   .footer p {
     text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambientOrb,
+  .intro::after,
+  .introGlow,
+  .form[data-state="submitting"] .sendIcon {
+    animation: none !important;
+  }
+
+  .intro,
+  .form,
+  .trustList div,
+  .field input,
+  .field select,
+  .field textarea,
+  .submitButton::before,
+  .sendIcon {
+    transition: none !important;
   }
 }

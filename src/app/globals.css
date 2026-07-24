@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   color-scheme: light;
   --cream: #fbf7ef;
   --ivory: #fffdf7;
@@ -8345,3 +8345,566 @@ body {
 
 /* AMBIENT_SPA_AUDIO_END */
 
+/* PREMIUM_CONTACT_ANIMATION_V2_START */
+
+.premium-contact-page {
+  overflow: clip;
+}
+
+.premium-contact-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: min(900px, 94vh);
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+}
+
+.premium-contact-hero__inner {
+  position: relative;
+  z-index: 3;
+}
+
+.premium-contact-hero__grid {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(241, 220, 155, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(241, 220, 155, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+  animation: premiumContactGridDrift 24s linear infinite;
+}
+
+.premium-contact-hero__orb {
+  position: absolute;
+  z-index: -2;
+  border-radius: 999px;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.premium-contact-hero__orb--one {
+  top: -16rem;
+  right: -12rem;
+  width: clamp(26rem, 52vw, 54rem);
+  aspect-ratio: 1;
+  background:
+    radial-gradient(
+      circle,
+      rgba(209, 173, 84, 0.2),
+      rgba(209, 173, 84, 0.04) 48%,
+      transparent 70%
+    );
+  animation: premiumContactOrbOne 13s ease-in-out infinite alternate;
+}
+
+.premium-contact-hero__orb--two {
+  left: -14rem;
+  bottom: -18rem;
+  width: clamp(28rem, 48vw, 50rem);
+  aspect-ratio: 1;
+  background:
+    radial-gradient(
+      circle,
+      rgba(92, 132, 86, 0.22),
+      rgba(92, 132, 86, 0.035) 50%,
+      transparent 72%
+    );
+  animation: premiumContactOrbTwo 16s ease-in-out infinite alternate;
+}
+
+.premium-contact-hero__mark {
+  position: absolute;
+  right: clamp(-7rem, -4vw, -2rem);
+  bottom: clamp(-8rem, -8vw, -3rem);
+  z-index: -1;
+  width: clamp(22rem, 45vw, 48rem);
+  aspect-ratio: 1;
+  background: url("/brand/mckenzie-house-mark.png") center / contain no-repeat;
+  opacity: 0.028;
+  transform: rotate(-10deg);
+  animation: premiumContactMarkFloat 18s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.premium-contact-hero__copy {
+  position: relative;
+}
+
+.premium-contact-hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #dbc079;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.premium-contact-hero__eyebrow span {
+  width: 3rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(219, 192, 121, 0.15), #dbc079);
+}
+
+.premium-contact-hero__copy h1 span {
+  display: block;
+  color: rgba(255, 250, 240, 0.52);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero-contact-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: premiumContactReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-contact-delay-1 {
+  animation-delay: 120ms;
+}
+
+.hero-contact-delay-2 {
+  animation-delay: 240ms;
+}
+
+.hero-contact-delay-3 {
+  animation-delay: 380ms;
+}
+
+.hero-contact-delay-4 {
+  animation-delay: 520ms;
+}
+
+.hero-contact-delay-5 {
+  animation-delay: 680ms;
+}
+
+.premium-contact-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.7rem;
+}
+
+.premium-contact-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.premium-contact-button::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: linear-gradient(
+    105deg,
+    transparent 28%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 72%
+  );
+  transform: translateX(-130%);
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.premium-contact-button:hover::before {
+  transform: translateX(130%);
+}
+
+.contact-page-arrow {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.premium-contact-button:hover .contact-page-arrow,
+.premium-contact-card__link:hover .contact-page-arrow {
+  transform: translate(3px, -3px);
+}
+
+.premium-contact-hero__proof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  max-width: 780px;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.premium-contact-hero__proof > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+  padding: 0.9rem;
+  border: 1px solid rgba(233, 214, 156, 0.1);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(12px);
+  transition:
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 380ms ease,
+    background 380ms ease;
+}
+
+.premium-contact-hero__proof > div:hover {
+  transform: translateY(-5px);
+  border-color: rgba(233, 214, 156, 0.2);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.premium-contact-hero__proof span {
+  color: #d8bd76;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.premium-contact-hero__proof p {
+  display: grid;
+  gap: 0.18rem;
+  margin: 0;
+  color: rgba(255, 250, 240, 0.56);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.premium-contact-hero__proof strong {
+  color: #fffaf0;
+  font-size: 0.84rem;
+}
+
+.premium-contact-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: rgba(232, 208, 142, 0.2) !important;
+  background:
+    linear-gradient(155deg, rgba(255, 252, 243, 0.98), rgba(231, 216, 183, 0.93)) !important;
+  box-shadow:
+    0 38px 120px rgba(2, 10, 5, 0.34),
+    0 1px 0 rgba(255, 255, 255, 0.72) inset !important;
+  transform: perspective(1200px) rotateY(-2deg) rotateX(1deg);
+  transition:
+    transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 550ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.premium-contact-card:hover {
+  transform: perspective(1200px) rotateY(0deg) rotateX(0deg) translateY(-8px);
+  box-shadow:
+    0 52px 150px rgba(2, 10, 5, 0.42),
+    0 1px 0 rgba(255, 255, 255, 0.78) inset !important;
+}
+
+.premium-contact-card__glow {
+  position: absolute;
+  top: -9rem;
+  right: -8rem;
+  z-index: -1;
+  width: 20rem;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: rgba(192, 149, 57, 0.2);
+  filter: blur(55px);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.premium-contact-card:hover .premium-contact-card__glow {
+  transform: translate(-3rem, 3rem) scale(1.15);
+}
+
+.premium-contact-card__label {
+  color: #82631f !important;
+}
+
+.premium-contact-card__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(40, 60, 35, 0.12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.42);
+  color: #172517;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  text-decoration: none;
+  transition:
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 350ms ease,
+    border-color 350ms ease;
+}
+
+.premium-contact-card__link:hover {
+  transform: translateX(5px);
+  border-color: rgba(119, 88, 25, 0.25);
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.premium-contact-card__availability {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  color: rgba(37, 48, 34, 0.62);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.premium-contact-card__pulse {
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 999px;
+  background: #5f8f57;
+  box-shadow: 0 0 0 0 rgba(95, 143, 87, 0.42);
+  animation: premiumContactPulse 2s ease-out infinite;
+}
+
+.premium-contact-details {
+  position: relative;
+  z-index: 4;
+  margin-top: clamp(-3.8rem, -5vw, -2.2rem);
+}
+
+.premium-contact-details article {
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+  transition:
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 450ms ease;
+}
+
+.premium-contact-details article::after {
+  position: absolute;
+  right: -3rem;
+  bottom: -3rem;
+  width: 8rem;
+  aspect-ratio: 1;
+  content: "";
+  border-radius: 999px;
+  background: rgba(198, 161, 79, 0.08);
+  transform: scale(0.6);
+  transition: transform 550ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.premium-contact-details article:hover {
+  transform: translateY(-9px);
+  border-color: rgba(132, 98, 31, 0.22);
+  box-shadow: 0 34px 90px rgba(62, 48, 29, 0.16);
+}
+
+.premium-contact-details article:hover::after {
+  transform: scale(1.4);
+}
+
+.premium-contact-detail__icon {
+  display: grid;
+  place-items: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid rgba(112, 82, 27, 0.14);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.5);
+  color: #7d5b1d;
+  transition:
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 420ms ease,
+    color 420ms ease;
+}
+
+.premium-contact-detail__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.premium-contact-details article:hover .premium-contact-detail__icon {
+  transform: translateY(-4px) rotate(-4deg);
+  background: #1c321d;
+  color: #ecd18a;
+}
+
+.premium-contact-note {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-contact-note__inner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.premium-contact-note__inner:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 44px 120px rgba(35, 31, 24, 0.17);
+}
+
+.premium-contact-note__mark {
+  position: absolute;
+  right: -5rem;
+  bottom: -7rem;
+  z-index: -1;
+  width: 22rem;
+  aspect-ratio: 1;
+  background: url("/brand/mckenzie-house-mark.png") center / contain no-repeat;
+  opacity: 0.04;
+  transform: rotate(-14deg);
+  transition:
+    opacity 550ms ease,
+    transform 750ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.premium-contact-note__inner:hover .premium-contact-note__mark {
+  opacity: 0.075;
+  transform: rotate(-4deg) scale(1.05);
+}
+
+@keyframes premiumContactReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes premiumContactGridDrift {
+  from {
+    background-position: 0 0, 0 0;
+  }
+
+  to {
+    background-position: 72px 72px, 72px 72px;
+  }
+}
+
+@keyframes premiumContactOrbOne {
+  from {
+    transform: translate3d(0, -1rem, 0) scale(0.95);
+  }
+
+  to {
+    transform: translate3d(-4rem, 4rem, 0) scale(1.08);
+  }
+}
+
+@keyframes premiumContactOrbTwo {
+  from {
+    transform: translate3d(-1rem, 1rem, 0) scale(0.96);
+  }
+
+  to {
+    transform: translate3d(4rem, -3rem, 0) scale(1.1);
+  }
+}
+
+@keyframes premiumContactMarkFloat {
+  from {
+    transform: translate3d(0, 1rem, 0) rotate(-12deg) scale(0.98);
+  }
+
+  to {
+    transform: translate3d(-2rem, -2rem, 0) rotate(-4deg) scale(1.05);
+  }
+}
+
+@keyframes premiumContactPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(95, 143, 87, 0.44);
+  }
+
+  70% {
+    box-shadow: 0 0 0 0.7rem rgba(95, 143, 87, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(95, 143, 87, 0);
+  }
+}
+
+@media (max-width: 980px) {
+  .premium-contact-hero {
+    min-height: auto;
+  }
+
+  .premium-contact-card {
+    transform: none;
+  }
+
+  .premium-contact-hero__proof {
+    grid-template-columns: 1fr;
+  }
+
+  .premium-contact-details {
+    margin-top: -1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .premium-contact-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .premium-contact-button {
+    width: 100%;
+  }
+
+  .premium-contact-hero__proof {
+    margin-top: 1.5rem;
+  }
+
+  .premium-contact-hero__mark {
+    right: -12rem;
+    width: 30rem;
+  }
+
+  .premium-contact-details {
+    margin-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium-contact-hero__grid,
+  .premium-contact-hero__orb,
+  .premium-contact-hero__mark,
+  .premium-contact-card__pulse,
+  .hero-contact-reveal {
+    animation: none !important;
+  }
+
+  .hero-contact-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .premium-contact-button,
+  .contact-page-arrow,
+  .premium-contact-card,
+  .premium-contact-card__glow,
+  .premium-contact-card__link,
+  .premium-contact-details article,
+  .premium-contact-detail__icon,
+  .premium-contact-note__inner,
+  .premium-contact-note__mark {
+    transition: none !important;
+  }
+}
+
+/* PREMIUM_CONTACT_ANIMATION_V2_END */

@@ -10,6 +10,31 @@ type ContactApiResponse = {
   message?: string;
 };
 
+function SendIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className={styles.sendIcon}
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="m4 5 16 7-16 7 3-7-3-7Z"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7 12h13"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function ContactForm() {
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>("idle");
@@ -76,11 +101,20 @@ export function ContactForm() {
 
   return (
     <section
-      className={styles.section}
+      id="contact-form"
+      className={`${styles.section} scroll-reveal`}
       aria-labelledby="contact-form-heading"
     >
+      <div className={styles.ambientOrb} aria-hidden="true" />
+
       <div className={styles.intro}>
-        <p className={styles.eyebrow}>Send a Message</p>
+        <div className={styles.introGlow} aria-hidden="true" />
+        <div className={styles.introMark} aria-hidden="true" />
+
+        <p className={styles.eyebrow}>
+          <span />
+          Send a Message
+        </p>
 
         <h2 id="contact-form-heading">
           Tell Heather what you need help with.
@@ -110,7 +144,13 @@ export function ContactForm() {
         </div>
       </div>
 
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit}
+        data-state={submissionState}
+      >
+        <div className={styles.formGlow} aria-hidden="true" />
+
         <div className={styles.twoColumn}>
           <label className={styles.field}>
             <span>Name *</span>
@@ -197,11 +237,12 @@ export function ContactForm() {
 
         <div className={styles.footer}>
           <button
-            className="button primary"
+            className={`button primary ${styles.submitButton}`}
             type="submit"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Sendingâ€¦" : "Send Message"}
+            <span>{isSubmitting ? "Sendingâ€¦" : "Send Message"}</span>
+            <SendIcon />
           </button>
 
           <p>
