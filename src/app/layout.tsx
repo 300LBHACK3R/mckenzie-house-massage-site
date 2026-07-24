@@ -1,4 +1,5 @@
 ﻿import type { Metadata, Viewport } from "next";
+import { AmbientSpaAudio } from "@/components/AmbientSpaAudio";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
 
@@ -121,7 +122,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>{children}        <AmbientSpaAudio />
+      </body>
     </html>
   );
 }

@@ -7779,16 +7779,389 @@ body {
 
 /* REVIEWS_PHOTO_PLACEHOLDERS_FINAL_END */
 
+/* CONTACT_LUXURY_SECTION_START */
+
+.contact-luxury,
+.contact-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.contact-luxury {
+  overflow: hidden;
+  padding-top: clamp(4.8rem, 7vw, 7.2rem) !important;
+  padding-bottom: clamp(4.8rem, 7vw, 7.2rem) !important;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(205, 172, 99, 0.1), transparent 30rem),
+    radial-gradient(circle at 86% 24%, rgba(35, 55, 32, 0.08), transparent 28rem),
+    linear-gradient(180deg, rgba(250, 244, 231, 1), rgba(238, 226, 202, 0.98)) !important;
+}
+
+.contact-luxury::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+  background-image:
+    url("/brand/mckenzie-house-mark.png"),
+    linear-gradient(90deg, rgba(35, 50, 31, 0.024) 1px, transparent 1px),
+    linear-gradient(rgba(35, 50, 31, 0.016) 1px, transparent 1px);
+  background-repeat: repeat;
+  background-size: 190px 190px, 92px 92px, 92px 92px;
+  background-position: center;
+  opacity: 0.035;
+  mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 80%);
+}
+
+.contact-luxury__shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 0.7fr);
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+  align-items: stretch;
+  width: min(100%, 1240px);
+  margin: 0 auto;
+}
+
+.contact-luxury__copy,
+.contact-luxury__panel,
+.contact-page-hero__card,
+.contact-page-details article,
+.contact-page-note__inner {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(42, 58, 36, 0.13);
+  border-radius: clamp(1.4rem, 2vw, 1.85rem);
+  background:
+    linear-gradient(145deg, rgba(255, 252, 244, 0.96), rgba(241, 229, 204, 0.9)),
+    radial-gradient(circle at top right, rgba(205, 172, 99, 0.12), transparent 18rem);
+  box-shadow:
+    0 28px 90px rgba(55, 44, 31, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.contact-luxury__copy::before,
+.contact-luxury__panel::before,
+.contact-page-hero__card::before,
+.contact-page-details article::before,
+.contact-page-note__inner::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: url("/brand/mckenzie-house-mark.png") center / 160px 160px repeat;
+  opacity: 0.032;
+}
+
+.contact-luxury__copy > *,
+.contact-luxury__panel > *,
+.contact-page-hero__card > *,
+.contact-page-details article > *,
+.contact-page-note__inner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-luxury__copy {
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  padding: clamp(1.4rem, 3vw, 2.6rem);
+}
+
+.contact-luxury__copy .eyebrow {
+  color: var(--sage-deep) !important;
+}
+
+.contact-luxury__copy h2 {
+  max-width: 780px;
+  margin: 0;
+  color: #251b15;
+  font-size: clamp(3.4rem, 6.1vw, 6.9rem);
+  line-height: 0.86;
+  letter-spacing: -0.09em;
+  text-wrap: balance;
+}
+
+.contact-luxury__copy p {
+  max-width: 680px;
+  margin: 0;
+  color: rgba(44, 51, 38, 0.72) !important;
+  font-size: clamp(1rem, 1.12vw, 1.1rem) !important;
+  line-height: 1.78 !important;
+}
+
+.contact-luxury__actions,
+.contact-page-hero__actions,
+.contact-page-note__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+.contact-luxury__panel {
+  display: grid;
+  gap: 0.8rem;
+  padding: clamp(1rem, 1.8vw, 1.35rem);
+}
+
+.contact-luxury__panel article {
+  display: grid;
+  gap: 0.34rem;
+  padding: clamp(1rem, 1.6vw, 1.25rem);
+  border: 1px solid rgba(35, 55, 32, 0.12);
+  border-radius: 1.15rem;
+  background: rgba(255, 250, 240, 0.5);
+}
+
+.contact-luxury__panel span,
+.contact-page-details span,
+.contact-page-hero__card span {
+  color: var(--sage-deep);
+  font-size: 0.67rem;
+  font-weight: 950;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.contact-luxury__panel a,
+.contact-luxury__panel strong,
+.contact-page-details a,
+.contact-page-details strong {
+  color: #251b15;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.2rem, 1.8vw, 1.65rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-decoration: none;
+}
+
+.contact-luxury__panel p,
+.contact-page-details p {
+  margin: 0;
+  color: rgba(44, 51, 38, 0.68) !important;
+  font-size: 0.92rem !important;
+  line-height: 1.55 !important;
+}
+
+/* CONTACT_LUXURY_SECTION_END */
+
+/* CONTACT_PAGE_FINAL_START */
+
+.contact-page {
+  background:
+    radial-gradient(circle at 12% 24%, rgba(205, 172, 99, 0.09), transparent 31rem),
+    linear-gradient(180deg, rgba(250, 244, 231, 1), rgba(238, 226, 202, 0.98));
+}
+
+.contact-page-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding:
+    clamp(7rem, 9.5vw, 9.2rem)
+    clamp(1rem, 5vw, 5rem)
+    clamp(5.2rem, 7.2vw, 6.8rem);
+  background:
+    radial-gradient(circle at 18% 16%, rgba(218, 187, 111, 0.14), transparent 32rem),
+    radial-gradient(circle at 86% 24%, rgba(255, 250, 240, 0.045), transparent 33rem),
+    linear-gradient(135deg, #09140c 0%, #102114 52%, #1c301d 100%);
+  color: var(--ivory);
+}
+
+.contact-page-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+  background-image:
+    url("/brand/mckenzie-house-mark.png"),
+    linear-gradient(90deg, rgba(240, 223, 155, 0.024) 1px, transparent 1px),
+    linear-gradient(rgba(240, 223, 155, 0.018) 1px, transparent 1px);
+  background-repeat: repeat;
+  background-size: 180px 180px, 88px 88px, 88px 88px;
+  background-position: center;
+  opacity: 0.078;
+  mask-image: radial-gradient(circle at 50% 44%, black 0%, transparent 82%);
+}
+
+.contact-page-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.96fr) minmax(340px, 0.54fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: end;
+  width: min(100%, 1280px);
+  margin: 0 auto;
+}
+
+.contact-page-hero__copy {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.contact-page-hero .eyebrow {
+  color: var(--gold-soft) !important;
+}
+
+.contact-page-hero h1 {
+  max-width: 930px;
+  margin: 0;
+  color: var(--ivory);
+  font-size: clamp(4rem, 7.4vw, 8.1rem);
+  line-height: 0.86;
+  letter-spacing: -0.088em;
+  text-wrap: balance;
+}
+
+.contact-page-hero__copy > p {
+  max-width: 720px;
+  margin: 0;
+  color: rgba(255, 250, 240, 0.78) !important;
+  font-size: clamp(1.02rem, 1.16vw, 1.12rem) !important;
+  line-height: 1.82 !important;
+}
+
+.contact-page-hero__card {
+  display: grid;
+  gap: 0.9rem;
+  padding: clamp(1.25rem, 2vw, 1.7rem);
+  background:
+    linear-gradient(145deg, rgba(255, 250, 240, 0.105), rgba(255, 250, 240, 0.045)),
+    radial-gradient(circle at top right, rgba(214, 184, 111, 0.12), transparent 18rem);
+  border-color: rgba(240, 223, 155, 0.18);
+  box-shadow:
+    0 34px 110px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 250, 240, 0.09);
+}
+
+.contact-page-hero__card span {
+  color: var(--gold-soft);
+}
+
+.contact-page-hero__card h2 {
+  margin: 0;
+  color: var(--ivory);
+  font-size: clamp(1.8rem, 2.6vw, 3.2rem);
+  line-height: 0.96;
+  letter-spacing: -0.065em;
+}
+
+.contact-page-hero__card p {
+  margin: 0;
+  color: rgba(255, 250, 240, 0.74) !important;
+  line-height: 1.72 !important;
+}
+
+.contact-page-details {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.9rem, 1.4vw, 1.15rem);
+  width: min(100%, 1240px);
+  margin-inline: auto;
+  padding-top: clamp(3.4rem, 5vw, 4.8rem) !important;
+  padding-bottom: clamp(3.4rem, 5vw, 4.8rem) !important;
+}
+
+.contact-page-details article {
+  display: grid;
+  gap: 0.45rem;
+  padding: clamp(1.1rem, 1.8vw, 1.45rem);
+}
+
+.contact-page-note {
+  padding-top: clamp(3rem, 5vw, 4.8rem) !important;
+  padding-bottom: clamp(5.4rem, 7vw, 7.2rem) !important;
+}
+
+.contact-page-note__inner {
+  display: grid;
+  gap: 1rem;
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: clamp(1.35rem, 2.6vw, 2.25rem);
+  text-align: center;
+}
+
+.contact-page-note__inner .eyebrow {
+  justify-content: center;
+  margin-inline: auto;
+  color: var(--sage-deep) !important;
+}
+
+.contact-page-note__inner h2 {
+  margin: 0;
+  color: #251b15;
+  font-size: clamp(3rem, 5.1vw, 5.8rem);
+  line-height: 0.9;
+  letter-spacing: -0.082em;
+  text-wrap: balance;
+}
+
+.contact-page-note__inner p {
+  max-width: 720px;
+  margin: 0 auto;
+  color: rgba(44, 51, 38, 0.72) !important;
+  line-height: 1.78 !important;
+}
+
+.contact-page-note__actions {
+  justify-content: center;
+}
+
+@media (max-width: 1080px) {
+  .contact-page-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .contact-luxury__shell,
+  .contact-page-hero__inner {
+    grid-template-columns: 1fr;
+    width: min(100%, 860px);
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-luxury__copy h2,
+  .contact-page-hero h1 {
+    font-size: clamp(3rem, 15vw, 4.8rem);
+  }
+
+  .contact-page-details {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-luxury__actions,
+  .contact-page-hero__actions,
+  .contact-page-note__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .contact-luxury__actions .button,
+  .contact-page-hero__actions .button,
+  .contact-page-note__actions .button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* CONTACT_PAGE_FINAL_END */
+
 /* AMBIENT_SPA_AUDIO_START */
 
 .ambient-audio-invite {
   position: fixed;
   right: clamp(0.9rem, 2vw, 1.3rem);
   bottom: calc(5.75rem + env(safe-area-inset-bottom));
-  z-index: 90;
+  z-index: 900;
   display: grid;
   gap: 0.55rem;
-  width: min(calc(100vw - 1.8rem), 360px);
+  width: min(calc(100vw - 1.8rem), 370px);
   padding: 1rem;
   border: 1px solid rgba(224, 190, 112, 0.34);
   border-radius: 1.25rem;
@@ -7838,7 +8211,7 @@ body {
 }
 
 .ambient-audio-invite strong {
-  max-width: 280px;
+  max-width: 290px;
   color: var(--ivory);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.65rem;
@@ -7847,12 +8220,18 @@ body {
   letter-spacing: -0.05em;
 }
 
-.ambient-audio-invite p {
-  max-width: 300px;
+.ambient-audio-invite p,
+.ambient-audio-invite__warning {
+  max-width: 310px;
   margin: 0;
   color: rgba(255, 250, 240, 0.72);
   font-size: 0.9rem;
   line-height: 1.55;
+}
+
+.ambient-audio-invite__warning {
+  color: rgba(240, 223, 155, 0.82);
+  font-size: 0.75rem;
 }
 
 .ambient-audio-invite__button {
@@ -7876,7 +8255,7 @@ body {
   position: fixed;
   right: clamp(0.85rem, 2vw, 1.25rem);
   bottom: calc(clamp(0.85rem, 2vw, 1.25rem) + env(safe-area-inset-bottom));
-  z-index: 88;
+  z-index: 880;
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
@@ -7965,185 +8344,4 @@ body {
 }
 
 /* AMBIENT_SPA_AUDIO_END */
-
-/* CONTACT_LUXURY_SECTION_START */
-
-.contact-luxury {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  padding-top: clamp(4.8rem, 7vw, 7.2rem) !important;
-  padding-bottom: clamp(4.8rem, 7vw, 7.2rem) !important;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(205, 172, 99, 0.1), transparent 30rem),
-    radial-gradient(circle at 86% 24%, rgba(35, 55, 32, 0.08), transparent 28rem),
-    linear-gradient(180deg, rgba(250, 244, 231, 1), rgba(238, 226, 202, 0.98)) !important;
-}
-
-.contact-luxury::before {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  content: "";
-  pointer-events: none;
-  background-image:
-    url("/brand/mckenzie-house-mark.png"),
-    linear-gradient(90deg, rgba(35, 50, 31, 0.024) 1px, transparent 1px),
-    linear-gradient(rgba(35, 50, 31, 0.016) 1px, transparent 1px);
-  background-repeat: repeat;
-  background-size:
-    190px 190px,
-    92px 92px,
-    92px 92px;
-  background-position: center;
-  opacity: 0.035;
-  mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 80%);
-}
-
-.contact-luxury__shell {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 0.7fr);
-  gap: clamp(1.2rem, 3vw, 2.4rem);
-  align-items: stretch;
-  width: min(100%, 1240px);
-  margin: 0 auto;
-}
-
-.contact-luxury__copy,
-.contact-luxury__panel {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(42, 58, 36, 0.13);
-  border-radius: clamp(1.4rem, 2vw, 1.85rem);
-  background:
-    linear-gradient(145deg, rgba(255, 252, 244, 0.96), rgba(241, 229, 204, 0.9)),
-    radial-gradient(circle at top right, rgba(205, 172, 99, 0.12), transparent 18rem);
-  box-shadow:
-    0 28px 90px rgba(55, 44, 31, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72);
-}
-
-.contact-luxury__copy::before,
-.contact-luxury__panel::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  pointer-events: none;
-  background: url("/brand/mckenzie-house-mark.png") center / 160px 160px repeat;
-  opacity: 0.032;
-}
-
-.contact-luxury__copy > *,
-.contact-luxury__panel > * {
-  position: relative;
-  z-index: 1;
-}
-
-.contact-luxury__copy {
-  display: grid;
-  align-content: center;
-  gap: 1rem;
-  padding: clamp(1.4rem, 3vw, 2.6rem);
-}
-
-.contact-luxury__copy .eyebrow {
-  color: var(--sage-deep) !important;
-}
-
-.contact-luxury__copy h2 {
-  max-width: 780px;
-  margin: 0;
-  color: #251b15;
-  font-size: clamp(3.4rem, 6.1vw, 6.9rem);
-  line-height: 0.86;
-  letter-spacing: -0.09em;
-  text-wrap: balance;
-}
-
-.contact-luxury__copy p {
-  max-width: 680px;
-  margin: 0;
-  color: rgba(44, 51, 38, 0.72) !important;
-  font-size: clamp(1rem, 1.12vw, 1.1rem) !important;
-  line-height: 1.78 !important;
-}
-
-.contact-luxury__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 0.35rem;
-}
-
-.contact-luxury__panel {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.8rem;
-  padding: clamp(1rem, 1.8vw, 1.35rem);
-}
-
-.contact-luxury__panel article {
-  display: grid;
-  gap: 0.34rem;
-  padding: clamp(1rem, 1.6vw, 1.25rem);
-  border: 1px solid rgba(35, 55, 32, 0.12);
-  border-radius: 1.15rem;
-  background:
-    linear-gradient(145deg, rgba(255, 250, 240, 0.62), rgba(255, 250, 240, 0.32));
-}
-
-.contact-luxury__panel span {
-  color: var(--sage-deep);
-  font-size: 0.67rem;
-  font-weight: 950;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
-}
-
-.contact-luxury__panel a,
-.contact-luxury__panel strong {
-  color: #251b15;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.2rem, 1.8vw, 1.65rem);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.045em;
-  text-decoration: none;
-}
-
-.contact-luxury__panel a:hover {
-  color: var(--sage-deep);
-}
-
-.contact-luxury__panel p {
-  margin: 0;
-  color: rgba(44, 51, 38, 0.68) !important;
-  font-size: 0.92rem !important;
-  line-height: 1.55 !important;
-}
-
-@media (max-width: 980px) {
-  .contact-luxury__shell {
-    grid-template-columns: 1fr;
-    width: min(100%, 860px);
-  }
-}
-
-@media (max-width: 640px) {
-  .contact-luxury__copy h2 {
-    font-size: clamp(3rem, 15vw, 4.8rem);
-  }
-
-  .contact-luxury__actions {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .contact-luxury__actions .button {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* CONTACT_LUXURY_SECTION_END */
 
