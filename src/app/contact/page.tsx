@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
+import { ContactForm } from "@/components/ContactForm";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionProvider } from "@/components/MotionProvider";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contact Heather | " + siteConfig.businessName,
+  title: `Contact Heather | ${siteConfig.businessName}`,
   description:
     "Contact Heather at McKenzie House Massage in Prestwick, Calgary for booking questions, direct billing questions, service fit, and appointment details.",
   alternates: {
-    canonical: siteConfig.domain + "/contact",
+    canonical: `${siteConfig.domain}/contact`,
   },
   openGraph: {
-    title: "Contact Heather | " + siteConfig.businessName,
+    title: `Contact Heather | ${siteConfig.businessName}`,
     description:
-      "Text, call, or email Heather with questions before booking your massage appointment.",
-    url: siteConfig.domain + "/contact",
+      "Text, call, email, or send Heather a private website message before booking your massage appointment.",
+    url: `${siteConfig.domain}/contact`,
     type: "website",
     images: [
       {
@@ -45,8 +46,8 @@ export default function ContactPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    name: "Contact " + siteConfig.businessName,
-    url: siteConfig.domain + "/contact",
+    name: `Contact ${siteConfig.businessName}`,
+    url: `${siteConfig.domain}/contact`,
     about: {
       "@type": "HealthAndBeautyBusiness",
       name: siteConfig.businessName,
@@ -69,7 +70,10 @@ export default function ContactPage() {
       <Header />
 
       <main id="main-content" className="contact-page">
-        <section className="contact-page-hero" aria-labelledby="contact-page-heading">
+        <section
+          className="contact-page-hero"
+          aria-labelledby="contact-page-heading"
+        >
           <div className="contact-page-hero__inner">
             <div className="contact-page-hero__copy">
               <p className="eyebrow">Contact Heather</p>
@@ -79,22 +83,25 @@ export default function ContactPage() {
               </h1>
 
               <p>
-                New and returning clients are welcome to reach out before booking.
-                Heather can help with service fit, direct billing questions,
-                pressure preferences, pregnancy or postpartum care, youth
-                appointments, and general appointment details.
+                New and returning clients are welcome to reach out before
+                booking. Heather can help with service fit, direct-billing
+                questions, pressure preferences, pregnancy or postpartum care,
+                youth appointments, and general appointment details.
               </p>
 
               <div className="contact-page-hero__actions">
-                <a className="button primary" href={"sms:" + cleanPhone}>
+                <a className="button primary" href={`sms:${cleanPhone}`}>
                   Text Heather
                 </a>
 
-                <a className="button secondary" href={"tel:" + cleanPhone}>
+                <a className="button secondary" href={`tel:${cleanPhone}`}>
                   Call Heather
                 </a>
 
-                <a className="button secondary" href={"mailto:" + siteConfig.email}>
+                <a
+                  className="button secondary"
+                  href={`mailto:${siteConfig.email}`}
+                >
                   Email
                 </a>
               </div>
@@ -111,33 +118,44 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className="section contact-page-details scroll-reveal" aria-label="Contact details">
+        <section
+          className="section contact-page-details scroll-reveal"
+          aria-label="Contact details"
+        >
           <article>
             <span>Phone</span>
-            <a href={"tel:" + cleanPhone}>{siteConfig.phone}</a>
+            <a href={`tel:${cleanPhone}`}>{siteConfig.phone}</a>
             <p>Text or call with questions before booking.</p>
           </article>
 
           <article>
             <span>Email</span>
-            <a href={"mailto:" + siteConfig.email}>{siteConfig.email}</a>
+            <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
             <p>Best for longer questions or appointment details.</p>
           </article>
 
           <article>
             <span>Location</span>
             <strong>Prestwick, Calgary</strong>
-            <p>Near Prestwick Pond. Exact appointment details are shared through booking.</p>
+            <p>
+              Near Prestwick Pond. Exact appointment details are shared through
+              booking.
+            </p>
           </article>
 
           <article>
             <span>Hours</span>
             <strong>Tuesday to Friday</strong>
-            <p>10:00 AM – 4:30 PM. Flexible by text when available.</p>
+            <p>10:00 AMâ€“4:30 PM. Flexible by text when available.</p>
           </article>
         </section>
 
-        <section className="section contact-page-note scroll-reveal" aria-labelledby="contact-note-heading">
+        <ContactForm />
+
+        <section
+          className="section contact-page-note scroll-reveal"
+          aria-labelledby="contact-note-heading"
+        >
           <div className="contact-page-note__inner">
             <p className="eyebrow">Before You Book</p>
 
@@ -152,7 +170,7 @@ export default function ContactPage() {
             </p>
 
             <div className="contact-page-note__actions">
-              <a className="button primary" href={"sms:" + cleanPhone}>
+              <a className="button primary" href={`sms:${cleanPhone}`}>
                 Text Heather
               </a>
 

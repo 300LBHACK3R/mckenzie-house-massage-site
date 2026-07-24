@@ -1,4 +1,5 @@
-﻿import Image from "next/image";
+import Image from "next/image";
+import { ContactPreviewSection } from "@/components/ContactPreviewSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionProvider } from "@/components/MotionProvider";
@@ -387,77 +388,7 @@ Rebalance.
           </div>
         </section>
 
-        
-        <section
-          id="contact"
-          className="section contact-luxury scroll-reveal"
-          aria-labelledby="contact-heading"
-        >
-          <div className="contact-luxury__shell">
-            <div className="contact-luxury__copy">
-              <p className="eyebrow">Contact Heather</p>
-
-              <h2 id="contact-heading">
-                Questions before booking? Text Heather directly.
-              </h2>
-
-              <p>
-                Whether you are wondering about direct billing, appointment fit,
-                pressure preference, pregnancy/postpartum care, youth
-                appointments, or which service to choose, Heather is happy to
-                help you feel comfortable before you book.
-              </p>
-
-              <div className="contact-luxury__actions">
-                <a
-                  className="button primary"
-                  href={"sms:" + siteConfig.phone.replace(/[^\d+]/g, "")}
-                >
-                  Text Heather
-                </a>
-
-                <a
-                  className="button secondary"
-                  href={"tel:" + siteConfig.phone.replace(/[^\d+]/g, "")}
-                >
-                  Call
-                </a>
-
-                <a className="button secondary" href={"mailto:" + siteConfig.email}>
-                  Email
-                </a>
-              </div>
-            </div>
-
-            <div className="contact-luxury__panel" aria-label="Contact details">
-              <article>
-                <span>Phone</span>
-                <a href={"tel:" + siteConfig.phone.replace(/[^\d+]/g, "")}>
-                  {siteConfig.phone}
-                </a>
-                <p>Texting is usually the easiest way to ask a quick question.</p>
-              </article>
-
-              <article>
-                <span>Email</span>
-                <a href={"mailto:" + siteConfig.email}>{siteConfig.email}</a>
-                <p>Best for longer questions, website inquiries, or details.</p>
-              </article>
-
-              <article>
-                <span>Location</span>
-                <strong>Prestwick, Calgary</strong>
-                <p>Located near Prestwick Pond. Exact appointment details are shared through booking.</p>
-              </article>
-
-              <article>
-                <span>Hours</span>
-                <strong>Tuesday to Friday</strong>
-                <p>10:00 AM – 4:30 PM. Flexible by text when available.</p>
-              </article>
-            </div>
-          </div>
-        </section>
+        <ContactPreviewSection />
 
 <section
           id="booking"

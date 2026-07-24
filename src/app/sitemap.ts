@@ -1,4 +1,4 @@
-﻿import type { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 import { services, siteConfig } from "@/lib/site";
 
 type ChangeFrequency =
@@ -28,6 +28,11 @@ const staticRoutes: SitemapRoute[] = [
     path: "/reviews",
     changeFrequency: "monthly",
     priority: 0.72,
+  },
+  {
+    path: "/contact",
+    changeFrequency: "monthly",
+    priority: 0.76,
   },
 ];
 

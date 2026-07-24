@@ -1,0 +1,248 @@
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.15fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  width: min(calc(100% - 2rem), 1240px);
+  margin: 0 auto;
+  padding: clamp(4.5rem, 7vw, 7rem) 0;
+}
+
+.intro,
+.form {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(1.4rem, 2vw, 1.9rem);
+  box-shadow: 0 28px 90px rgba(35, 31, 24, 0.13);
+}
+
+.intro {
+  display: grid;
+  align-content: center;
+  gap: 1.15rem;
+  padding: clamp(1.5rem, 4vw, 3.2rem);
+  border: 1px solid rgba(236, 213, 151, 0.17);
+  background:
+    radial-gradient(circle at 15% 15%, rgba(220, 185, 100, 0.18), transparent 24rem),
+    linear-gradient(145deg, #0a170d, #18301b);
+  color: #fffaf0;
+}
+
+.intro::before,
+.form::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: url("/brand/mckenzie-house-mark.png") center / 175px 175px repeat;
+  opacity: 0.025;
+}
+
+.intro > *,
+.form > * {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #dfc47d;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.intro h2 {
+  max-width: 620px;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.6rem, 5vw, 5.7rem);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.07em;
+  text-wrap: balance;
+}
+
+.intro > p {
+  max-width: 620px;
+  margin: 0;
+  color: rgba(255, 250, 240, 0.72);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.trustList {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+}
+
+.trustList div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(239, 220, 168, 0.12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.trustList span {
+  color: #d8bd76;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.trustList strong {
+  color: #fffaf0;
+  font-size: 0.96rem;
+  font-weight: 650;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.25rem, 3.5vw, 2.7rem);
+  border: 1px solid rgba(42, 58, 36, 0.13);
+  background:
+    radial-gradient(circle at top right, rgba(205, 172, 99, 0.13), transparent 23rem),
+    linear-gradient(145deg, rgba(255, 252, 244, 0.98), rgba(241, 229, 204, 0.95));
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.field span {
+  color: #263724;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 3.35rem;
+  border: 1px solid rgba(45, 64, 40, 0.18);
+  border-radius: 0.95rem;
+  outline: none;
+  background: rgba(255, 253, 247, 0.82);
+  color: #251b15;
+  font: inherit;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.field input,
+.field select {
+  padding: 0 1rem;
+}
+
+.field textarea {
+  min-height: 10rem;
+  resize: vertical;
+  padding: 0.95rem 1rem;
+  line-height: 1.6;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: rgba(55, 87, 50, 0.7);
+  background: #fffdf8;
+  box-shadow: 0 0 0 4px rgba(74, 108, 67, 0.11);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgba(45, 48, 41, 0.48);
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+.footer button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.footer p {
+  max-width: 390px;
+  margin: 0;
+  color: rgba(44, 51, 38, 0.64);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  text-align: right;
+}
+
+.status {
+  min-height: 1.5rem;
+  margin: 0;
+  color: rgba(44, 51, 38, 0.72);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.success {
+  color: #245629;
+}
+
+.error {
+  color: #8b2f2f;
+}
+
+@media (max-width: 960px) {
+  .section {
+    grid-template-columns: 1fr;
+  }
+
+  .intro h2 {
+    font-size: clamp(2.8rem, 10vw, 5rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    width: min(calc(100% - 1rem), 1240px);
+    padding: 3.5rem 0;
+  }
+
+  .twoColumn {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .footer p {
+    text-align: left;
+  }
+}

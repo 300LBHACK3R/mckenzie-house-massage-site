@@ -1,4 +1,4 @@
-﻿const siteDomain =
+const siteDomain =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://www.mckenziehousemassage.ca";
 
@@ -92,7 +92,7 @@ export const siteConfig: SiteConfig = {
   country: "Canada",
   phone: "778-751-4455",
   email: "knorrheather@gmail.com",
-  bookingUrl: "#booking",
+  bookingUrl: "/#booking",
   domain: siteDomain,
   hours: [
     "Tuesday 10:00 AM – 4:30 PM",
@@ -133,6 +133,7 @@ export const navItems: NavItem[] = [
   { label: "Reviews", href: "/reviews" },
   { label: "Pricing", href: "/#pricing" },
   { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const serviceTags = [
