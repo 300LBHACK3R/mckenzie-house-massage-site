@@ -95,10 +95,10 @@ export const siteConfig: SiteConfig = {
   bookingUrl: "/#booking",
   domain: siteDomain,
   hours: [
-    "Tuesday 10:00 AM – 4:30 PM",
-    "Wednesday 10:00 AM – 4:30 PM",
-    "Thursday 10:00 AM – 4:30 PM",
-    "Friday 10:00 AM – 4:30 PM",
+    "Tuesday 10:00 AM â€“ 4:30 PM",
+    "Wednesday 10:00 AM â€“ 4:30 PM",
+    "Thursday 10:00 AM â€“ 4:30 PM",
+    "Friday 10:00 AM â€“ 4:30 PM",
     "Saturday, Sunday, and Monday may be available by request.",
   ],
   addressNote: "Located in Prestwick, close to Prestwick Pond.",
@@ -128,12 +128,12 @@ export const developerCredit = {
 export const navItems: NavItem[] = [
   { label: "Home", href: "/#home" },
   { label: "Services", href: "/#services" },
-  { label: "About", href: "/#about" },
   { label: "Experience", href: "/#experience" },
-  { label: "Reviews", href: "/reviews" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Reviews", href: "/reviews" },
   { label: "Contact", href: "/contact" },
+  { label: "About", href: "/#about" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export const serviceTags = [
@@ -153,14 +153,14 @@ export const services: Service[] = [
       "Massage at McKenzie House Massage is booked by duration, then shaped around the person on the table. Heather uses the intake conversation to understand what the client needs, what they usually love or dislike about massage, their pressure preference, comfort needs, and the kind of treatment that makes sense for their body that day.",
     image: "/services/therapeutic-massage.jpg",
     duration: "30, 45, 60, 75, 90, or 120 minutes",
-    price: "$60 – $205 + GST",
+    price: "$60 â€“ $205 + GST",
     bestFor: [
       "General massage",
       "Pregnancy-aware care",
       "Youth and family needs",
     ],
     pressure:
-      "Customizable pressure. Heather’s natural style is firm, flowing, and thorough, but the treatment can be adapted for lighter touch when requested.",
+      "Customizable pressure. Heatherâ€™s natural style is firm, flowing, and thorough, but the treatment can be adapted for lighter touch when requested.",
     what:
       "A personalized massage treatment that can include therapeutic work, relaxation-focused care, prenatal or postnatal adaptations, child and youth appointments, sports-related tension, work-related strain, or general maintenance.",
     who:
@@ -225,7 +225,7 @@ export const services: Service[] = [
       "Hair Play & Back Scratches is designed for clients who want gentle, supportive care rather than a traditional deep massage. The treatment may include light massage through the neck and shoulders, slow scalp work, gentle back scratches, hair brushing, and calming sensory tools used in a professional treatment setting.",
     image: "/services/scalp-neck-shoulder-focus.jpg",
     duration: "45 or 60 minutes",
-    price: "$80 – $105 + GST",
+    price: "$80 â€“ $105 + GST",
     bestFor: [
       "Stress reset",
       "Gentle care",
@@ -262,7 +262,7 @@ export const services: Service[] = [
       "Cup & Buff is designed for people who want a more active, muscular treatment experience. Heather combines massage, heated silicone cups, moving cup work, parked cups when appropriate, and a broad vibration buffer to work through larger muscle groups and areas of tension.",
     image: "/services/therapeutic-massage.jpg",
     duration: "45, 60, 75, or 90 minutes",
-    price: "$80 – $155 + GST",
+    price: "$80 â€“ $155 + GST",
     bestFor: [
       "Athletes",
       "Gym clients",
@@ -331,7 +331,7 @@ export const pricingGroups: PricingGroup[] = [
 
 export const pricingPreview = pricingGroups.map((group) => ({
   duration: group.name,
-  price: group.prices.map((item) => `${item.duration} ${item.price}`).join(" · "),
+  price: group.prices.map((item) => `${item.duration} ${item.price}`).join(" Â· "),
 }));
 
 export const whatToExpect: SimpleContentItem[] = [
@@ -394,7 +394,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Can I ask for very light pressure?",
     answer:
-      "Yes. Heather’s natural treatment style is firm and flowing, but she can adjust for clients who need very light, slow, symmetrical, or calming touch.",
+      "Yes. Heatherâ€™s natural treatment style is firm and flowing, but she can adjust for clients who need very light, slow, symmetrical, or calming touch.",
   },
   {
     question: "Can children or youth book massage?",
@@ -414,7 +414,7 @@ export const faqs: FaqItem[] = [
   {
     question: "How do I book?",
     answer:
-      "Online booking will connect through Heather’s ClinicSense system once the final booking link is added. Clients can also text Heather directly if they have questions about timing, service fit, or flexible availability.",
+      "Online booking will connect through Heatherâ€™s ClinicSense system once the final booking link is added. Clients can also text Heather directly if they have questions about timing, service fit, or flexible availability.",
   },
 ];
 
