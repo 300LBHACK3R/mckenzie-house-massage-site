@@ -3033,63 +3033,7 @@ html {
 
 /* MOBILE_NAV_FIX_END */
 
-/* GREEN_EXPERIENCE_SHEETS_START */
 
-/* Blend "What to Expect" into the main Experience section */
-.expect-section {
-  background:
-    radial-gradient(circle at top left, rgba(127, 146, 125, 0.14), transparent 30rem),
-    radial-gradient(circle at bottom right, rgba(185, 154, 93, 0.12), transparent 28rem),
-    rgba(255, 253, 247, 0.42);
-}
-
-/* Green pull-back treatment-sheet cards */
-.expect-sheet {
-  background:
-    linear-gradient(135deg, rgba(82, 101, 79, 0.98), rgba(111, 122, 88, 0.96)),
-    radial-gradient(circle at top left, rgba(255, 253, 247, 0.18), transparent 18rem) !important;
-  color: var(--ivory);
-  box-shadow:
-    inset 0 -24px 46px rgba(0, 0, 0, 0.1),
-    0 18px 50px rgba(51, 39, 31, 0.14);
-}
-
-.expect-sheet::before {
-  background-image:
-    linear-gradient(90deg, rgba(255, 253, 247, 0.055) 1px, transparent 1px),
-    linear-gradient(rgba(255, 253, 247, 0.045) 1px, transparent 1px);
-  opacity: 0.58;
-}
-
-.expect-sheet::after {
-  background:
-    linear-gradient(
-      180deg,
-      transparent,
-      rgba(51, 39, 31, 0.12) 52%,
-      rgba(0, 0, 0, 0.16)
-    );
-}
-
-.expect-sheet h3 {
-  color: var(--ivory);
-  text-shadow: 0 12px 34px rgba(0, 0, 0, 0.12);
-}
-
-.sheet-hint {
-  color: var(--gold-soft);
-}
-
-/* Reveal content stays readable after the green sheet pulls back */
-.expect-reveal h3 {
-  color: var(--brown);
-}
-
-.expect-reveal > span {
-  color: var(--sage-dark);
-}
-
-/* GREEN_EXPERIENCE_SHEETS_END */
 
 /* MCKENZIE_LUXURY_SKIN_START */
 
@@ -3465,7 +3409,7 @@ body {
   z-index: 1;
   pointer-events: none;
 
-  background-image: url("/brand/mckenzie-house-mark.svg");
+  background-image: url("/brand/mckenzie-house-mark.png");
   background-repeat: repeat;
   background-size: 84px 84px;
   background-position: center;
@@ -3498,7 +3442,7 @@ body {
   z-index: 1;
   pointer-events: none;
 
-  background-image: url("/brand/mckenzie-house-mark.svg");
+  background-image: url("/brand/mckenzie-house-mark.png");
   background-repeat: repeat;
   background-size: 88px 88px;
   background-position: center;
@@ -3517,652 +3461,15 @@ body {
     linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
 }
 
-/* EXPERIENCE_CARD_REPAIR_START */
 
-/* Repair Experience pull-back cards after luxury skin overrides */
-.expect-card.sheet-card {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  min-height: 320px;
-  padding: 1.2rem;
-  border: 1px solid rgba(50, 68, 50, 0.18);
-  border-radius: 1.4rem;
-  background:
-    radial-gradient(circle at top left, rgba(255, 250, 240, 0.92), transparent 22rem),
-    linear-gradient(180deg, rgba(255, 250, 240, 0.86), rgba(238, 226, 205, 0.76));
-  box-shadow: 0 24px 76px rgba(47, 36, 29, 0.1);
-}
 
-.expect-card.sheet-card .expect-sheet {
-  position: absolute !important;
-  inset: 1rem !important;
-  z-index: 5 !important;
-  display: grid !important;
-  min-height: auto !important;
-  margin: 0 !important;
-  place-items: center !important;
-  align-content: center !important;
-  gap: 0.72rem !important;
-  overflow: hidden !important;
-  padding: 1.2rem !important;
-  border: 1px solid rgba(240, 223, 155, 0.16) !important;
-  border-radius: 1.1rem !important;
-  background:
-    linear-gradient(135deg, rgba(16, 24, 16, 0.98), rgba(39, 61, 39, 0.98)),
-    radial-gradient(circle at top left, rgba(240, 223, 155, 0.16), transparent 18rem) !important;
-  color: var(--ivory) !important;
-  box-shadow:
-    inset 0 -24px 46px rgba(0, 0, 0, 0.16),
-    0 20px 52px rgba(16, 24, 16, 0.18) !important;
-  transform-origin: top center !important;
-  transition:
-    transform 720ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 720ms cubic-bezier(0.22, 1, 0.36, 1) !important;
-}
 
-.expect-card.sheet-card .expect-sheet::before {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 0 !important;
-  border-radius: inherit !important;
-  background-image:
-    url("/brand/mckenzie-house-mark.svg"),
-    linear-gradient(90deg, rgba(240, 223, 155, 0.045) 1px, transparent 1px),
-    linear-gradient(rgba(240, 223, 155, 0.035) 1px, transparent 1px) !important;
-  background-repeat: repeat !important;
-  background-size: 86px 86px, 38px 38px, 38px 38px !important;
-  background-position: center !important;
-  content: "" !important;
-  opacity: 0.16 !important;
-  pointer-events: none !important;
-}
 
-.expect-card.sheet-card .expect-sheet::after {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 0 !important;
-  border-radius: inherit !important;
-  background:
-    radial-gradient(circle at top left, rgba(240, 223, 155, 0.14), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(0, 0, 0, 0.08)) !important;
-  content: "" !important;
-  pointer-events: none !important;
-}
 
-.expect-card.sheet-card .expect-sheet h3,
-.expect-card.sheet-card .expect-sheet .sheet-hint {
-  position: relative !important;
-  z-index: 2 !important;
-}
 
-.expect-card.sheet-card .expect-sheet h3 {
-  color: var(--ivory) !important;
-  text-shadow: 0 14px 34px rgba(0, 0, 0, 0.18) !important;
-}
 
-.expect-card.sheet-card .sheet-hint {
-  color: var(--gold-soft) !important;
-}
 
-.expect-card.sheet-card:hover .expect-sheet,
-.expect-card.sheet-card:focus-visible .expect-sheet {
-  box-shadow:
-    inset 0 -16px 36px rgba(0, 0, 0, 0.12),
-    0 32px 76px rgba(16, 24, 16, 0.22) !important;
-  transform: translateY(-74%) rotateX(8deg) !important;
-}
 
-.expect-card.sheet-card .expect-reveal {
-  position: relative !important;
-  z-index: 2 !important;
-}
-
-/* Mobile: do not use pull-back interaction on touch screens */
-@media (max-width: 560px) {
-  .expect-card.sheet-card {
-    min-height: auto !important;
-  }
-
-  .expect-card.sheet-card .expect-sheet {
-    position: relative !important;
-    inset: auto !important;
-    min-height: 132px !important;
-    margin-bottom: 1rem !important;
-    transform: none !important;
-  }
-
-  .expect-card.sheet-card .expect-reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* EXPERIENCE_CARD_REPAIR_END */
-
-/* MHM_PATTERN_OVERLAY_START */
-
-/* MHM repeating logo pattern for the Experience pull-back cards */
-.expect-card.sheet-card .expect-sheet {
-  background:
-    linear-gradient(135deg, rgba(13, 25, 16, 0.98), rgba(31, 56, 35, 0.98)),
-    radial-gradient(circle at top left, rgba(240, 223, 155, 0.16), transparent 18rem) !important;
-}
-
-.expect-card.sheet-card .expect-sheet::before {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 0 !important;
-  border-radius: inherit !important;
-  content: "" !important;
-  pointer-events: none !important;
-
-  background-image:
-    url("/brand/mckenzie-house-mark.png"),
-    linear-gradient(90deg, rgba(240, 223, 155, 0.035) 1px, transparent 1px),
-    linear-gradient(rgba(240, 223, 155, 0.028) 1px, transparent 1px) !important;
-
-  background-repeat: repeat !important;
-  background-size:
-    112px 112px,
-    42px 42px,
-    42px 42px !important;
-  background-position:
-    center,
-    center,
-    center !important;
-
-  opacity: 0.18 !important;
-  filter: saturate(0.9) brightness(1.15);
-}
-
-.expect-card.sheet-card .expect-sheet::after {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 1 !important;
-  border-radius: inherit !important;
-  content: "" !important;
-  pointer-events: none !important;
-
-  background:
-    radial-gradient(circle at top left, rgba(240, 223, 155, 0.16), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(255, 250, 240, 0.06), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(0, 0, 0, 0.1)) !important;
-}
-
-.expect-card.sheet-card .expect-sheet h3,
-.expect-card.sheet-card .expect-sheet .sheet-hint {
-  position: relative !important;
-  z-index: 3 !important;
-}
-
-.expect-card.sheet-card .expect-sheet h3 {
-  color: var(--ivory) !important;
-  text-shadow:
-    0 2px 0 rgba(200, 168, 95, 0.28),
-    0 16px 34px rgba(0, 0, 0, 0.22) !important;
-}
-
-.expect-card.sheet-card .expect-sheet .sheet-hint {
-  color: var(--gold-soft) !important;
-  text-shadow: 0 10px 24px rgba(0, 0, 0, 0.18) !important;
-}
-
-/* MHM_PATTERN_OVERLAY_END */
-
-/* CLEAN_FOOTER_REBUILD_START */
-
-.clean-footer {
-  overflow: hidden !important;
-  padding: clamp(3.5rem, 6vw, 5.5rem) clamp(1rem, 4vw, 4.5rem) 1.25rem !important;
-  border-top: 1px solid rgba(240, 223, 155, 0.16) !important;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(200, 168, 95, 0.12), transparent 30rem),
-    radial-gradient(circle at 90% 20%, rgba(127, 146, 125, 0.14), transparent 30rem),
-    linear-gradient(135deg, #0d150d 0%, #132113 52%, #22311d 100%) !important;
-  color: rgba(255, 250, 240, 0.74) !important;
-}
-
-.clean-footer-shell {
-  position: relative;
-  z-index: 3;
-  width: min(1380px, 100%);
-  margin-inline: auto;
-}
-
-.clean-footer-main {
-  display: grid;
-  grid-template-columns: minmax(320px, 1.2fr) minmax(360px, 0.85fr) minmax(260px, 0.55fr);
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: start;
-}
-
-.clean-footer-brand {
-  display: grid;
-  gap: 1.1rem;
-  max-width: 560px;
-}
-
-.clean-footer .brand-logo-link--footer .brand-logo-image {
-  width: clamp(280px, 30vw, 480px) !important;
-  max-height: 138px !important;
-  filter:
-    drop-shadow(0 18px 38px rgba(0, 0, 0, 0.22))
-    saturate(1.06)
-    brightness(1.06);
-}
-
-.clean-footer .footer-kicker {
-  margin-bottom: 0.55rem;
-  color: var(--gold-soft) !important;
-  font-size: 0.72rem;
-  font-weight: 950;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
-}
-
-.clean-footer h2 {
-  margin: 0;
-  color: var(--ivory) !important;
-  font-size: clamp(2rem, 4vw, 3.6rem);
-  line-height: 0.98;
-  letter-spacing: -0.055em;
-}
-
-.clean-footer-description {
-  max-width: 520px;
-  margin: 0;
-  color: rgba(255, 250, 240, 0.72) !important;
-  font-size: 1rem;
-  line-height: 1.75;
-}
-
-.clean-footer-status {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.58rem 0.9rem;
-  border: 1px solid rgba(240, 223, 155, 0.16);
-  border-radius: 999px;
-  background: rgba(255, 250, 240, 0.06);
-  color: var(--gold-soft);
-  font-size: 0.74rem;
-  font-weight: 950;
-}
-
-.clean-footer-status span {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--gold-soft);
-  box-shadow: 0 0 14px rgba(240, 223, 155, 0.72);
-}
-
-.clean-footer-navs {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  padding-top: 1.25rem;
-}
-
-.clean-footer .footer-column {
-  display: grid;
-  gap: 1rem;
-}
-
-.clean-footer .footer-column > strong,
-.clean-footer-booking > strong {
-  color: var(--gold-soft) !important;
-  font-size: 0.73rem;
-  font-weight: 950;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.clean-footer .footer-column nav {
-  display: grid;
-  gap: 0.72rem;
-}
-
-.clean-footer .footer-column a,
-.clean-footer-booking a:not(.footer-booking-link) {
-  width: fit-content;
-  color: rgba(255, 250, 240, 0.72) !important;
-  font-size: 0.96rem;
-  line-height: 1.45;
-  transition:
-    color 180ms ease,
-    transform 180ms ease;
-}
-
-.clean-footer .footer-column a:hover,
-.clean-footer-booking a:not(.footer-booking-link):hover {
-  color: var(--gold-soft) !important;
-  transform: translateX(4px);
-}
-
-.clean-footer-booking {
-  display: grid;
-  gap: 1rem;
-  padding: 1.25rem;
-  border: 1px solid rgba(240, 223, 155, 0.16);
-  border-radius: 1.45rem;
-  background:
-    linear-gradient(rgba(255, 250, 240, 0.06), rgba(255, 250, 240, 0.08)),
-    radial-gradient(circle at top right, rgba(200, 168, 95, 0.12), transparent 16rem);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.16);
-  font-style: normal;
-}
-
-.clean-footer-booking p {
-  margin: 0;
-  color: rgba(255, 250, 240, 0.72) !important;
-  line-height: 1.65;
-}
-
-.clean-footer .footer-booking-link {
-  margin-top: 0.35rem;
-  border: 1px solid rgba(240, 223, 155, 0.36);
-  background: linear-gradient(135deg, var(--gold-soft), #d8bd73) !important;
-  color: var(--forest) !important;
-  box-shadow: 0 18px 46px rgba(200, 168, 95, 0.18);
-}
-
-.clean-footer-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.25rem;
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(240, 223, 155, 0.14);
-  color: rgba(255, 250, 240, 0.58) !important;
-  font-size: 0.86rem;
-}
-
-.clean-footer-bottom p {
-  margin: 0;
-}
-
-.clean-footer .developer-signature {
-  text-align: right;
-}
-
-.clean-footer .developer-signature span,
-.clean-footer .developer-signature a {
-  color: var(--gold-soft) !important;
-  font-weight: 950;
-}
-
-@media (max-width: 980px) {
-  .clean-footer {
-    padding: 3.25rem 1rem 1.25rem !important;
-  }
-
-  .clean-footer-main {
-    grid-template-columns: 1fr;
-    gap: 2.25rem;
-  }
-
-  .clean-footer-navs {
-    grid-template-columns: 1fr 1fr;
-    padding-top: 0;
-  }
-
-  .clean-footer-bottom {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .clean-footer .developer-signature {
-    text-align: left;
-  }
-}
-
-@media (max-width: 560px) {
-  .clean-footer-navs {
-    grid-template-columns: 1fr;
-  }
-
-  .clean-footer .brand-logo-link--footer .brand-logo-image {
-    width: min(100%, 320px) !important;
-    max-height: 120px !important;
-  }
-
-  .clean-footer h2 {
-    font-size: clamp(2rem, 12vw, 2.8rem);
-  }
-
-  .clean-footer .footer-booking-link {
-    width: 100%;
-  }
-}
-
-/* CLEAN_FOOTER_REBUILD_END */
-
-/* FOOTER_PATTERN_OVERLAY_START */
-
-/* Same MHM luxury pattern overlay used on the Experience cards */
-.clean-footer {
-  position: relative;
-  isolation: isolate;
-}
-
-.clean-footer::before {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  content: "";
-  pointer-events: none;
-
-  background-image:
-    url("/brand/mckenzie-house-mark.png"),
-    linear-gradient(90deg, rgba(240, 223, 155, 0.025) 1px, transparent 1px),
-    linear-gradient(rgba(240, 223, 155, 0.02) 1px, transparent 1px);
-  background-repeat: repeat;
-  background-size:
-    132px 132px,
-    64px 64px,
-    64px 64px;
-  background-position:
-    center,
-    center,
-    center;
-
-  opacity: 0.085;
-  filter: saturate(0.85) brightness(1.12);
-}
-
-.clean-footer::after {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  content: "";
-  pointer-events: none;
-
-  background:
-    radial-gradient(circle at 18% 18%, rgba(240, 223, 155, 0.1), transparent 28rem),
-    radial-gradient(circle at 82% 24%, rgba(127, 146, 125, 0.12), transparent 30rem),
-    linear-gradient(180deg, rgba(13, 21, 13, 0.12), rgba(13, 21, 13, 0.36));
-}
-
-.clean-footer-shell,
-.clean-footer .footer-orb,
-.clean-footer .footer-texture {
-  position: relative;
-}
-
-.clean-footer-shell {
-  z-index: 4;
-}
-
-/* Booking card gets a slightly stronger version */
-.clean-footer-booking {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.clean-footer-booking::before {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  content: "";
-  pointer-events: none;
-
-  background-image:
-    url("/brand/mckenzie-house-mark.png"),
-    linear-gradient(90deg, rgba(240, 223, 155, 0.035) 1px, transparent 1px),
-    linear-gradient(rgba(240, 223, 155, 0.028) 1px, transparent 1px);
-  background-repeat: repeat;
-  background-size:
-    96px 96px,
-    42px 42px,
-    42px 42px;
-  background-position:
-    center,
-    center,
-    center;
-
-  opacity: 0.12;
-}
-
-.clean-footer-booking::after {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  content: "";
-  pointer-events: none;
-
-  background:
-    radial-gradient(circle at top left, rgba(240, 223, 155, 0.13), transparent 30%),
-    linear-gradient(180deg, rgba(255, 250, 240, 0.045), rgba(0, 0, 0, 0.08));
-}
-
-.clean-footer-booking > * {
-  position: relative;
-  z-index: 2;
-}
-
-/* FOOTER_PATTERN_OVERLAY_END */
-
-/* COMPACT_FOOTER_SPACING_START */
-
-/* Tighten the luxury footer so the pattern does not create a huge empty wall */
-.clean-footer {
-  min-height: auto !important;
-  padding:
-    clamp(2.1rem, 4vw, 3.4rem)
-    clamp(1rem, 4vw, 4.5rem)
-    1rem !important;
-}
-
-.clean-footer-shell {
-  width: min(1320px, 100%) !important;
-}
-
-.clean-footer-main {
-  grid-template-columns:
-    minmax(300px, 1.1fr)
-    minmax(340px, 0.8fr)
-    minmax(250px, 0.52fr) !important;
-  gap: clamp(1.75rem, 4vw, 4rem) !important;
-  align-items: start !important;
-}
-
-.clean-footer-brand {
-  gap: 0.85rem !important;
-}
-
-.clean-footer .brand-logo-link--footer .brand-logo-image {
-  width: clamp(240px, 25vw, 400px) !important;
-  max-height: 112px !important;
-}
-
-.clean-footer .footer-kicker {
-  margin-bottom: 0.4rem !important;
-}
-
-.clean-footer h2 {
-  font-size: clamp(1.8rem, 3.4vw, 3rem) !important;
-}
-
-.clean-footer-description {
-  max-width: 500px !important;
-  line-height: 1.65 !important;
-}
-
-.clean-footer-status {
-  margin-top: 0.15rem !important;
-}
-
-.clean-footer-navs {
-  padding-top: 0.65rem !important;
-  gap: clamp(1.35rem, 3vw, 3rem) !important;
-}
-
-.clean-footer-booking {
-  padding: 1rem !important;
-}
-
-.clean-footer-bottom {
-  margin-top: clamp(1.6rem, 3vw, 2.4rem) !important;
-  padding-top: 1rem !important;
-}
-
-/* Make the background pattern feel present but less dominant */
-.clean-footer::before {
-  background-size:
-    150px 150px,
-    72px 72px,
-    72px 72px !important;
-  opacity: 0.06 !important;
-}
-
-.clean-footer::after {
-  background:
-    radial-gradient(circle at 18% 18%, rgba(240, 223, 155, 0.07), transparent 24rem),
-    radial-gradient(circle at 82% 24%, rgba(127, 146, 125, 0.09), transparent 26rem),
-    linear-gradient(180deg, rgba(13, 21, 13, 0.08), rgba(13, 21, 13, 0.22)) !important;
-}
-
-@media (max-width: 980px) {
-  .clean-footer {
-    padding: 2.4rem 1rem 1rem !important;
-  }
-
-  .clean-footer-main {
-    grid-template-columns: 1fr !important;
-    gap: 1.8rem !important;
-  }
-
-  .clean-footer-navs {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 1.5rem !important;
-  }
-
-  .clean-footer-bottom {
-    margin-top: 1.5rem !important;
-  }
-}
-
-@media (max-width: 560px) {
-  .clean-footer {
-    padding: 2rem 1rem 1rem !important;
-  }
-
-  .clean-footer-navs {
-    grid-template-columns: 1fr !important;
-  }
-
-  .clean-footer .brand-logo-link--footer .brand-logo-image {
-    width: min(100%, 270px) !important;
-    max-height: 96px !important;
-  }
-}
-
-/* COMPACT_FOOTER_SPACING_END */
 
 /* FINAL_ISOLATED_FOOTER_START */
 
@@ -4401,157 +3708,11 @@ body {
 
 /* FINAL_ISOLATED_FOOTER_END */
 
-/* HERO_VIDEO_POLISH_START */
 
-/* Cinematic temporary hero video treatment */
-.hero-media video {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.36;
-  filter:
-    saturate(0.82)
-    contrast(1.08)
-    brightness(0.72);
-  transform: scale(1.035);
-}
 
-.hero-media video + .hero-wash,
-.hero-wash {
-  z-index: 2;
-}
 
-.botanical-pattern,
-.ambient-orb {
-  z-index: 3;
-}
 
-/* Keep hero text readable over moving video */
-.organic-hero .hero-inner {
-  position: relative;
-  z-index: 6;
-}
 
-@media (max-width: 980px) {
-  .hero-media video {
-    opacity: 0.28;
-    transform: scale(1.08);
-  }
-}
-
-/* HERO_VIDEO_POLISH_END */
-
-/* HERO_VIDEO_FORCE_SHOW_START */
-
-.hero-media video {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 0 !important;
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  opacity: 0.42 !important;
-  filter:
-    saturate(0.82)
-    contrast(1.08)
-    brightness(0.72) !important;
-  transform: scale(1.04) !important;
-}
-
-.hero-wash {
-  z-index: 2 !important;
-}
-
-.botanical-pattern,
-.ambient-orb {
-  z-index: 3 !important;
-}
-
-.organic-hero .hero-inner {
-  position: relative !important;
-  z-index: 6 !important;
-}
-
-/* HERO_VIDEO_FORCE_SHOW_END */
-
-/* HERO_VIDEO_VISIBILITY_FIX_START */
-
-/* Let the hero video actually show instead of being buried under the green wash */
-.organic-hero {
-  background: #0d150d !important;
-}
-
-.hero-media {
-  background: #0d150d !important;
-}
-
-.hero-media video {
-  opacity: 0.72 !important;
-  filter:
-    saturate(0.92)
-    contrast(1.04)
-    brightness(0.88) !important;
-  transform: scale(1.035) !important;
-}
-
-/* Replace heavy green overlay with a clean readability vignette */
-.hero-wash {
-  z-index: 2 !important;
-  background:
-    radial-gradient(circle at center, rgba(13, 21, 13, 0.08), rgba(13, 21, 13, 0.26) 58%, rgba(13, 21, 13, 0.62) 100%),
-    linear-gradient(180deg, rgba(13, 21, 13, 0.48) 0%, rgba(13, 21, 13, 0.12) 42%, rgba(13, 21, 13, 0.52) 100%) !important;
-}
-
-/* Reduce decorative pattern/orbs so the video can breathe */
-.organic-hero .botanical-pattern {
-  opacity: 0.12 !important;
-}
-
-.organic-hero .ambient-orb {
-  opacity: 0.12 !important;
-}
-
-/* Keep copy readable over brighter video */
-.organic-hero h1 {
-  color: var(--ivory) !important;
-  text-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.32),
-    0 22px 80px rgba(0, 0, 0, 0.38) !important;
-}
-
-.organic-hero .hero-copy {
-  color: rgba(255, 250, 240, 0.86) !important;
-  text-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
-}
-
-.organic-hero .hero-tags span,
-.organic-hero .hero-stat-row div {
-  background: rgba(13, 21, 13, 0.42) !important;
-  border-color: rgba(240, 223, 155, 0.16) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-@media (max-width: 980px) {
-  .hero-media video {
-    opacity: 0.62 !important;
-    filter:
-      saturate(0.9)
-      contrast(1.04)
-      brightness(0.82) !important;
-  }
-
-  .hero-wash {
-    background:
-      linear-gradient(180deg, rgba(13, 21, 13, 0.52), rgba(13, 21, 13, 0.18) 44%, rgba(13, 21, 13, 0.56)) !important;
-  }
-}
-
-/* HERO_VIDEO_VISIBILITY_FIX_END */
 
 /* HERO_VIDEO_FINAL_RESET_START */
 
@@ -6247,33 +5408,7 @@ body {
 
 /* FAQ_SUPPORT_EXPANSION_FINAL_END */
 
-/* FAQ_SUPPORT_BUTTON_CENTERING_START */
 
-.faq-luxury__support-actions {
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100% !important;
-}
-
-.faq-luxury__support-actions .button {
-  width: auto !important;
-  min-width: 154px !important;
-  text-align: center !important;
-}
-
-@media (max-width: 640px) {
-  .faq-luxury__support-actions {
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
-  .faq-luxury__support-actions .button {
-    width: auto !important;
-    min-width: 154px !important;
-  }
-}
-
-/* FAQ_SUPPORT_BUTTON_CENTERING_END */
 
 /* COMPACT_PREMIUM_SERVICES_MENU_START */
 
@@ -8908,3 +8043,516 @@ body {
 }
 
 /* PREMIUM_CONTACT_ANIMATION_V2_END */
+
+/* -------------------------------------------------------------------------- */
+/* PRODUCTION_SYSTEM_FINAL_START                                              */
+/* Consolidated production safeguards and styles for the current components.  */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --focus-ring: rgba(240, 223, 155, 0.78);
+  --focus-ring-dark: rgba(35, 55, 32, 0.52);
+  --header-offset: 7.25rem;
+  --safe-inline: max(1rem, env(safe-area-inset-left));
+}
+
+html {
+  min-width: 320px;
+  scrollbar-gutter: stable;
+  scroll-padding-top: var(--header-offset);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.mobile-navigation-open {
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+main,
+section,
+article,
+aside,
+nav,
+header,
+footer,
+div {
+  min-width: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  color: inherit;
+}
+
+button:not(:disabled),
+summary,
+a[href] {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid var(--focus-ring-dark);
+  outline-offset: 4px;
+}
+
+.site-header
+  :where(a, button):focus-visible,
+.site-footer-final
+  :where(a, button):focus-visible,
+.ambient-audio-invite
+  :where(button):focus-visible,
+.ambient-audio-toggle:focus-visible {
+  outline-color: var(--focus-ring);
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Premium upgrade 1: coordinated reveal choreography                         */
+/* -------------------------------------------------------------------------- */
+
+.scroll-reveal.is-reveal-prepared [data-reveal-item] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 240ms ease,
+    box-shadow 240ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-visible [data-reveal-item] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+.scroll-reveal.is-reveal-prepared[data-reveal-once="false"]:not(.is-visible)
+  [data-reveal-item] {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal.is-reveal-prepared [data-reveal-item],
+  .scroll-reveal.is-reveal-prepared[data-reveal-once="false"]:not(.is-visible)
+    [data-reveal-item] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Header: active section, animated menu control and resilient mobile drawer  */
+/* -------------------------------------------------------------------------- */
+
+.nav a[aria-current="location"],
+.nav a[aria-current="page"] {
+  background: rgba(240, 223, 155, 0.12) !important;
+  color: var(--gold-soft) !important;
+  box-shadow: inset 0 0 0 1px rgba(240, 223, 155, 0.12) !important;
+}
+
+.mobile-menu-toggle span {
+  transform-origin: center;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 160ms ease;
+}
+
+.site-header[data-menu-open="true"] .mobile-menu-toggle span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.site-header[data-menu-open="true"] .mobile-menu-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header[data-menu-open="true"] .mobile-menu-toggle span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (max-width: 980px) {
+  .mobile-nav-panel {
+    max-height: calc(100dvh - 96px - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    scrollbar-width: thin;
+    scrollbar-color: rgba(240, 223, 155, 0.34) transparent;
+  }
+
+  .mobile-nav-panel a[aria-current="location"],
+  .mobile-nav-panel a[aria-current="page"] {
+    background: rgba(240, 223, 155, 0.1) !important;
+    color: var(--gold-soft) !important;
+  }
+
+  .mobile-nav-waitlist {
+    border: 1px solid rgba(240, 223, 155, 0.24) !important;
+    background: rgba(255, 250, 240, 0.075) !important;
+    color: var(--gold-soft) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 250, 240, 0.06);
+  }
+
+  .mobile-nav-waitlist:hover,
+  .mobile-nav-waitlist:focus-visible {
+    border-color: rgba(240, 223, 155, 0.44) !important;
+    background: rgba(255, 250, 240, 0.12) !important;
+    color: var(--ivory) !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Service and pricing links                                                  */
+/* -------------------------------------------------------------------------- */
+
+.service-card-link:focus-visible {
+  outline: 3px solid rgba(50, 68, 50, 0.36);
+  outline-offset: 5px;
+}
+
+.pricing-menu-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pricing-menu-card h3 a:hover,
+.pricing-menu-card h3 a:focus-visible {
+  color: var(--gold-soft);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Premium upgrade 2: client essentials footer and conversion support         */
+/* -------------------------------------------------------------------------- */
+
+.site-footer-final__navs > div {
+  min-width: 0;
+}
+
+.site-footer-final__button--secondary {
+  border-color: rgba(240, 223, 155, 0.26);
+  background: rgba(255, 250, 240, 0.07);
+  color: var(--gold-soft) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 250, 240, 0.07),
+    0 16px 38px rgba(0, 0, 0, 0.12);
+}
+
+.site-footer-final__button--secondary:hover,
+.site-footer-final__button--secondary:focus-visible {
+  border-color: rgba(240, 223, 155, 0.48);
+  background: rgba(255, 250, 240, 0.12);
+  color: var(--ivory) !important;
+}
+
+.site-footer-final__support {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.8rem, 1.5vw, 1.1rem);
+  margin-top: clamp(1.6rem, 3vw, 2.5rem);
+  padding-top: clamp(1.4rem, 2.5vw, 2rem);
+  border-top: 1px solid rgba(240, 223, 155, 0.14);
+}
+
+.site-footer-final__support > div {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  min-height: 170px;
+  padding: clamp(1rem, 1.6vw, 1.3rem);
+  border: 1px solid rgba(240, 223, 155, 0.14);
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 250, 240, 0.065),
+      rgba(255, 250, 240, 0.035)
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(200, 168, 95, 0.1),
+      transparent 14rem
+    );
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 250, 240, 0.065);
+}
+
+.site-footer-final__support > div::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    url("/brand/mckenzie-house-mark.png")
+    center / 128px 128px
+    repeat;
+  opacity: 0.035;
+}
+
+.site-footer-final__support > div > * {
+  position: relative;
+  z-index: 1;
+}
+
+.site-footer-final__support span {
+  color: var(--gold-soft);
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.site-footer-final__support h3 {
+  margin: 0;
+  color: var(--ivory);
+  font-size: clamp(1.3rem, 1.8vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.site-footer-final__support p {
+  color: rgba(255, 250, 240, 0.68);
+  font-size: 0.9rem;
+  line-height: 1.62;
+}
+
+@media (max-width: 980px) {
+  .site-footer-final__support {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer-final__support > div {
+    min-height: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Contact preview and client-essential card resilience                       */
+/* -------------------------------------------------------------------------- */
+
+.contact-luxury__panel article {
+  min-width: 0;
+}
+
+.contact-luxury__panel article > :is(a, strong, p) {
+  overflow-wrap: anywhere;
+}
+
+.contact-luxury__panel article > a {
+  max-width: 100%;
+}
+
+.contact-luxury__panel article > p + a {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.45rem;
+  padding: 0.72rem 0.92rem;
+  border: 1px solid rgba(35, 55, 32, 0.16);
+  border-radius: 999px;
+  background: rgba(35, 55, 32, 0.07);
+  color: #20321d;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.contact-luxury__panel article > p + a:hover,
+.contact-luxury__panel article > p + a:focus-visible {
+  border-color: rgba(191, 154, 82, 0.34);
+  background: rgba(191, 154, 82, 0.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Audio states and interaction polish                                        */
+/* -------------------------------------------------------------------------- */
+
+.ambient-audio-toggle[data-state="playing"] span {
+  animation: ambientSoundPulse 2.4s ease-in-out infinite;
+}
+
+.ambient-audio-toggle[data-state="paused"] {
+  border-color: rgba(240, 223, 155, 0.24);
+}
+
+.ambient-audio-toggle[data-state="unavailable"],
+.ambient-audio-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  filter: grayscale(0.35);
+}
+
+.ambient-audio-invite[data-state="unavailable"] {
+  border-color: rgba(220, 156, 120, 0.26);
+}
+
+@keyframes ambientSoundPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(240, 223, 155, 0);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 0 0.34rem rgba(240, 223, 155, 0.08);
+    transform: scale(1.04);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* High-performance and compatibility modes                                   */
+/* -------------------------------------------------------------------------- */
+
+@supports not (overflow: clip) {
+  .premium-contact-page {
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-data: reduce) {
+  .hero-media video {
+    display: none !important;
+  }
+
+  .hero-media {
+    background:
+      radial-gradient(
+        circle at 50% 24%,
+        rgba(240, 223, 155, 0.16),
+        transparent 28rem
+      ),
+      linear-gradient(
+        135deg,
+        var(--forest),
+        var(--sage-deep) 52%,
+        #4f5e3f
+      ) !important;
+  }
+
+  .botanical-pattern,
+  .ambient-orb,
+  .premium-contact-hero__grid,
+  .premium-contact-hero__orb,
+  .premium-contact-hero__mark {
+    animation: none !important;
+  }
+}
+
+@media (update: slow) {
+  .botanical-pattern,
+  .ambient-orb,
+  .premium-contact-hero__grid,
+  .premium-contact-hero__orb,
+  .premium-contact-hero__mark,
+  .ambient-audio-toggle[data-state="playing"] span {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --header-offset: 6rem;
+  }
+
+  .ambient-audio-invite {
+    max-height: min(70dvh, 520px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (forced-colors: active) {
+  .site-footer-final__support > div,
+  .site-footer-final__button--secondary,
+  .mobile-nav-waitlist {
+    border: 1px solid CanvasText !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+    box-shadow: none !important;
+  }
+
+  .site-footer-final__support > div::before {
+    display: none;
+  }
+}
+
+@media print {
+  .site-header,
+  .mobile-nav-backdrop,
+  .mobile-nav-panel,
+  .mobile-sticky-book,
+  .ambient-audio-invite,
+  .ambient-audio-toggle,
+  .hero-media video,
+  .botanical-pattern,
+  .ambient-orb {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  main,
+  .section {
+    padding-inline: 0 !important;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    overflow-wrap: anywhere;
+  }
+
+  a[href^="#"]::after,
+  a[href^="tel:"]::after,
+  a[href^="sms:"]::after,
+  a[href^="mailto:"]::after {
+    content: "";
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* PRODUCTION_SYSTEM_FINAL_END                                                */
+/* -------------------------------------------------------------------------- */

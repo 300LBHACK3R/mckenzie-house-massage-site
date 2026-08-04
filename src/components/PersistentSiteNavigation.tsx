@@ -1,9 +1,21 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-function isModifiedClick(event: MouseEvent) {
+const HEADER_SELECTOR = ".site-header";
+const SCROLL_OFFSET_PX = 16;
+const MAX_SCROLL_ATTEMPTS = 90;
+
+const DOWNLOADABLE_FILE_PATTERN =
+  /\.(?:avif|csv|doc|docx|gif|jpe?g|json|mov|mp3|mp4|pdf|png|ppt|pptx|svg|txt|wav|webm|webp|xls|xlsx|zip)$/i;
+
+type ScrollOptions = {
+  focusTarget: boolean;
+  minimumReadyFrames: number;
+};
+
+function isModifiedClick(event: MouseEvent): boolean {
   return (
     event.metaKey ||
     event.ctrlKey ||
@@ -13,66 +25,260 @@ function isModifiedClick(event: MouseEvent) {
   );
 }
 
-function getAnchorFromEvent(event: MouseEvent) {
+function getAnchorFromEvent(
+  event: Event,
+): HTMLAnchorElement | null {
   const target = event.target;
 
-  if (!(target instanceof Element)) {
-    return null;
+  if (target instanceof Element) {
+    return target.closest<HTMLAnchorElement>("a[href]");
   }
 
-  return target.closest<HTMLAnchorElement>("a[href]");
+  if (target instanceof Node) {
+    return target.parentElement?.closest<HTMLAnchorElement>(
+      "a[href]",
+    ) ?? null;
+  }
+
+  return null;
 }
 
-function isUnsupportedProtocol(href: string) {
-  const normalizedHref = href.trim().toLowerCase();
+function isSupportedWebProtocol(url: URL): boolean {
+  return url.protocol === "http:" || url.protocol === "https:";
+}
 
-  return (
+function hasExternalRelationship(
+  anchor: HTMLAnchorElement,
+): boolean {
+  return anchor.rel
+    .split(/\s+/)
+    .some((value) => value.toLowerCase() === "external");
+}
+
+function shouldUseNativeNavigation(
+  anchor: HTMLAnchorElement,
+  rawHref: string,
+): boolean {
+  const normalizedHref = rawHref.trim().toLowerCase();
+
+  if (!normalizedHref) {
+    return true;
+  }
+
+  if (
     normalizedHref.startsWith("mailto:") ||
     normalizedHref.startsWith("tel:") ||
     normalizedHref.startsWith("sms:") ||
     normalizedHref.startsWith("javascript:") ||
-    normalizedHref.startsWith("data:")
+    normalizedHref.startsWith("data:") ||
+    normalizedHref.startsWith("blob:")
+  ) {
+    return true;
+  }
+
+  if (
+    anchor.hasAttribute("download") ||
+    anchor.hasAttribute("data-native-navigation") ||
+    anchor.hasAttribute("data-no-persistent-navigation")
+  ) {
+    return true;
+  }
+
+  if (
+    anchor.getAttribute("aria-disabled") === "true" ||
+    anchor.closest('[contenteditable="true"]')
+  ) {
+    return true;
+  }
+
+  if (
+    anchor.target &&
+    anchor.target.toLowerCase() !== "_self"
+  ) {
+    return true;
+  }
+
+  if (hasExternalRelationship(anchor)) {
+    return true;
+  }
+
+  return false;
+}
+
+function isDownloadableResource(url: URL): boolean {
+  return DOWNLOADABLE_FILE_PATTERN.test(url.pathname);
+}
+
+function getDestinationUrl(
+  anchor: HTMLAnchorElement,
+): URL | null {
+  try {
+    const destination = new URL(
+      anchor.href,
+      window.location.href,
+    );
+
+    if (!isSupportedWebProtocol(destination)) {
+      return null;
+    }
+
+    return destination;
+  } catch {
+    return null;
+  }
+}
+
+function getRelativeHref(url: URL): string {
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
+function isSameDocument(
+  currentUrl: URL,
+  destinationUrl: URL,
+): boolean {
+  return (
+    destinationUrl.pathname === currentUrl.pathname &&
+    destinationUrl.search === currentUrl.search
   );
 }
 
-function scrollToHash(hash: string) {
+function prefersReducedMotion(): boolean {
+  return window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+}
+
+function decodeHash(hash: string): string {
   const rawId = hash.replace(/^#/, "");
 
   if (!rawId) {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
-    return;
+    return "";
   }
-
-  let decodedId = rawId;
 
   try {
-    decodedId = decodeURIComponent(rawId);
+    return decodeURIComponent(rawId);
   } catch {
-    decodedId = rawId;
+    return rawId;
+  }
+}
+
+function findHashTarget(
+  hash: string,
+): HTMLElement | null {
+  const decodedId = decodeHash(hash);
+
+  if (!decodedId) {
+    return null;
   }
 
-  const element =
-    document.getElementById(decodedId) ||
-    document.querySelector<HTMLElement>(
-      `[name="${CSS.escape(decodedId)}"]`,
+  const idTarget = document.getElementById(decodedId);
+
+  if (idTarget) {
+    return idTarget;
+  }
+
+  const namedTargets = document.getElementsByName(decodedId);
+
+  for (const target of namedTargets) {
+    if (target instanceof HTMLElement) {
+      return target;
+    }
+  }
+
+  return null;
+}
+
+function getHeaderOffset(): number {
+  const header =
+    document.querySelector<HTMLElement>(HEADER_SELECTOR);
+
+  if (!header) {
+    return SCROLL_OFFSET_PX;
+  }
+
+  return (
+    Math.max(0, header.getBoundingClientRect().height) +
+    SCROLL_OFFSET_PX
+  );
+}
+
+function focusNavigationTarget(
+  target: HTMLElement,
+): void {
+  const isNaturallyFocusable = target.matches(
+    [
+      "a[href]",
+      "button:not([disabled])",
+      "input:not([disabled])",
+      "select:not([disabled])",
+      "textarea:not([disabled])",
+      '[tabindex]:not([tabindex="-1"])',
+    ].join(","),
+  );
+
+  const hadTabIndex = target.hasAttribute("tabindex");
+
+  if (!isNaturallyFocusable && !hadTabIndex) {
+    target.setAttribute("tabindex", "-1");
+    target.dataset.navigationFocusTarget = "true";
+  }
+
+  try {
+    target.focus({
+      preventScroll: true,
+    });
+  } catch {
+    target.focus();
+  }
+
+  if (
+    target.dataset.navigationFocusTarget === "true"
+  ) {
+    target.addEventListener(
+      "blur",
+      () => {
+        if (
+          target.dataset.navigationFocusTarget === "true"
+        ) {
+          delete target.dataset.navigationFocusTarget;
+          target.removeAttribute("tabindex");
+        }
+      },
+      {
+        once: true,
+      },
     );
-
-  if (!element) {
-    return;
   }
+}
 
-  element.scrollIntoView({
-    behavior: "smooth",
-    block: "start",
+function scrollToPageTop(): void {
+  window.scrollTo({
+    top: 0,
+    behavior: prefersReducedMotion()
+      ? "auto"
+      : "smooth",
+  });
+}
+
+function scrollToElement(
+  target: HTMLElement,
+  focusTarget: boolean,
+): void {
+  const targetTop =
+    target.getBoundingClientRect().top +
+    window.scrollY -
+    getHeaderOffset();
+
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: prefersReducedMotion()
+      ? "auto"
+      : "smooth",
   });
 
-  if (element instanceof HTMLElement && element.tabIndex >= 0) {
-    element.focus({
-      preventScroll: true,
+  if (focusTarget) {
+    window.requestAnimationFrame(() => {
+      focusNavigationTarget(target);
     });
   }
 }
@@ -80,9 +286,170 @@ function scrollToHash(hash: string) {
 export function PersistentSiteNavigation() {
   const router = useRouter();
 
+  const scheduledFrameRef = useRef<number | null>(
+    null,
+  );
+
+  const prefetchedRoutesRef = useRef<Set<string>>(
+    new Set(),
+  );
+
+  const cancelScheduledScroll = useCallback(() => {
+    if (scheduledFrameRef.current === null) {
+      return;
+    }
+
+    window.cancelAnimationFrame(
+      scheduledFrameRef.current,
+    );
+
+    scheduledFrameRef.current = null;
+  }, []);
+
+  const scheduleScroll = useCallback(
+    (
+      destination: URL,
+      {
+        focusTarget,
+        minimumReadyFrames,
+      }: ScrollOptions,
+    ) => {
+      cancelScheduledScroll();
+
+      let attempts = 0;
+      let matchingRouteFrames = 0;
+
+      const attemptScroll = () => {
+        attempts += 1;
+
+        const currentUrl = new URL(
+          window.location.href,
+        );
+
+        const routeMatches =
+          currentUrl.pathname ===
+            destination.pathname &&
+          currentUrl.search === destination.search;
+
+        if (routeMatches) {
+          matchingRouteFrames += 1;
+        } else {
+          matchingRouteFrames = 0;
+        }
+
+        if (
+          routeMatches &&
+          matchingRouteFrames >= minimumReadyFrames
+        ) {
+          if (!destination.hash) {
+            scrollToPageTop();
+            scheduledFrameRef.current = null;
+            return;
+          }
+
+          const target = findHashTarget(
+            destination.hash,
+          );
+
+          if (target) {
+            scrollToElement(target, focusTarget);
+            scheduledFrameRef.current = null;
+            return;
+          }
+        }
+
+        if (attempts >= MAX_SCROLL_ATTEMPTS) {
+          scheduledFrameRef.current = null;
+          return;
+        }
+
+        scheduledFrameRef.current =
+          window.requestAnimationFrame(
+            attemptScroll,
+          );
+      };
+
+      scheduledFrameRef.current =
+        window.requestAnimationFrame(
+          attemptScroll,
+        );
+    },
+    [cancelScheduledScroll],
+  );
+
+  const prefetchInternalRoute = useCallback(
+    (event: Event) => {
+      const anchor = getAnchorFromEvent(event);
+
+      if (!anchor) {
+        return;
+      }
+
+      const rawHref = anchor.getAttribute("href");
+
+      if (
+        !rawHref ||
+        shouldUseNativeNavigation(
+          anchor,
+          rawHref,
+        )
+      ) {
+        return;
+      }
+
+      const destination =
+        getDestinationUrl(anchor);
+
+      if (
+        !destination ||
+        destination.origin !==
+          window.location.origin ||
+        isDownloadableResource(destination)
+      ) {
+        return;
+      }
+
+      const currentUrl = new URL(
+        window.location.href,
+      );
+
+      if (
+        isSameDocument(
+          currentUrl,
+          destination,
+        )
+      ) {
+        return;
+      }
+
+      const routeToPrefetch =
+        `${destination.pathname}${destination.search}`;
+
+      if (
+        prefetchedRoutesRef.current.has(
+          routeToPrefetch,
+        )
+      ) {
+        return;
+      }
+
+      prefetchedRoutesRef.current.add(
+        routeToPrefetch,
+      );
+
+      router.prefetch(routeToPrefetch);
+    },
+    [router],
+  );
+
   useEffect(() => {
-    const handleInternalNavigation = (event: MouseEvent) => {
-      if (event.defaultPrevented || isModifiedClick(event)) {
+    const handleInternalNavigation = (
+      event: MouseEvent,
+    ) => {
+      if (
+        event.defaultPrevented ||
+        isModifiedClick(event)
+      ) {
         return;
       }
 
@@ -92,64 +459,188 @@ export function PersistentSiteNavigation() {
         return;
       }
 
-      const rawHref = anchor.getAttribute("href");
-
-      if (!rawHref || isUnsupportedProtocol(rawHref)) {
-        return;
-      }
+      const rawHref =
+        anchor.getAttribute("href");
 
       if (
-        anchor.hasAttribute("download") ||
-        anchor.target === "_blank" ||
-        anchor.target === "_parent" ||
-        anchor.target === "_top"
+        !rawHref ||
+        shouldUseNativeNavigation(
+          anchor,
+          rawHref,
+        )
       ) {
         return;
       }
 
-      let destination: URL;
+      const destination =
+        getDestinationUrl(anchor);
 
-      try {
-        destination = new URL(anchor.href, window.location.href);
-      } catch {
+      if (
+        !destination ||
+        destination.origin !==
+          window.location.origin ||
+        isDownloadableResource(destination)
+      ) {
         return;
       }
 
-      if (destination.origin !== window.location.origin) {
-        return;
-      }
+      const currentUrl = new URL(
+        window.location.href,
+      );
 
-      const currentUrl = new URL(window.location.href);
-      const sameDocument =
-        destination.pathname === currentUrl.pathname &&
-        destination.search === currentUrl.search;
+      const sameDocument = isSameDocument(
+        currentUrl,
+        destination,
+      );
 
-      if (sameDocument && destination.hash) {
+      if (sameDocument) {
         event.preventDefault();
 
-        const nextUrl = `${destination.pathname}${destination.search}${destination.hash}`;
-        window.history.pushState(null, "", nextUrl);
-        scrollToHash(destination.hash);
+        const nextHref =
+          getRelativeHref(destination);
 
-        return;
-      }
+        const currentHref =
+          getRelativeHref(currentUrl);
 
-      if (sameDocument && !destination.hash) {
+        if (nextHref !== currentHref) {
+          window.history.pushState(
+            window.history.state,
+            "",
+            nextHref,
+          );
+        }
+
+        scheduleScroll(destination, {
+          focusTarget: Boolean(
+            destination.hash,
+          ),
+          minimumReadyFrames: 1,
+        });
+
         return;
       }
 
       event.preventDefault();
 
-      const nextRoute = `${destination.pathname}${destination.search}${destination.hash}`;
-      router.push(nextRoute);
+      scheduleScroll(destination, {
+        focusTarget: Boolean(
+          destination.hash,
+        ),
+        /*
+         * Waiting for multiple matching frames prevents the old
+         * page’s similarly named element from being selected before
+         * the new route has rendered.
+         */
+        minimumReadyFrames: 2,
+      });
+
+      router.push(getRelativeHref(destination), {
+        scroll: false,
+      });
     };
 
-    document.addEventListener("click", handleInternalNavigation);
+    const handleHistoryNavigation = () => {
+      const destination = new URL(
+        window.location.href,
+      );
+
+      scheduleScroll(destination, {
+        focusTarget: Boolean(
+          destination.hash,
+        ),
+        minimumReadyFrames: 2,
+      });
+    };
+
+    const handleHashChange = () => {
+      const destination = new URL(
+        window.location.href,
+      );
+
+      scheduleScroll(destination, {
+        focusTarget: Boolean(
+          destination.hash,
+        ),
+        minimumReadyFrames: 1,
+      });
+    };
+
+    document.addEventListener(
+      "click",
+      handleInternalNavigation,
+    );
+
+    document.addEventListener(
+      "pointerover",
+      prefetchInternalRoute,
+      {
+        passive: true,
+      },
+    );
+
+    document.addEventListener(
+      "focusin",
+      prefetchInternalRoute,
+    );
+
+    window.addEventListener(
+      "popstate",
+      handleHistoryNavigation,
+    );
+
+    window.addEventListener(
+      "hashchange",
+      handleHashChange,
+    );
+
+    /*
+     * Correctly positions an initial page load containing a hash
+     * after the app has hydrated and the fixed header is measurable.
+     */
+    if (window.location.hash) {
+      scheduleScroll(
+        new URL(window.location.href),
+        {
+          focusTarget: false,
+          minimumReadyFrames: 2,
+        },
+      );
+    }
 
     return () => {
-      document.removeEventListener("click", handleInternalNavigation);
+      cancelScheduledScroll();
+
+      document.removeEventListener(
+        "click",
+        handleInternalNavigation,
+      );
+
+      document.removeEventListener(
+        "pointerover",
+        prefetchInternalRoute,
+      );
+
+      document.removeEventListener(
+        "focusin",
+        prefetchInternalRoute,
+      );
+
+      window.removeEventListener(
+        "popstate",
+        handleHistoryNavigation,
+      );
+
+      window.removeEventListener(
+        "hashchange",
+        handleHashChange,
+      );
     };
-  }, [router]);
+  }, [
+    router,
+    scheduleScroll,
+    cancelScheduledScroll,
+    prefetchInternalRoute,
+  ]);
 
   return null;
 }

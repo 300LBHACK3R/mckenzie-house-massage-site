@@ -1,225 +1,702 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 const AUDIO_SRC = "/audio/spa-ambience.mp3";
-const STORAGE_KEY = "mhm-ambient-audio-v3-enabled";
-const DISMISSED_KEY = "mhm-ambient-audio-v3-dismissed";
-const POSITION_KEY = "mhm-ambient-audio-v3-position";
-const PLAYING_KEY = "mhm-ambient-audio-v3-was-playing";
+
+const STORAGE_KEY =
+  "mhm-ambient-audio-v3-enabled";
+
+const DISMISSED_KEY =
+  "mhm-ambient-audio-v3-dismissed";
+
+const POSITION_KEY =
+  "mhm-ambient-audio-v3-position";
+
+const PLAYING_KEY =
+  "mhm-ambient-audio-v3-was-playing";
 
 const DEFAULT_VOLUME = 0.16;
-const POSITION_SAVE_INTERVAL_MS = 1500;
+const POSITION_SAVE_INTERVAL_MS = 1_500;
+const FADE_IN_DURATION_MS = 850;
+const FADE_OUT_DURATION_MS = 550;
 
-function readSavedPosition() {
-  const savedPosition = window.sessionStorage.getItem(POSITION_KEY);
+type StorageType = "local" | "session";
+
+function clamp(
+  value: number,
+  minimum: number,
+  maximum: number,
+): number {
+  return Math.min(
+    Math.max(value, minimum),
+    maximum,
+  );
+}
+
+function getStorage(
+  type: StorageType,
+): Storage | null {
+  try {
+    return type === "local"
+      ? window.localStorage
+      : window.sessionStorage;
+  } catch {
+    return null;
+  }
+}
+
+function readStorageValue(
+  type: StorageType,
+  key: string,
+): string | null {
+  try {
+    return getStorage(type)?.getItem(key) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStorageValue(
+  type: StorageType,
+  key: string,
+  value: string,
+): void {
+  try {
+    getStorage(type)?.setItem(key, value);
+  } catch {
+    /*
+     * Storage can be unavailable in restrictive privacy modes.
+     * Audio should continue working for the current page session.
+     */
+  }
+}
+
+function readSavedPosition(): number {
+  const savedPosition = readStorageValue(
+    "session",
+    POSITION_KEY,
+  );
+
   const parsedPosition = Number(savedPosition);
 
-  if (!Number.isFinite(parsedPosition) || parsedPosition < 0) {
+  if (
+    !Number.isFinite(parsedPosition) ||
+    parsedPosition < 0
+  ) {
     return 0;
   }
 
   return parsedPosition;
 }
 
-function savePlaybackPosition(audio: HTMLAudioElement) {
-  if (!Number.isFinite(audio.currentTime) || audio.currentTime < 0) {
+function savePlaybackPosition(
+  audio: HTMLAudioElement,
+): void {
+  if (
+    !Number.isFinite(audio.currentTime) ||
+    audio.currentTime < 0
+  ) {
     return;
   }
 
-  window.sessionStorage.setItem(
+  writeStorageValue(
+    "session",
     POSITION_KEY,
     String(audio.currentTime),
   );
 }
 
+function restorePlaybackPosition(
+  audio: HTMLAudioElement,
+): void {
+  const savedPosition = readSavedPosition();
+
+  if (
+    savedPosition <= 0 ||
+    !Number.isFinite(audio.duration) ||
+    audio.duration <= 0
+  ) {
+    return;
+  }
+
+  try {
+    audio.currentTime =
+      savedPosition % audio.duration;
+  } catch {
+    /*
+     * Some browsers reject currentTime changes before media metadata
+     * is fully available. The loadedmetadata handler will retry.
+     */
+  }
+}
+
+function prefersReducedMotion(): boolean {
+  return window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+}
+
 export function AmbientSpaAudio() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const positionTimerRef = useRef<number | null>(null);
+  const audioRef =
+    useRef<HTMLAudioElement | null>(null);
+
+  const positionTimerRef =
+    useRef<number | null>(null);
+
+  const fadeFrameRef =
+    useRef<number | null>(null);
+
+  const fadeGenerationRef = useRef(0);
+
+  const enabledRef = useRef(false);
+  const audioMissingRef = useRef(false);
 
   const [ready, setReady] = useState(false);
-  const [enabled, setEnabled] = useState(true);
-  const [started, setStarted] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
-  const [audioMissing, setAudioMissing] = useState(false);
+
+  const [enabled, setEnabled] =
+    useState(false);
+
+  const [started, setStarted] =
+    useState(false);
+
+  const [dismissed, setDismissed] =
+    useState(false);
+
+  const [audioMissing, setAudioMissing] =
+    useState(false);
 
   const stopPositionTimer = useCallback(() => {
     if (positionTimerRef.current === null) {
       return;
     }
 
-    window.clearInterval(positionTimerRef.current);
+    window.clearInterval(
+      positionTimerRef.current,
+    );
+
     positionTimerRef.current = null;
   }, []);
 
   const startPositionTimer = useCallback(() => {
     stopPositionTimer();
 
-    positionTimerRef.current = window.setInterval(() => {
-      const audio = audioRef.current;
+    positionTimerRef.current =
+      window.setInterval(() => {
+        const audio = audioRef.current;
 
-      if (!audio || audio.paused) {
+        if (!audio || audio.paused) {
+          return;
+        }
+
+        savePlaybackPosition(audio);
+      }, POSITION_SAVE_INTERVAL_MS);
+  }, [stopPositionTimer]);
+
+  const cancelVolumeFade = useCallback(() => {
+    fadeGenerationRef.current += 1;
+
+    if (fadeFrameRef.current === null) {
+      return;
+    }
+
+    window.cancelAnimationFrame(
+      fadeFrameRef.current,
+    );
+
+    fadeFrameRef.current = null;
+  }, []);
+
+  const fadeToVolume = useCallback(
+    (
+      audio: HTMLAudioElement,
+      targetVolume: number,
+      durationMs: number,
+      onComplete?: () => void,
+    ) => {
+      cancelVolumeFade();
+
+      const normalizedTarget = clamp(
+        targetVolume,
+        0,
+        1,
+      );
+
+      if (
+        durationMs <= 0 ||
+        prefersReducedMotion()
+      ) {
+        audio.volume = normalizedTarget;
+        onComplete?.();
         return;
       }
 
-      savePlaybackPosition(audio);
-    }, POSITION_SAVE_INTERVAL_MS);
-  }, [stopPositionTimer]);
+      const fadeGeneration =
+        fadeGenerationRef.current;
+
+      const startingVolume = audio.volume;
+      const volumeDifference =
+        normalizedTarget - startingVolume;
+
+      const startTime = performance.now();
+
+      const updateVolume = (
+        currentTime: number,
+      ) => {
+        if (
+          fadeGeneration !==
+          fadeGenerationRef.current
+        ) {
+          return;
+        }
+
+        const progress = clamp(
+          (currentTime - startTime) /
+            durationMs,
+          0,
+          1,
+        );
+
+        /*
+         * Smooth ease-out curve. This sounds more natural than a
+         * linear volume change, particularly at low volumes.
+         */
+        const easedProgress =
+          1 - Math.pow(1 - progress, 3);
+
+        audio.volume = clamp(
+          startingVolume +
+            volumeDifference *
+              easedProgress,
+          0,
+          1,
+        );
+
+        if (progress >= 1) {
+          fadeFrameRef.current = null;
+          audio.volume = normalizedTarget;
+          onComplete?.();
+          return;
+        }
+
+        fadeFrameRef.current =
+          window.requestAnimationFrame(
+            updateVolume,
+          );
+      };
+
+      fadeFrameRef.current =
+        window.requestAnimationFrame(
+          updateVolume,
+        );
+    },
+    [cancelVolumeFade],
+  );
+
+  const startAudio = useCallback(
+    async (
+      userInitiated: boolean,
+    ): Promise<boolean> => {
+      const audio = audioRef.current;
+
+      if (
+        !audio ||
+        audioMissingRef.current
+      ) {
+        return false;
+      }
+
+      if (
+        !userInitiated &&
+        !enabledRef.current
+      ) {
+        return false;
+      }
+
+      if (userInitiated) {
+        enabledRef.current = true;
+        setEnabled(true);
+
+        writeStorageValue(
+          "local",
+          STORAGE_KEY,
+          "on",
+        );
+
+        setDismissed(true);
+
+        writeStorageValue(
+          "local",
+          DISMISSED_KEY,
+          "true",
+        );
+      }
+
+      audio.preload = "auto";
+
+      if (
+        audio.networkState ===
+        HTMLMediaElement.NETWORK_EMPTY
+      ) {
+        audio.load();
+      }
+
+      if (
+        audio.currentTime <= 0.25 &&
+        audio.readyState >=
+          HTMLMediaElement.HAVE_METADATA
+      ) {
+        restorePlaybackPosition(audio);
+      }
+
+      cancelVolumeFade();
+      audio.volume = 0;
+
+      try {
+        await audio.play();
+
+        fadeToVolume(
+          audio,
+          DEFAULT_VOLUME,
+          FADE_IN_DURATION_MS,
+        );
+
+        return true;
+      } catch {
+        setStarted(false);
+
+        /*
+         * Browsers may reject autoplay after a reload. Because the
+         * preference remains enabled, the next genuine interaction
+         * will safely resume it.
+         */
+        return false;
+      }
+    },
+    [
+      cancelVolumeFade,
+      fadeToVolume,
+    ],
+  );
 
   useEffect(() => {
-    const audio = new Audio(AUDIO_SRC);
-    const savedPreference = window.localStorage.getItem(STORAGE_KEY);
-    const savedDismissed = window.localStorage.getItem(DISMISSED_KEY);
-    const savedPosition = readSavedPosition();
+    const savedPreference =
+      readStorageValue(
+        "local",
+        STORAGE_KEY,
+      );
 
+    const savedDismissed =
+      readStorageValue(
+        "local",
+        DISMISSED_KEY,
+      );
+
+    const preferenceEnabled =
+      savedPreference === "on";
+
+    const audio =
+      document.createElement("audio");
+
+    audio.src = AUDIO_SRC;
     audio.loop = true;
-    audio.preload = "auto";
-    audio.volume = DEFAULT_VOLUME;
+    audio.preload = preferenceEnabled
+      ? "auto"
+      : "metadata";
+    audio.volume = 0;
 
-    const restorePosition = () => {
-      if (
-        savedPosition > 0 &&
-        Number.isFinite(audio.duration) &&
-        audio.duration > 0
-      ) {
-        audio.currentTime = savedPosition % audio.duration;
-      }
+    audioRef.current = audio;
+
+    enabledRef.current =
+      preferenceEnabled;
+
+    setEnabled(preferenceEnabled);
+
+    setDismissed(
+      savedDismissed === "true",
+    );
+
+    const handleLoadedMetadata = () => {
+      restorePlaybackPosition(audio);
     };
 
     const handlePlay = () => {
       setStarted(true);
-      window.sessionStorage.setItem(PLAYING_KEY, "true");
+
+      writeStorageValue(
+        "session",
+        PLAYING_KEY,
+        "true",
+      );
+
       startPositionTimer();
     };
 
     const handlePause = () => {
       setStarted(false);
+
       savePlaybackPosition(audio);
       stopPositionTimer();
     };
 
     const handleError = () => {
+      audioMissingRef.current = true;
+
       setAudioMissing(true);
+      setStarted(false);
+
       stopPositionTimer();
+      cancelVolumeFade();
     };
 
-    const handleBeforeUnload = () => {
+    const saveLifecycleState = () => {
       savePlaybackPosition(audio);
-      window.sessionStorage.setItem(
+
+      writeStorageValue(
+        "session",
         PLAYING_KEY,
-        audio.paused ? "false" : "true",
+        enabledRef.current &&
+          !audio.paused
+          ? "true"
+          : "false",
       );
     };
 
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        savePlaybackPosition(audio);
+      if (
+        document.visibilityState ===
+        "hidden"
+      ) {
+        saveLifecycleState();
       }
     };
 
-    audio.addEventListener("loadedmetadata", restorePosition);
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
-    audio.addEventListener("error", handleError);
+    const handleStorageChange = (
+      event: StorageEvent,
+    ) => {
+      if (
+        event.storageArea !==
+          getStorage("local") ||
+        event.key !== STORAGE_KEY
+      ) {
+        return;
+      }
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+      if (event.newValue === "off") {
+        enabledRef.current = false;
+        setEnabled(false);
+        setStarted(false);
+
+        fadeToVolume(
+          audio,
+          0,
+          FADE_OUT_DURATION_MS,
+          () => {
+            audio.pause();
+          },
+        );
+
+        return;
+      }
+
+      if (event.newValue === "on") {
+        enabledRef.current = true;
+        setEnabled(true);
+      }
+    };
+
+    audio.addEventListener(
+      "loadedmetadata",
+      handleLoadedMetadata,
+    );
+
+    audio.addEventListener(
+      "play",
+      handlePlay,
+    );
+
+    audio.addEventListener(
+      "pause",
+      handlePause,
+    );
+
+    audio.addEventListener(
+      "error",
+      handleError,
+    );
+
+    window.addEventListener(
+      "pagehide",
+      saveLifecycleState,
+    );
+
+    window.addEventListener(
+      "beforeunload",
+      saveLifecycleState,
+    );
+
+    window.addEventListener(
+      "storage",
+      handleStorageChange,
+    );
+
     document.addEventListener(
       "visibilitychange",
       handleVisibilityChange,
     );
 
-    audioRef.current = audio;
-
-    setEnabled(savedPreference !== "off");
-    setDismissed(savedDismissed === "true");
     setReady(true);
 
     return () => {
+      const wasPlaying =
+        enabledRef.current &&
+        !audio.paused;
+
       savePlaybackPosition(audio);
-      stopPositionTimer();
 
-      audio.removeEventListener("loadedmetadata", restorePosition);
-      audio.removeEventListener("play", handlePlay);
-      audio.removeEventListener("pause", handlePause);
-      audio.removeEventListener("error", handleError);
+      /*
+       * Remove the pause listener before pausing. Otherwise cleanup
+       * would incorrectly overwrite the saved playing state.
+       */
+      audio.removeEventListener(
+        "loadedmetadata",
+        handleLoadedMetadata,
+      );
 
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      audio.removeEventListener(
+        "play",
+        handlePlay,
+      );
+
+      audio.removeEventListener(
+        "pause",
+        handlePause,
+      );
+
+      audio.removeEventListener(
+        "error",
+        handleError,
+      );
+
+      window.removeEventListener(
+        "pagehide",
+        saveLifecycleState,
+      );
+
+      window.removeEventListener(
+        "beforeunload",
+        saveLifecycleState,
+      );
+
+      window.removeEventListener(
+        "storage",
+        handleStorageChange,
+      );
+
       document.removeEventListener(
         "visibilitychange",
         handleVisibilityChange,
       );
 
+      writeStorageValue(
+        "session",
+        PLAYING_KEY,
+        wasPlaying ? "true" : "false",
+      );
+
+      stopPositionTimer();
+      cancelVolumeFade();
+
       audio.pause();
-      audio.src = "";
+      audio.removeAttribute("src");
+      audio.load();
+
       audioRef.current = null;
     };
-  }, [startPositionTimer, stopPositionTimer]);
+  }, [
+    cancelVolumeFade,
+    fadeToVolume,
+    startPositionTimer,
+    stopPositionTimer,
+  ]);
 
-  const startAudio = useCallback(async () => {
-    const audio = audioRef.current;
-
-    if (!audio || !enabled || audioMissing) {
-      return;
-    }
-
-    try {
-      audio.volume = DEFAULT_VOLUME;
-      await audio.play();
-
-      setStarted(true);
-      setDismissed(true);
-
-      window.localStorage.setItem(STORAGE_KEY, "on");
-      window.localStorage.setItem(DISMISSED_KEY, "true");
-      window.sessionStorage.setItem(PLAYING_KEY, "true");
-    } catch {
-      setStarted(false);
-    }
-  }, [audioMissing, enabled]);
-
+  /*
+   * Returning visitors who previously enabled the ambience are
+   * allowed to resume automatically. If browser autoplay policy
+   * blocks the first attempt, their next interaction resumes it.
+   *
+   * First-time visitors are never started by an unrelated click.
+   * They must explicitly choose Enable Ambience.
+   */
   useEffect(() => {
-    if (!ready || !enabled || started || audioMissing) {
+    if (
+      !ready ||
+      !enabled ||
+      started ||
+      audioMissing
+    ) {
       return;
     }
 
     const wasPlaying =
-      window.sessionStorage.getItem(PLAYING_KEY) === "true";
+      readStorageValue(
+        "session",
+        PLAYING_KEY,
+      ) === "true";
 
     if (wasPlaying) {
-      void startAudio();
+      void startAudio(false);
     }
 
-    const handleFirstInteraction = () => {
-      void startAudio();
-
-      window.removeEventListener(
-        "pointerdown",
-        handleFirstInteraction,
-      );
-      window.removeEventListener("keydown", handleFirstInteraction);
-      window.removeEventListener(
-        "touchstart",
-        handleFirstInteraction,
-      );
+    const handleResumeInteraction = () => {
+      void startAudio(false);
     };
 
-    window.addEventListener("pointerdown", handleFirstInteraction, {
-      passive: true,
-    });
-    window.addEventListener("keydown", handleFirstInteraction);
-    window.addEventListener("touchstart", handleFirstInteraction, {
-      passive: true,
-    });
+    window.addEventListener(
+      "pointerdown",
+      handleResumeInteraction,
+      {
+        passive: true,
+        once: true,
+      },
+    );
+
+    window.addEventListener(
+      "keydown",
+      handleResumeInteraction,
+      {
+        once: true,
+      },
+    );
+
+    window.addEventListener(
+      "touchstart",
+      handleResumeInteraction,
+      {
+        passive: true,
+        once: true,
+      },
+    );
 
     return () => {
       window.removeEventListener(
         "pointerdown",
-        handleFirstInteraction,
+        handleResumeInteraction,
       );
-      window.removeEventListener("keydown", handleFirstInteraction);
+
+      window.removeEventListener(
+        "keydown",
+        handleResumeInteraction,
+      );
+
       window.removeEventListener(
         "touchstart",
-        handleFirstInteraction,
+        handleResumeInteraction,
       );
     };
   }, [
@@ -231,60 +708,95 @@ export function AmbientSpaAudio() {
   ]);
 
   const turnOn = async () => {
-    setEnabled(true);
-    window.localStorage.setItem(STORAGE_KEY, "on");
-
-    const audio = audioRef.current;
-
-    if (audio) {
-      const savedPosition = readSavedPosition();
-
-      if (
-        savedPosition > 0 &&
-        Number.isFinite(audio.duration) &&
-        audio.duration > 0
-      ) {
-        audio.currentTime = savedPosition % audio.duration;
-      }
-    }
-
-    await startAudio();
+    await startAudio(true);
   };
 
   const turnOff = () => {
     const audio = audioRef.current;
 
-    if (audio) {
-      savePlaybackPosition(audio);
-      audio.pause();
-    }
-
-    stopPositionTimer();
+    enabledRef.current = false;
 
     setEnabled(false);
     setStarted(false);
     setDismissed(true);
 
-    window.localStorage.setItem(STORAGE_KEY, "off");
-    window.localStorage.setItem(DISMISSED_KEY, "true");
-    window.sessionStorage.setItem(PLAYING_KEY, "false");
+    writeStorageValue(
+      "local",
+      STORAGE_KEY,
+      "off",
+    );
+
+    writeStorageValue(
+      "local",
+      DISMISSED_KEY,
+      "true",
+    );
+
+    writeStorageValue(
+      "session",
+      PLAYING_KEY,
+      "false",
+    );
+
+    if (!audio) {
+      return;
+    }
+
+    savePlaybackPosition(audio);
+
+    fadeToVolume(
+      audio,
+      0,
+      FADE_OUT_DURATION_MS,
+      () => {
+        if (!enabledRef.current) {
+          audio.pause();
+        }
+      },
+    );
+
+    stopPositionTimer();
   };
 
   const dismissPrompt = () => {
     setDismissed(true);
-    window.localStorage.setItem(DISMISSED_KEY, "true");
+
+    writeStorageValue(
+      "local",
+      DISMISSED_KEY,
+      "true",
+    );
   };
 
   if (!ready) {
     return null;
   }
 
+  const showInvitation =
+    !dismissed &&
+    !started;
+
+  const toggleLabel = audioMissing
+    ? "Sound Unavailable"
+    : enabled && started
+      ? "Sound On"
+      : enabled
+        ? "Resume Sound"
+        : "Enable Sound";
+
   return (
     <>
-      {enabled && !started && !dismissed ? (
+      {showInvitation ? (
         <aside
           className="ambient-audio-invite"
-          aria-label="Enable calming background ambience"
+          aria-label="Optional calming background ambience"
+          data-state={
+            audioMissing
+              ? "unavailable"
+              : enabled
+                ? "paused"
+                : "available"
+          }
         >
           <button
             className="ambient-audio-invite__close"
@@ -292,35 +804,45 @@ export function AmbientSpaAudio() {
             onClick={dismissPrompt}
             aria-label="Dismiss ambience prompt"
           >
-            Ã—
+            <span aria-hidden="true">
+              ×
+            </span>
           </button>
 
           <span className="ambient-audio-invite__eyebrow">
             Optional Spa Ambience
           </span>
 
-          <strong>Tap to add calming background sound.</strong>
+          <strong>
+            Add a calming layer to your visit.
+          </strong>
 
           <p>
-            A soft, subtle ambience can make the visit feel more peaceful while
-            you explore the site.
+            Soft background ambience creates a
+            more peaceful experience while you
+            explore the website. It remains
+            completely optional and can be
+            turned off at any time.
           </p>
 
-          <button
-            className="ambient-audio-invite__button"
-            type="button"
-            onClick={() => {
-              void turnOn();
-            }}
-          >
-            Enable Ambience
-          </button>
-
-          {audioMissing ? (
+          {!audioMissing ? (
+            <button
+              className="ambient-audio-invite__button"
+              type="button"
+              onClick={() => {
+                void turnOn();
+              }}
+            >
+              {enabled
+                ? "Resume Ambience"
+                : "Enable Ambience"}
+            </button>
+          ) : (
             <small className="ambient-audio-invite__warning">
-              Add spa-ambience.mp3 to public/audio to enable sound.
+              Background ambience is temporarily
+              unavailable.
             </small>
-          ) : null}
+          )}
         </aside>
       ) : null}
 
@@ -335,15 +857,39 @@ export function AmbientSpaAudio() {
 
           void turnOn();
         }}
-        aria-pressed={enabled && started}
-        aria-label={
+        disabled={audioMissing}
+        aria-pressed={
           enabled && started
-            ? "Turn ambient sound off"
-            : "Turn ambient sound on"
+        }
+        aria-label={
+          audioMissing
+            ? "Ambient sound is unavailable"
+            : enabled && started
+              ? "Turn ambient sound off"
+              : "Turn ambient sound on"
+        }
+        title={
+          audioMissing
+            ? "Ambient sound unavailable"
+            : enabled && started
+              ? "Turn ambient sound off"
+              : "Turn ambient sound on"
+        }
+        data-state={
+          audioMissing
+            ? "unavailable"
+            : enabled && started
+              ? "playing"
+              : enabled
+                ? "paused"
+                : "disabled"
         }
       >
-        <span aria-hidden="true">â™ª</span>
-        <strong>{enabled && started ? "Sound On" : "Enable Sound"}</strong>
+        <span aria-hidden="true">
+          ♪
+        </span>
+
+        <strong>{toggleLabel}</strong>
       </button>
     </>
   );
