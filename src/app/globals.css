@@ -1162,7 +1162,7 @@ h3 {
 }
 
 .faq-list details[open] summary::after {
-  content: "–";
+  content: "Ã¢â‚¬â€œ";
 }
 
 .faq-list details p {
@@ -3757,7 +3757,7 @@ body {
   opacity: 0.72 !important;
 }
 
-/* Light readability overlay only — no heavy green blanket */
+/* Light readability overlay only Ã¢â‚¬â€ no heavy green blanket */
 .organic-hero .hero-wash {
   position: absolute !important;
   inset: 0 !important;
@@ -8556,3 +8556,402 @@ button:disabled,
 /* -------------------------------------------------------------------------- */
 /* PRODUCTION_SYSTEM_FINAL_END                                                */
 /* -------------------------------------------------------------------------- */
+
+/* MHM_SIGNATURE_SERVICE_LAYOUT_START */
+
+/*
+ * Premium five-card services composition:
+ *
+ * Desktop:
+ * Massage | Sensory Massage | Relaxation Massage
+ *      Seasonal Body Renewal | Active Recovery Cupping
+ *
+ * Sensory Massage is visually identified as Heather's signature service.
+ */
+#services.services-section .service-card__signature-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  max-width: calc(100% - 2rem);
+  padding: 0.58rem 0.78rem;
+  border: 1px solid rgba(246, 226, 166, 0.44);
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(20, 42, 23, 0.96),
+      rgba(53, 82, 52, 0.96)
+    );
+  color: #fffaf0;
+  font-size: 0.66rem;
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  box-shadow:
+    0 12px 30px rgba(14, 35, 18, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
+}
+
+#services.services-section
+  .service-card__signature-badge
+  > span {
+  color: #ecd188;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+#services.services-section .service-card--signature {
+  z-index: 2;
+  border-color: rgba(183, 145, 59, 0.56) !important;
+  background:
+    radial-gradient(
+      circle at 84% 13%,
+      rgba(226, 194, 111, 0.22),
+      transparent 17rem
+    ),
+    radial-gradient(
+      circle at 12% 88%,
+      rgba(74, 111, 73, 0.13),
+      transparent 20rem
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 253, 247, 0.99),
+      rgba(244, 233, 203, 0.98)
+    ) !important;
+  box-shadow:
+    0 34px 100px rgba(57, 74, 48, 0.18),
+    0 0 0 1px rgba(212, 177, 90, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+}
+
+#services.services-section
+  .service-card--signature
+  .service-image {
+  border-color: rgba(210, 176, 89, 0.38) !important;
+  box-shadow:
+    0 22px 50px rgba(44, 55, 36, 0.18),
+    0 0 0 1px rgba(228, 202, 137, 0.12) !important;
+}
+
+#services.services-section
+  .service-card--signature
+  .service-content
+  h3 {
+  color: #1d371f !important;
+}
+
+#services.services-section
+  .service-card--signature
+  .service-link-text {
+  color: #2c512e !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #services.services-section .service-card--signature:hover {
+    border-color: rgba(183, 145, 59, 0.78) !important;
+    box-shadow:
+      0 44px 120px rgba(57, 74, 48, 0.23),
+      0 0 0 1px rgba(212, 177, 90, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.76) !important;
+  }
+}
+
+@media (min-width: 1281px) {
+  #services.services-section .service-grid {
+    grid-template-columns:
+      repeat(12, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: clamp(1rem, 1.4vw, 1.35rem) !important;
+    width: min(100%, 1440px) !important;
+    max-width: 1440px !important;
+    align-items: stretch !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card {
+    align-self: stretch !important;
+  }
+
+  #services.services-section .service-card--massage {
+    grid-column: 1 / span 4 !important;
+    grid-row: 1 !important;
+  }
+
+  #services.services-section
+    .service-card--sensory-massage {
+    grid-column: 5 / span 4 !important;
+    grid-row: 1 !important;
+    top: -0.45rem;
+  }
+
+  #services.services-section
+    .service-card--relaxation-massage {
+    grid-column: 9 / span 4 !important;
+    grid-row: 1 !important;
+  }
+
+  #services.services-section
+    .service-card--seasonal-body-renewal {
+    grid-column: 2 / span 5 !important;
+    grid-row: 2 !important;
+  }
+
+  #services.services-section
+    .service-card--active-recovery-cupping {
+    grid-column: 7 / span 5 !important;
+    grid-row: 2 !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1280px) {
+  #services.services-section .service-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    width: min(100%, 960px) !important;
+    gap: clamp(0.95rem, 2vw, 1.25rem) !important;
+  }
+
+  #services.services-section
+    .service-card--sensory-massage {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    width: min(100%, 620px);
+    justify-self: center;
+    top: 0;
+  }
+
+  #services.services-section .service-card--massage {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+  }
+
+  #services.services-section
+    .service-card--relaxation-massage {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+
+  #services.services-section
+    .service-card--seasonal-body-renewal {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+  }
+
+  #services.services-section
+    .service-card--active-recovery-cupping {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  #services.services-section .service-grid {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    top: 0 !important;
+  }
+
+  #services.services-section
+    .service-card__signature-badge {
+    top: 0.85rem;
+    right: 0.85rem;
+    padding: 0.52rem 0.68rem;
+    font-size: 0.61rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #services.services-section
+    .service-card--sensory-massage {
+    top: 0 !important;
+  }
+}
+
+/* MHM_SIGNATURE_SERVICE_LAYOUT_END */
+
+/* MHM_SERVICE_GRID_COLLAPSE_FIX_START */
+
+/*
+ * The earlier layout created a twelve-column desktop grid, but a legacy
+ * rule with higher specificity still forced every card to:
+ *
+ * grid-column: auto !important;
+ *
+ * Each card therefore occupied one narrow column. These selectors include
+ * both the base card class and the service-specific class so they outrank
+ * that legacy rule without changing any service content.
+ */
+
+@media (min-width: 1281px) {
+  #services.services-section .service-grid {
+    display: grid !important;
+    grid-template-columns:
+      repeat(12, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: clamp(1rem, 1.4vw, 1.35rem) !important;
+    width: min(100%, 1440px) !important;
+    max-width: 1440px !important;
+    margin-inline: auto !important;
+    align-items: stretch !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--massage {
+    grid-column: 1 / span 4 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--sensory-massage {
+    grid-column: 5 / span 4 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    top: -0.45rem;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--relaxation-massage {
+    grid-column: 9 / span 4 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--seasonal-body-renewal {
+    grid-column: 2 / span 5 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--active-recovery-cupping {
+    grid-column: 7 / span 5 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1280px) {
+  #services.services-section .service-grid {
+    display: grid !important;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: clamp(0.95rem, 2vw, 1.25rem) !important;
+    width: min(100%, 960px) !important;
+    margin-inline: auto !important;
+    align-items: stretch !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--sensory-massage {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    width: min(100%, 620px) !important;
+    min-width: 0 !important;
+    justify-self: center !important;
+    top: 0 !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--massage {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--relaxation-massage {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--seasonal-body-renewal {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--active-recovery-cupping {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  #services.services-section .service-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    margin-inline: auto !important;
+  }
+
+  #services.services-section
+    .service-grid
+    > .service-card {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    top: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #services.services-section
+    .service-grid
+    > .service-card.service-card--sensory-massage {
+    top: 0 !important;
+  }
+}
+
+/* MHM_SERVICE_GRID_COLLAPSE_FIX_END */
+/* ABOUT PHOTO VERTICAL POSITION */
+/* ABOUT PHOTO VERTICAL POSITION */
+/* ABOUT PHOTO VERTICAL POSITION */
+#about .meet-heather-luxury__image-frame img {
+  object-position: center 30% ! important;
+}

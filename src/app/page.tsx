@@ -564,8 +564,8 @@ export default function Home() {
             <p className="hero-pill reveal-up">
               <span aria-hidden="true" />
 
-              Massage therapy · Prestwick,
-              Calgary · Future Okotoks growth
+              Massage therapy Â· Prestwick,
+              Calgary Â· Future Okotoks growth
               planned
             </p>
 
@@ -632,7 +632,7 @@ export default function Home() {
                 <span>
                   Available for many major
                   providers, subject to each
-                  client’s plan.
+                  clientâ€™s plan.
                 </span>
               </div>
 
@@ -682,13 +682,29 @@ export default function Home() {
               activeServices.map(
                 (service, index) => (
                   <Link
-                    className="service-card service-card-link"
+                    className={[
+                      "service-card",
+                      "service-card-link",
+                      `service-card--${service.slug}`,
+                      service.isSignature
+                        ? "service-card--signature"
+                        : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
                     href={`/services/${service.slug}`}
                     key={service.slug}
                     aria-label={`View details for ${service.name}`}
                     data-reveal-item
                     prefetch
                   >
+                    {service.isSignature ? (
+                      <span className="service-card__signature-badge">
+                        <span aria-hidden="true">✦</span>
+                        Signature Service
+                      </span>
+                    ) : null}
+
                     <div className="service-image">
                       {service.image ? (
                         <Image
@@ -750,7 +766,7 @@ export default function Home() {
                         Explore service
                         <span aria-hidden="true">
                           {" "}
-                          →
+                          â†’
                         </span>
                       </span>
                     </div>
@@ -773,7 +789,7 @@ export default function Home() {
                   </h3>
 
                   <p>
-                    Heather’s confirmed service
+                    Heatherâ€™s confirmed service
                     menu will appear here before
                     launch.
                   </p>
@@ -870,7 +886,7 @@ export default function Home() {
             <p>
               Choose the treatment and
               appointment length that fit best,
-              then continue into Heather’s live
+              then continue into Heatherâ€™s live
               ClinicSense booking schedule.
             </p>
           </div>
@@ -979,7 +995,7 @@ export default function Home() {
                     </h3>
 
                     <p>
-                      Heather’s approved rates
+                      Heatherâ€™s approved rates
                       will appear here before
                       launch.
                     </p>
@@ -1138,7 +1154,7 @@ export default function Home() {
                         {item.buttonLabel}
                         <span aria-hidden="true">
                           {" "}
-                          →
+                          â†’
                         </span>
                       </SmartLink>
                     ) : null}
@@ -1205,7 +1221,7 @@ export default function Home() {
             </h2>
 
             <p className="meet-heather-luxury__lead">
-              Heather’s work is built around
+              Heatherâ€™s work is built around
               one simple thing: helping people
               feel heard, cared for, and more
               at ease in their bodies. She
@@ -1219,7 +1235,7 @@ export default function Home() {
 
             <div className="meet-heather-luxury__quote">
               <p>
-                Heather’s goal is to help every
+                Heatherâ€™s goal is to help every
                 client feel heard, comfortable,
                 and genuinely cared for from
                 the first message to the end of
@@ -1284,7 +1300,7 @@ export default function Home() {
               </h2>
 
               <p>
-                View Heather’s live availability,
+                View Heatherâ€™s live availability,
                 select your service and
                 appointment length, and complete
                 your booking securely through
@@ -1295,7 +1311,7 @@ export default function Home() {
                 <SmartLink
                   className="button primary"
                   href={siteConfig.bookingUrl}
-                  ariaLabel="Open Heather’s live ClinicSense booking schedule"
+                  ariaLabel="Open Heatherâ€™s live ClinicSense booking schedule"
                   openExternalInNewTab
                 >
                   Open Booking
@@ -1349,11 +1365,11 @@ export default function Home() {
                 <span>Regular Hours</span>
 
                 <strong>
-                  Tuesday–Friday
+                  Tuesdayâ€“Friday
                 </strong>
 
                 <p>
-                  10:00 AM–4:30 PM
+                  10:00 AMâ€“4:30 PM
                 </p>
               </article>
 
@@ -1367,7 +1383,7 @@ export default function Home() {
                 <p>
                   Availability, intake, and
                   scheduling remain managed
-                  through Heather’s secure
+                  through Heatherâ€™s secure
                   booking platform.
                 </p>
               </article>
@@ -1490,7 +1506,7 @@ export default function Home() {
       <SmartLink
         className="mobile-sticky-book"
         href={siteConfig.bookingUrl}
-        ariaLabel="Open Heather’s live ClinicSense booking schedule"
+        ariaLabel="Open Heatherâ€™s live ClinicSense booking schedule"
         openExternalInNewTab
       >
         Book Now

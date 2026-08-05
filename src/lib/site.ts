@@ -72,6 +72,7 @@ export type DirectBillingConfig = {
   enabled: boolean;
   providerListStatus:
     | "pending-client-confirmation"
+    | "partially-confirmed"
     | "confirmed";
   providers: string[];
   heading: string;
@@ -84,6 +85,18 @@ export type TippingPolicyConfig = {
   acceptsTips: boolean;
   heading: string;
   statement: string;
+};
+
+export type PaymentMethod = {
+  name: "Debit" | "E-transfer" | "Credit card";
+  preferred: boolean;
+  note?: string;
+};
+
+export type PaymentConfig = {
+  heading: string;
+  summary: string;
+  methods: PaymentMethod[];
 };
 
 export type WaitlistConfig = {
@@ -120,6 +133,7 @@ export type SiteConfig = {
   addressNote: string;
   futureLocationNote: string;
   directBilling: DirectBillingConfig;
+  payment: PaymentConfig;
   tippingPolicy: TippingPolicyConfig;
   waitlist: WaitlistConfig;
   assets: SiteAssetConfig;
@@ -136,6 +150,8 @@ export type Service = {
   name: string;
   status: ServiceStatus;
   featured: boolean;
+  displayOrder: number;
+  isSignature: boolean;
   description: string;
   longDescription: string;
   image: string;
@@ -174,6 +190,7 @@ export type FaqCategory =
   | "services"
   | "pricing"
   | "billing"
+  | "payments"
   | "policies"
   | "availability";
 
@@ -192,6 +209,7 @@ export type TrustSignal = {
 export type BookingSupportItem = {
   id:
     | "direct-billing"
+    | "payment-methods"
     | "no-tipping"
     | "earlier-opening";
   eyebrow: string;
@@ -211,6 +229,7 @@ export type ClientReflection = {
   id: string;
   quote: string;
   label: string;
+  attribution?: string;
   source: "Google" | "Direct";
   sourceUrl?: string;
   isApproved: boolean;
@@ -241,7 +260,7 @@ export const siteConfig: SiteConfig = {
   currentName: "McKenzie House Massage",
 
   description:
-    "Personalized massage therapy in Prestwick, Calgary with client-led pressure, thoughtful intake, professional care, direct-billing support, and treatment options adapted to the person booking.",
+    "Personalized massage therapy in Prestwick, Calgary with client-led pressure, thoughtful intake, direct-billing support, signature sensory care, and treatment options adapted to the person booking.",
 
   locale: "en-CA",
   currency: "CAD",
@@ -262,10 +281,10 @@ export const siteConfig: SiteConfig = {
   domain: siteDomain,
 
   hours: [
-    "Tuesday 10:00 AM–4:30 PM",
-    "Wednesday 10:00 AM–4:30 PM",
-    "Thursday 10:00 AM–4:30 PM",
-    "Friday 10:00 AM–4:30 PM",
+    "Tuesday 10:00 AMâ€“4:30 PM",
+    "Wednesday 10:00 AMâ€“4:30 PM",
+    "Thursday 10:00 AMâ€“4:30 PM",
+    "Friday 10:00 AMâ€“4:30 PM",
     "Saturday, Sunday, and Monday may be available by request.",
   ],
 
@@ -322,19 +341,51 @@ export const siteConfig: SiteConfig = {
 
   directBilling: {
     enabled: true,
-    providerListStatus: "pending-client-confirmation",
-    providers: [],
+    providerListStatus: "partially-confirmed",
+
+    providers: [
+      "Alberta Blue Cross",
+      "Canadian Armed Forces (CAF)",
+      "Medavie Blue Cross",
+      "Royal Canadian Mounted Police (RCMP)",
+      "Sun Life",
+      "Veterans Affairs Canada",
+    ],
 
     heading: "Direct Billing Available",
 
     summary:
-      "Direct billing is available for many major insurance providers.",
+      "Direct billing is available for several major insurers and federal programs.",
 
     disclaimer:
-      "Coverage, eligibility, approval, and reimbursement depend on each client’s individual insurance plan. Clients should confirm their benefits before their appointment.",
+      "Coverage, eligibility, approval, and reimbursement depend on each clientâ€™s individual plan. Clients should confirm their benefits before their appointment.",
 
     placeholder:
-      "The confirmed insurance-provider list will be added before launch once Heather supplies the final details.",
+      "Additional providers may also be supported. Contact Heather before booking if your provider is not listed.",
+  },
+
+  payment: {
+    heading: "Payment Options",
+
+    summary:
+      "Debit and e-transfer are preferred. Credit-card payment can also be accepted when needed.",
+
+    methods: [
+      {
+        name: "Debit",
+        preferred: true,
+      },
+      {
+        name: "E-transfer",
+        preferred: true,
+      },
+      {
+        name: "Credit card",
+        preferred: false,
+        note:
+          "Available when needed. Contact Heather before your appointment if credit card is your preferred payment method.",
+      },
+    ],
   },
 
   tippingPolicy: {
@@ -348,7 +399,7 @@ export const siteConfig: SiteConfig = {
   waitlist: {
     enabled: true,
 
-    heading: "Can’t find a time that works?",
+    heading: "Canâ€™t find a time that works?",
 
     description:
       "Request an earlier opening and Heather can contact you if a cancellation becomes available or additional appointment times are opened.",
@@ -377,7 +428,7 @@ export const siteConfig: SiteConfig = {
     logoMark: "/brand/mckenzie-house-mark.png",
 
     /*
-     * Temporary social-sharing image until the final 1200 × 630
+     * Temporary social-sharing image until the final 1200 Ã— 630
      * Open Graph image is produced.
      */
     openGraphImage:
@@ -390,19 +441,19 @@ export const siteConfig: SiteConfig = {
      * Uses a confirmed existing image as a safe fallback until final
      * content-session imagery is delivered.
      */
-    heroImage: "/images/heather-detail-01.jpg",
+    heroImage: "/images/heather-detail-01.png",
 
     heroImageAlt:
       "Calm treatment detail at McKenzie House Massage",
 
-    detailImage: "/images/heather-detail-01.jpg",
+    detailImage: "/images/heather-detail-01.png",
 
     detailImageAlt:
       "Heather preparing a professional massage treatment",
 
     heroVideo: "/videos/heather-hero.mp4",
 
-    heroVideoPoster: "/images/heather-detail-01.jpg",
+    heroVideoPoster: "/images/heather-detail-01.png",
   },
 
   social: {
@@ -443,13 +494,13 @@ export const navItems: NavItem[] = [
 
 /**
  * These are visible premium trust signals, not generic keyword tags.
- * They directly reflect Heather’s current client policies.
+ * They directly reflect Heatherâ€™s current client policies.
  */
 export const serviceTags = [
-  "Client-led pressure",
+  "Signature sensory massage",
+  "Client-led care",
   "Direct billing available",
   "No tipping expected",
-  "ClinicSense online booking",
 ];
 
 export const services: Service[] = [
@@ -458,95 +509,221 @@ export const services: Service[] = [
     name: "Massage",
     status: "active",
     featured: true,
+    displayOrder: 1,
+    isSignature: false,
 
     description:
-      "A customized appointment that may include therapeutic, relaxation, prenatal, postnatal, child, youth, or general wellness-focused massage depending on the client.",
+      "A customized, client-led massage for focused tension, general maintenance, prenatal or postnatal needs, youth appointments, and clients who prefer more targeted work.",
 
     longDescription:
-      "Massage at McKenzie House Massage is booked by duration and then shaped around the person on the table. Heather uses the intake conversation to understand what the client needs, what they usually enjoy or dislike about massage, their pressure preferences, comfort needs, and what treatment approach makes sense that day.",
+      "Choose Massage when you want a treatment that can be shaped around specific areas, pressure preferences, work or activity-related tension, pregnancy or postpartum positioning, youth needs, or general body maintenance. Heather begins with a clear intake conversation, then adjusts pressure, pace, positioning, and focus throughout the appointment.",
 
     image: "/services/therapeutic-massage.png",
 
     imageAlt:
-      "Professional customized massage treatment at McKenzie House Massage",
+      "Heather providing a professional customized massage treatment at McKenzie House Massage",
 
     duration:
       "30, 45, 60, 75, 90, or 120 minutes",
 
-    price: "$60–$205 + GST",
+    price: "$60â€“$205 + GST",
 
     bestFor: [
-      "Customized massage",
-      "Pregnancy-aware care",
-      "Youth and family needs",
+      "Focused tension",
+      "Customized pressure",
+      "Pregnancy-aware and family care",
     ],
 
     pressure:
-      "Customizable pressure. Heather’s natural style is firm, flowing, and thorough, but treatment can be adjusted for lighter, slower, or gentler touch when requested.",
+      "Fully customizable. Heatherâ€™s natural style is firm, broad, flowing, and thorough, but pressure can be adjusted throughout the appointment.",
 
     what:
-      "A personalized massage appointment that may include therapeutic work, relaxation-focused care, prenatal or postnatal adaptations, child or youth appointments, sports-related tension, work-related strain, or general maintenance.",
+      "A personalized massage appointment for focused treatment, general maintenance, pregnancy or postpartum adaptations, youth appointments, sports or work-related tension, and changing day-to-day needs.",
 
     who:
-      "Clients who want a massage therapist who listens first, adapts the appointment, and avoids forcing one treatment style onto every body.",
+      "Clients who want a massage therapist who listens first, adapts the treatment, and avoids applying the same routine to every body.",
 
     style:
-      "Firm, flowing, broad-handed, client-led, and customized. Pressure, pace, positioning, and focus areas are adjusted based on the client’s needs and communication.",
+      "Firm, flowing, broad-handed, client-led, and adaptable. Pressure, pace, positioning, and treatment focus are adjusted according to the clientâ€™s needs and feedback.",
 
     includes: [
       "A clear intake conversation before hands-on treatment begins",
-      "Customized pressure, pacing, and positioning",
+      "Customized pressure, pacing, positioning, and focus areas",
       "Pregnancy and postpartum positioning when appropriate",
       "Youth appointments introduced gradually and respectfully",
       "Focused care for requested areas",
-      "Optional lighter or calming touch when requested",
+      "Ongoing client communication and adjustments",
     ],
 
     notes: [
       "The booked treatment time begins when hands-on treatment starts.",
       "Clients are encouraged to communicate what they enjoy, dislike, need, or want adjusted.",
+      "Clients seeking a deliberately slower, lighter, full-body experience may prefer Relaxation Massage.",
       "Child and youth bookings should be discussed with Heather before booking so consent, comfort, timing, and expectations are clear.",
       siteConfig.tippingPolicy.statement,
     ],
   },
 
   {
-    slug: "seasonal-body-scrub-rinse-moisturizing",
-    name: "Seasonal Body Scrub, Rinse & Moisturizing",
+    slug: "relaxation-massage",
+    name: "Relaxation Massage",
     status: "active",
     featured: true,
+    displayOrder: 3,
+    isSignature: false,
 
     description:
-      "A full-body exfoliation service with scrub, dry brushing, a rinse, and a moisturizing finish for skin that feels refreshed and cared for.",
+      "A slower, flowing massage designed around rest, gentle-to-moderate pressure, and a calm full-body experience.",
 
     longDescription:
-      "This seasonal body-care treatment begins with a full-body sugar- or salt-style scrub, followed by dry brushing. The client then rinses before returning for a moisturizing finish using cocoa butter or another selected moisturizer.",
+      "Relaxation Massage is for clients who want a quieter pace and less emphasis on intense or highly targeted work. Heather uses smooth, connected movements, client-selected pressure, comfortable positioning, and an unrushed treatment rhythm to create a grounded full-body experience.",
 
-    image: "/services/relaxation-massage.jpg",
+    image: "/services/relaxation-massage.png",
 
     imageAlt:
-      "Seasonal body scrub and moisturizing treatment setup",
+      "Heather providing a calm, flowing relaxation massage treatment",
+
+    duration:
+      "30, 45, 60, 75, 90, or 120 minutes",
+
+    price: "$60â€“$205 + GST",
+
+    bestFor: [
+      "Rest and unwinding",
+      "Gentle-to-moderate pressure",
+      "A slower full-body experience",
+    ],
+
+    pressure:
+      "Light to moderate pressure, adjusted to the client. The emphasis is on comfort, flow, rhythm, and relaxation rather than forceful targeted work.",
+
+    what:
+      "A dedicated relaxation-focused massage using slower pacing, flowing movements, comfortable positioning, and client-led pressure.",
+
+    who:
+      "Clients who want to slow down, settle into the treatment, and receive a calmer massage without making deeper or more vigorous work the priority.",
+
+    style:
+      "Slow, flowing, quiet, comfortable, and full-body focused. Conversation can remain minimal when the client prefers a peaceful appointment.",
+
+    includes: [
+      "A brief intake and pressure discussion",
+      "Slow, connected massage movements",
+      "Comfort-focused positioning and draping",
+      "Gentle-to-moderate client-selected pressure",
+      "Optional quiet treatment with minimal conversation",
+      "A full-body or client-selected-area approach based on booked time",
+    ],
+
+    notes: [
+      "Relaxation Massage uses the same duration-based pricing as Massage.",
+      "Clients can ask for pressure, pace, positioning, or focus areas to be adjusted at any time.",
+      "A shorter appointment may focus on selected areas rather than a complete full-body sequence.",
+      siteConfig.tippingPolicy.statement,
+    ],
+  },
+
+  {
+    slug: "sensory-massage",
+    name: "Sensory Massage",
+    status: "active",
+    featured: true,
+    displayOrder: 2,
+    isSignature: true,
+
+    description:
+      "Heatherâ€™s signature light-touch service: a quiet sensory massage that may include scalp work, hair play, gentle back scratches, symmetrical tracing, and calming upper-body techniques.",
+
+    longDescription:
+      "Sensory Massage is Heatherâ€™s signature gentle-care service for clients who want a peaceful, light-touch experience rather than traditional deeper pressure. The appointment can include slow scalp massage, hair brushing or hair play, gentle back scratches, symmetrical tracing, soft neck and shoulder work, arm care, and other client-selected sensory techniques within a professional treatment setting.",
+
+    image: "/services/scalp-neck-shoulder-focus.png",
+
+    imageAlt:
+      "Professional sensory massage with gentle scalp, hair, neck, shoulder, and light-touch care",
+
+    duration: "45 or 60 minutes",
+    price: "$80â€“$105 + GST",
+
+    bestFor: [
+      "A quiet sensory reset",
+      "Light-touch relaxation",
+      "Scalp, hair, and upper-body care",
+    ],
+
+    pressure:
+      "Very light to gentle pressure. Slow, calm, symmetrical, professional, and fully client-led.",
+
+    what:
+      "A professional sensory massage that may include scalp massage, hair brushing or hair play, gentle back scratches, symmetrical tracing, soft neck and shoulder work, arm care, and calming sensory tools.",
+
+    who:
+      "Clients who want a gentle, peaceful appointment with less traditional massage pressure and more light-touch, scalp, hair, back, neck, shoulder, or arm-focused care.",
+
+    style:
+      "Gentle, slow, supportive, quiet, and sensory-focused. Every technique can be included, adjusted, or omitted according to the clientâ€™s comfort.",
+
+    includes: [
+      "Gentle back, neck, shoulder, and arm work",
+      "Slow scalp massage",
+      "Optional hair brushing or hair play",
+      "Optional gentle back scratches",
+      "Optional symmetrical tracing or calming sensory tools",
+      "Client-led customization throughout the appointment",
+    ],
+
+    notes: [
+      "This is a professional wellness service with clear treatment boundaries.",
+      "Hair play and back scratches are optional techniques within Sensory Massage, not separate services.",
+      "Clients can request more, less, or none of any sensory technique.",
+      "The appointment can remain very quiet when that is what the client prefers.",
+      siteConfig.tippingPolicy.statement,
+    ],
+  },
+
+  {
+    slug: "seasonal-body-renewal",
+    name: "Seasonal Body Renewal Ritual",
+    status: "active",
+    featured: true,
+    displayOrder: 4,
+    isSignature: false,
+
+    description:
+      "A spa-inspired full-body renewal with seasonal exfoliation, dry brushing, a private rinse, and a moisturizing finish.",
+
+    longDescription:
+      "The Seasonal Body Renewal Ritual begins with a full-body sugar- or salt-style scrub followed by dry brushing. The client then receives private time to rinse before returning for a moisturizing finish using cocoa butter or another selected seasonal moisturizer.",
+
+    /*
+     * Temporary existing image. Replace this path with the final
+     * body-renewal photo after the specialty content session.
+     */
+    image: "/services/relaxation-massage.png",
+
+    imageAlt:
+      "Seasonal full-body exfoliation, dry brushing, rinse, and moisturizing treatment",
 
     duration: "75 minutes",
     price: "Introductory price $105 + GST",
 
     bestFor: [
-      "Dry-feeling skin",
       "Seasonal body care",
       "Full-body exfoliation",
+      "A refreshed, moisturized finish",
     ],
 
     pressure:
-      "Moderate exfoliating pressure. The service may feel invigorating while remaining comfortable and professional.",
+      "Moderate exfoliating pressure, adjusted for comfort. The ritual may feel invigorating while remaining professional and client-led.",
 
     what:
-      "A seasonal body-care service combining exfoliating scrub, dry brushing, a rinse, and a full-body moisturizing finish.",
+      "A seasonal body-care ritual combining exfoliating scrub, dry brushing, a private rinse, and a full-body moisturizing finish.",
 
     who:
-      "Clients who enjoy exfoliating body treatments or want a refreshing seasonal body-care experience.",
+      "Clients who enjoy spa-style exfoliation or want a refreshing seasonal body-care appointment with a polished moisturizing finish.",
 
     style:
-      "Rhythmic, exfoliating, refreshing, and spa-like without feeling overly complicated.",
+      "Rhythmic, exfoliating, refreshing, spa-inspired, and professionally paced.",
 
     includes: [
       "Full-body sugar- or salt-style scrub",
@@ -564,79 +741,30 @@ export const services: Service[] = [
   },
 
   {
-    slug: "hair-play-back-scratches",
-    name: "Hair Play & Back Scratches",
+    slug: "active-recovery-cupping",
+    name: "Active Recovery Cupping",
     status: "active",
     featured: true,
+    displayOrder: 5,
+    isSignature: false,
 
     description:
-      "A gentle, calming treatment focused on the back, neck, shoulders, scalp, hair, and arms for clients who want a softer sensory-focused appointment.",
+      "A stronger recovery-focused treatment combining massage, heated silicone cupping, and broad vibration work for active and high-tension bodies.",
 
     longDescription:
-      "Hair Play & Back Scratches is designed for clients who want gentle, supportive care rather than a traditional deep massage. It may include light neck and shoulder massage, slow scalp work, gentle back scratches, hair brushing, and calming sensory tools in a professional treatment setting.",
+      "Active Recovery Cupping is the refined name for Heatherâ€™s Cup & Buff treatment. It combines massage, heated silicone cups, moving or temporarily parked cups when appropriate, and broad vibration work across larger muscle groups and selected areas of tension.",
 
-    image: "/services/scalp-neck-shoulder-focus.jpg",
-
-    imageAlt:
-      "Professional scalp, neck, shoulder, and calming sensory treatment",
-
-    duration: "45 or 60 minutes",
-    price: "$80–$105 + GST",
-
-    bestFor: [
-      "A quiet reset",
-      "Gentle sensory care",
-      "Scalp and upper-body focus",
-    ],
-
-    pressure:
-      "Light to gentle pressure. Slow, calm, symmetrical, professional, and client-led.",
-
-    what:
-      "A professional calming treatment that may include scalp massage, hair brushing, gentle back scratches, neck and shoulder care, and soothing upper-body touch.",
-
-    who:
-      "Clients who want a quiet, gentle appointment with less traditional massage pressure and more calming scalp, hair, back, neck, shoulder, or arm-focused care.",
-
-    style:
-      "Gentle, slow, supportive, quiet, and sensory-focused. Every element can be adjusted or omitted according to the client’s comfort.",
-
-    includes: [
-      "Gentle back, neck, and shoulder work",
-      "Scalp massage",
-      "Optional hair brushing or hair play",
-      "Optional gentle back scratches",
-      "Optional calming scalp or sensory tools",
-      "Client-led customization throughout the appointment",
-    ],
-
-    notes: [
-      "This is a professional wellness service with clear therapeutic boundaries.",
-      "Clients can request more or less scalp work, brushing, scratches, or massage-style touch.",
-      "The appointment can remain very quiet when that is what the client prefers.",
-      siteConfig.tippingPolicy.statement,
-    ],
-  },
-
-  {
-    slug: "cup-and-buff",
-    name: "Cup & Buff",
-    status: "active",
-    featured: true,
-
-    description:
-      "A more active treatment combining massage, heated silicone cupping, and broad vibration work for athletes, active bodies, tradespeople, and high-tension clients.",
-
-    longDescription:
-      "Cup & Buff is designed for clients who want a stronger, more active treatment experience. Heather combines massage, heated silicone cups, moving or temporarily parked cups when appropriate, and broad vibration work across larger muscle groups and selected areas of tension.",
-
+    /*
+     * Temporary existing image. Replace this path with the final
+     * cupping photo after the specialty content session.
+     */
     image: "/services/therapeutic-massage.png",
 
     imageAlt:
-      "Heated silicone cupping and massage treatment for an active client",
+      "Heated silicone cupping, massage, and broad vibration treatment for an active client",
 
     duration: "45, 60, 75, or 90 minutes",
-    price: "$80–$155 + GST",
+    price: "$80â€“$155 + GST",
 
     bestFor: [
       "Athletes and active clients",
@@ -645,16 +773,16 @@ export const services: Service[] = [
     ],
 
     pressure:
-      "Moderate to vigorous. Intended for clients who enjoy stronger and more active treatment work.",
+      "Moderate to vigorous. Intended for clients who enjoy stronger, warmer, and more active treatment work.",
 
     what:
-      "A targeted session blending massage, heated silicone cupping, moving cups, temporarily parked cups when appropriate, and broad vibration work.",
+      "A targeted treatment blending massage, heated silicone cupping, moving cups, temporarily parked cups when appropriate, and broad vibration work.",
 
     who:
       "Active clients, gym-goers, athletes, labourers, tradespeople, and clients who prefer a stronger treatment experience.",
 
     style:
-      "Active, strong, warm, rhythmic, and focused on creating a satisfying treatment experience for high-tension areas.",
+      "Active, strong, warm, rhythmic, and focused on high-tension areas while remaining adjustable and client-led.",
 
     includes: [
       "Massage warm-up",
@@ -674,31 +802,55 @@ export const services: Service[] = [
   },
 ];
 
+const standardMassagePrices: PricingItem[] = [
+  { duration: "30 min", price: "$60 + GST" },
+  { duration: "45 min", price: "$80 + GST" },
+  { duration: "60 min", price: "$105 + GST" },
+  { duration: "75 min", price: "$130 + GST" },
+  { duration: "90 min", price: "$155 + GST" },
+  { duration: "120 min", price: "$205 + GST" },
+];
+
 export const pricingGroups: PricingGroup[] = [
   {
     name: "Massage",
     serviceSlug: "massage",
 
     note:
-      "Customized therapeutic, relaxation, prenatal, postnatal, child, youth, and general wellness-focused massage. No tipping is expected or accepted.",
+      "Customized, client-led massage for focused care, general maintenance, pregnancy or postpartum needs, youth appointments, and changing treatment goals.",
+
+    prices: standardMassagePrices,
+  },
+
+  {
+    name: "Relaxation Massage",
+    serviceSlug: "relaxation-massage",
+
+    note:
+      "A slower, flowing massage using the same duration-based pricing as Massage.",
+
+    prices: standardMassagePrices,
+  },
+
+  {
+    name: "Sensory Massage",
+    serviceSlug: "sensory-massage",
+
+    note:
+      "Heatherâ€™s signature professional light-touch service. Hair play, scalp care, gentle back scratches, and other sensory techniques remain optional and client-led.",
 
     prices: [
-      { duration: "30 min", price: "$60 + GST" },
       { duration: "45 min", price: "$80 + GST" },
       { duration: "60 min", price: "$105 + GST" },
-      { duration: "75 min", price: "$130 + GST" },
-      { duration: "90 min", price: "$155 + GST" },
-      { duration: "120 min", price: "$205 + GST" },
     ],
   },
 
   {
-    name: "Seasonal Body Scrub, Rinse & Moisturizing",
-    serviceSlug:
-      "seasonal-body-scrub-rinse-moisturizing",
+    name: "Seasonal Body Renewal Ritual",
+    serviceSlug: "seasonal-body-renewal",
 
     note:
-      "Introductory promotional pricing. No tipping is expected or accepted.",
+      "Spa-inspired exfoliation, dry brushing, a private rinse, and a moisturizing finish. Introductory promotional pricing.",
 
     prices: [
       { duration: "75 min", price: "$105 + GST" },
@@ -706,24 +858,11 @@ export const pricingGroups: PricingGroup[] = [
   },
 
   {
-    name: "Hair Play & Back Scratches",
-    serviceSlug: "hair-play-back-scratches",
+    name: "Active Recovery Cupping",
+    serviceSlug: "active-recovery-cupping",
 
     note:
-      "Gentle, professional, client-led sensory care. No tipping is expected or accepted.",
-
-    prices: [
-      { duration: "45 min", price: "$80 + GST" },
-      { duration: "60 min", price: "$105 + GST" },
-    ],
-  },
-
-  {
-    name: "Cup & Buff",
-    serviceSlug: "cup-and-buff",
-
-    note:
-      "Massage, heated silicone cupping, and broad vibration work. No tipping is expected or accepted.",
+      "Massage, heated silicone cupping, and broad vibration work for active and high-tension bodies.",
 
     prices: [
       { duration: "45 min", price: "$80 + GST" },
@@ -743,7 +882,7 @@ export const pricingPreview = pricingGroups.map(
         (item) =>
           `${item.duration} ${item.price}`,
       )
-      .join(" · "),
+      .join(" Â· "),
   }),
 );
 
@@ -754,12 +893,14 @@ export const pricingNotices: PricingNotice[] = [
     text: siteConfig.tippingPolicy.statement,
   },
   {
+    id: "payment-methods",
+    title: siteConfig.payment.heading,
+    text: getPaymentMethodsDisplayText(),
+  },
+  {
     id: "direct-billing",
     title: siteConfig.directBilling.heading,
-
-    text:
-      `${siteConfig.directBilling.summary} ` +
-      siteConfig.directBilling.disclaimer,
+    text: getDirectBillingDisplayText(),
   },
   {
     id: "gst",
@@ -771,6 +912,15 @@ export const pricingNotices: PricingNotice[] = [
 ];
 
 export const trustSignals: TrustSignal[] = [
+  {
+    label: "Signature sensory massage",
+
+    title:
+      "A peaceful service built around slow, gentle, client-led touch.",
+
+    text:
+      "Sensory Massage is Heatherâ€™s signature light-touch treatment, with optional scalp work, hair play, back scratches, tracing, and calming upper-body techniques.",
+  },
   {
     label: "Client-led",
 
@@ -788,14 +938,6 @@ export const trustSignals: TrustSignal[] = [
 
     text: siteConfig.tippingPolicy.statement,
   },
-  {
-    label: "Booking support",
-
-    title:
-      "Regular availability and earlier-opening requests are both supported.",
-
-    text: siteConfig.waitlist.description,
-  },
 ];
 
 export const bookingSupportItems: BookingSupportItem[] = [
@@ -803,11 +945,13 @@ export const bookingSupportItems: BookingSupportItem[] = [
     id: "direct-billing",
     eyebrow: "Insurance Support",
     title: siteConfig.directBilling.heading,
-
-    text:
-      siteConfig.directBilling.providers.length > 0
-        ? `${siteConfig.directBilling.summary} ${siteConfig.directBilling.disclaimer}`
-        : `${siteConfig.directBilling.summary} ${siteConfig.directBilling.placeholder} ${siteConfig.directBilling.disclaimer}`,
+    text: getDirectBillingDisplayText(),
+  },
+  {
+    id: "payment-methods",
+    eyebrow: "Payment",
+    title: siteConfig.payment.heading,
+    text: getPaymentMethodsDisplayText(),
   },
   {
     id: "no-tipping",
@@ -896,7 +1040,7 @@ export const faqs: FaqItem[] = [
       "How do I book an appointment?",
 
     answer:
-      "Online booking is available through Heather’s ClinicSense booking page. Clients can view current availability, select a service and duration, and complete their booking online.",
+      "Online booking is available through Heatherâ€™s ClinicSense booking page. Clients can view current availability, select a service and duration, and complete their booking online.",
 
     category: "booking",
   },
@@ -913,10 +1057,15 @@ export const faqs: FaqItem[] = [
     question:
       "Do you offer direct billing?",
 
-    answer:
-      "Yes. Direct billing is available for many major insurance providers. The confirmed provider list will be published once finalized. Coverage, eligibility, approval, and reimbursement depend on each client’s individual plan, so clients should confirm their benefits before their appointment.",
-
+    answer: getDirectBillingDisplayText(),
     category: "billing",
+  },
+  {
+    question:
+      "What payment methods are accepted?",
+
+    answer: getPaymentMethodsDisplayText(),
+    category: "payments",
   },
   {
     question:
@@ -927,10 +1076,10 @@ export const faqs: FaqItem[] = [
   },
   {
     question:
-      "Do I book therapeutic, relaxation, prenatal, or another massage type separately?",
+      "How do I choose between Massage and Relaxation Massage?",
 
     answer:
-      "No. Heather keeps massage under one simple umbrella. Clients choose the duration, and the treatment is customized based on intake, pressure preference, pregnancy or postpartum needs, youth needs, comfort, and treatment goals.",
+      "Choose Massage when you want a highly customized appointment, focused areas, stronger work, pregnancy or postpartum adaptations, youth care, or general maintenance. Choose Relaxation Massage when your priority is a slower, flowing, gentle-to-moderate full-body experience. Both remain client-led, and pressure can be adjusted throughout the appointment.",
 
     category: "booking",
   },
@@ -938,7 +1087,7 @@ export const faqs: FaqItem[] = [
     question: "Can I ask for very light pressure?",
 
     answer:
-      "Yes. Heather’s natural treatment style is firm and flowing, but treatment can be adjusted for very light, slow, symmetrical, or calming touch when requested.",
+      "Yes. Heatherâ€™s natural Massage style is firm and flowing, while Relaxation Massage and Sensory Massage are designed around gentler options. Pressure, pacing, positioning, and techniques can always be adjusted according to the clientâ€™s comfort.",
 
     category: "services",
   },
@@ -953,18 +1102,28 @@ export const faqs: FaqItem[] = [
   },
   {
     question:
-      "What is Hair Play & Back Scratches?",
+      "What is Sensory Massage?",
 
     answer:
-      "It is a professional, gentle, client-led treatment focused on calming care through the back, neck, shoulders, scalp, hair, and arms. It may include scalp massage, hair brushing, gentle back scratches, and quiet upper-body care according to the client’s preferences.",
+      "Sensory Massage is Heatherâ€™s signature professional light-touch service. It may include slow scalp massage, hair brushing or hair play, gentle back scratches, symmetrical tracing, soft neck and shoulder work, arm care, and other calming sensory techniques. Every element is optional and adjusted according to the clientâ€™s preferences.",
 
     category: "services",
   },
   {
-    question: "What is Cup & Buff?",
+    question:
+      "What is the Seasonal Body Renewal Ritual?",
 
     answer:
-      "Cup & Buff combines massage, heated silicone cupping, moving or temporarily parked cups when appropriate, and broad vibration work. It is designed for clients who prefer a more active and vigorous treatment style.",
+      "The Seasonal Body Renewal Ritual is a spa-inspired body-care appointment combining a seasonal full-body scrub, dry brushing, private rinse time, and a moisturizing finish.",
+
+    category: "services",
+  },
+  {
+    question:
+      "What is Active Recovery Cupping?",
+
+    answer:
+      "Active Recovery Cupping is the refined name for the Cup & Buff treatment. It combines massage, heated silicone cupping, moving or temporarily parked cups when appropriate, and broad vibration work for clients who prefer a more active treatment style.",
 
     category: "services",
   },
@@ -1014,53 +1173,122 @@ export const seoKeywords = [
   "customized massage Calgary",
   "therapeutic massage Calgary",
   "relaxation massage Calgary",
+  "sensory massage Calgary",
+  "light touch massage Calgary",
+  "scalp massage Calgary",
+  "hair play massage Calgary",
+  "gentle back scratch massage Calgary",
   "prenatal massage Calgary",
   "postnatal massage Calgary",
   "youth massage Calgary",
   "direct billing massage Calgary",
+  "seasonal body renewal Calgary",
   "body scrub Calgary",
-  "cupping massage Calgary",
-  "scalp massage Calgary",
-  "Hair Play and Back Scratches Calgary",
-  "Cup and Buff Calgary",
-  "Okotoks massage therapy",
+  "full body exfoliation Calgary",
+  "heated cupping massage Calgary",
+  "active recovery cupping Calgary",
 ];
+
+const legacyServiceSlugAliases: Readonly<
+  Record<string, string>
+> = {
+  "hair-play-back-scratches": "sensory-massage",
+  "seasonal-body-scrub-rinse-moisturizing":
+    "seasonal-body-renewal",
+  "cup-and-buff": "active-recovery-cupping",
+};
 
 export function getServiceBySlug(
   slug: string,
 ): Service | undefined {
   const normalizedSlug = slug.trim().toLowerCase();
 
+  const resolvedSlug =
+    legacyServiceSlugAliases[normalizedSlug] ??
+    normalizedSlug;
+
   return services.find(
     (service) =>
-      service.slug === normalizedSlug &&
+      service.slug === resolvedSlug &&
       service.status === "active",
   );
 }
 
 export function getActiveServices(): Service[] {
-  return services.filter(
-    (service) => service.status === "active",
-  );
+  return services
+    .filter((service) => service.status === "active")
+    .sort(
+      (first, second) =>
+        first.displayOrder - second.displayOrder,
+    );
 }
 
 export function getFeaturedServices(): Service[] {
-  return services.filter(
-    (service) =>
-      service.status === "active" &&
-      service.featured,
+  return services
+    .filter(
+      (service) =>
+        service.status === "active" &&
+        service.featured,
+    )
+    .sort(
+      (first, second) =>
+        first.displayOrder - second.displayOrder,
+    );
+}
+
+export function getSignatureService(): Service | undefined {
+  return getActiveServices().find(
+    (service) => service.isSignature,
   );
 }
 
 export function getDirectBillingDisplayText(): string {
-  const { providers, placeholder, summary, disclaimer } =
-    siteConfig.directBilling;
+  const {
+    providers,
+    placeholder,
+    summary,
+    disclaimer,
+    providerListStatus,
+  } = siteConfig.directBilling;
 
   if (providers.length === 0) {
     return `${summary} ${placeholder} ${disclaimer}`;
   }
 
-  return `${summary} Providers currently confirmed include ${providers.join(
-    ", ",
-  )}. ${disclaimer}`;
+  const confirmedProviders =
+    `Currently confirmed options include ${providers.join(
+      ", ",
+    )}.`;
+
+  const additionalProviderNote =
+    providerListStatus === "partially-confirmed"
+      ? ` ${placeholder}`
+      : "";
+
+  return `${summary} ${confirmedProviders}${additionalProviderNote} ${disclaimer}`;
+}
+
+export function getPaymentMethodsDisplayText(): string {
+  const preferredMethods = siteConfig.payment.methods
+    .filter((method) => method.preferred)
+    .map((method) => method.name);
+
+  const creditCardMethod = siteConfig.payment.methods.find(
+    (method) => method.name === "Credit card",
+  );
+
+  const preferredText =
+    preferredMethods.length > 0
+      ? `Preferred payment methods are ${preferredMethods.join(" and ")}.`
+      : siteConfig.payment.summary;
+
+  const creditCardText = creditCardMethod
+    ? ` Credit cards can also be accepted when needed.${
+        creditCardMethod.note
+          ? ` ${creditCardMethod.note}`
+          : ""
+      }`
+    : "";
+
+  return `${preferredText}${creditCardText}`.trim();
 }
